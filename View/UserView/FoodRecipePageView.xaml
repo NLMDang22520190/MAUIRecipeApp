@@ -1,0 +1,802 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="MAUIRecipeApp.View.UserView.FoodRecipePageView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:m="clr-namespace:UraniumUI.Icons.MaterialSymbols;assembly=UraniumUI.Icons.MaterialSymbols"
+    xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    Title=""
+    Background="{StaticResource WhiteText}">
+    <Grid HorizontalOptions="{OnPlatform Android=Fill, WinUI=Center}">
+        <Image
+            HeightRequest="400"
+            Source="cartoon_food4.png"
+            VerticalOptions="Start"
+            ZIndex="-1" />
+        <ScrollView>
+            <VerticalStackLayout>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="350" />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+
+
+                    <Grid
+                        Grid.Row="0"
+                        Margin="16,32,16,0"
+                        VerticalOptions="Start">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Button
+                            Grid.Column="0"
+                            Background="{StaticResource WhiteText}"
+                            HorizontalOptions="Start"
+                            StyleClass="ElevatedButton">
+                            <Button.ImageSource>
+                                <FontImageSource
+                                    FontFamily="MaterialSharp"
+                                    Glyph="{x:Static m:MaterialSharp.Arrow_back}"
+                                    Color="{StaticResource PrimaryDarkText}" />
+                            </Button.ImageSource>
+                        </Button>
+                        <Button
+                            Grid.Column="1"
+                            Background="Transparent"
+                            HorizontalOptions="End"
+                            StyleClass="ElevatedButton"
+                            VerticalOptions="Center">
+                            <Button.ImageSource>
+                                <FontImageSource
+                                    FontFamily="MaterialSharp"
+                                    Glyph="{x:Static m:MaterialSharp.Favorite}"
+                                    Size="{OnPlatform Android=50,
+                                                      WinUI=40}"
+                                    Color="{StaticResource PrimaryDarkText}" />
+                            </Button.ImageSource>
+                        </Button>
+                    </Grid>
+
+                    <Border
+                        Grid.Row="1"
+                        Background="White"
+                        StrokeShape="RoundRectangle 25">
+
+                        <VerticalStackLayout Margin="16,8,16,8" Spacing="8">
+                            <Image HorizontalOptions="Center" WidthRequest="50">
+                                <Image.Source>
+                                    <FontImageSource
+                                        FontFamily="MaterialSharp"
+                                        Glyph="{x:Static m:MaterialSharp.Minimize}"
+                                        Color="{StaticResource Gray300}" />
+                                </Image.Source>
+                            </Image>
+                            <Label
+                                FontAttributes="Bold"
+                                FontSize="{OnPlatform Android=30,
+                                                      WinUI=25}"
+                                Text="Food Name"
+                                TextColor="{StaticResource PrimaryDarkText}" />
+
+                            <Label
+                                FontSize="{OnPlatform Android=25,
+                                                      WinUI=16}"
+                                Text="Made by admin"
+                                TextColor="{StaticResource Gray300}" />
+
+                            <BoxView StyleClass="Divider" />
+
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+
+                                </Grid.ColumnDefinitions>
+
+
+
+                                <Border
+                                    Grid.Column="0"
+                                    Margin="4,0,4,0"
+                                    Background="{StaticResource Primary}"
+                                    StrokeShape="RoundRectangle 25">
+                                    <VerticalStackLayout Margin="0,8,0,8" Spacing="4">
+                                        <Border
+                                            Background="{StaticResource WhiteText}"
+                                            HeightRequest="75"
+                                            StrokeShape="RoundRectangle 50"
+                                            WidthRequest="75">
+                                            <Image HorizontalOptions="Center" WidthRequest="50">
+                                                <Image.Source>
+                                                    <FontImageSource
+                                                        FontFamily="MaterialSharp"
+                                                        Glyph="{x:Static m:MaterialSharp.Clock_loader_10}"
+                                                        Color="{StaticResource PrimaryDarkText}" />
+                                                </Image.Source>
+                                            </Image>
+                                        </Border>
+                                        <Label
+                                            FontAttributes="Bold"
+                                            FontSize="20"
+                                            HorizontalTextAlignment="Center"
+                                            Text="35"
+                                            TextColor="White" />
+                                        <Label
+                                            FontSize="16"
+                                            HorizontalTextAlignment="Center"
+                                            Text="Minutes"
+                                            TextColor="White" />
+                                    </VerticalStackLayout>
+                                </Border>
+
+                                <Border
+                                    Grid.Column="1"
+                                    Margin="4,0,4,0"
+                                    Background="{StaticResource Primary}"
+                                    StrokeShape="RoundRectangle 25">
+                                    <VerticalStackLayout Margin="0,8,0,8" Spacing="4">
+                                        <Border
+                                            Background="{StaticResource WhiteText}"
+                                            HeightRequest="75"
+                                            StrokeShape="RoundRectangle 50"
+                                            WidthRequest="75">
+                                            <Image HorizontalOptions="Center" WidthRequest="50">
+                                                <Image.Source>
+                                                    <FontImageSource
+                                                        FontFamily="MaterialSharp"
+                                                        Glyph="{x:Static m:MaterialSharp.Group}"
+                                                        Color="{StaticResource PrimaryDarkText}" />
+                                                </Image.Source>
+                                            </Image>
+                                        </Border>
+                                        <Label
+                                            FontAttributes="Bold"
+                                            FontSize="20"
+                                            HorizontalTextAlignment="Center"
+                                            Text="04"
+                                            TextColor="White" />
+                                        <Label
+                                            FontSize="16"
+                                            HorizontalTextAlignment="Center"
+                                            Text="Servings"
+                                            TextColor="White" />
+                                    </VerticalStackLayout>
+                                </Border>
+
+                                <Border
+                                    Grid.Column="2"
+                                    Margin="4,0,4,0"
+                                    Background="{StaticResource Primary}"
+                                    StrokeShape="RoundRectangle 25">
+                                    <VerticalStackLayout Margin="0,8,0,8" Spacing="4">
+                                        <Border
+                                            Background="{StaticResource WhiteText}"
+                                            HeightRequest="75"
+                                            StrokeShape="RoundRectangle 50"
+                                            WidthRequest="75">
+                                            <Image HorizontalOptions="Center" WidthRequest="50">
+                                                <Image.Source>
+                                                    <FontImageSource
+                                                        FontFamily="MaterialSharp"
+                                                        Glyph="{x:Static m:MaterialSharp.Local_fire_department}"
+                                                        Color="{StaticResource PrimaryDarkText}" />
+                                                </Image.Source>
+                                            </Image>
+                                        </Border>
+                                        <Label
+                                            FontAttributes="Bold"
+                                            FontSize="20"
+                                            HorizontalTextAlignment="Center"
+                                            Text="104"
+                                            TextColor="White" />
+                                        <Label
+                                            FontSize="16"
+                                            HorizontalTextAlignment="Center"
+                                            Text="Calories"
+                                            TextColor="White" />
+                                    </VerticalStackLayout>
+                                </Border>
+
+                                <Border
+                                    Grid.Column="3"
+                                    Margin="4,0,4,0"
+                                    Background="{StaticResource Primary}"
+                                    StrokeShape="RoundRectangle 25">
+                                    <VerticalStackLayout Margin="0,8,0,8" Spacing="4">
+                                        <Border
+                                            Background="{StaticResource WhiteText}"
+                                            HeightRequest="75"
+                                            StrokeShape="RoundRectangle 50"
+                                            WidthRequest="75">
+                                            <Image HorizontalOptions="Center" WidthRequest="50">
+                                                <Image.Source>
+                                                    <FontImageSource
+                                                        FontFamily="MaterialSharp"
+                                                        Glyph="{x:Static m:MaterialSharp.Stacks}"
+                                                        Color="{StaticResource PrimaryDarkText}" />
+                                                </Image.Source>
+                                            </Image>
+                                        </Border>
+                                        <Label
+                                            FontAttributes="Bold"
+                                            FontSize="20"
+                                            HorizontalTextAlignment="Center"
+                                            Text="Easy"
+                                            TextColor="White" />
+                                        <Label
+                                            FontSize="16"
+                                            HorizontalTextAlignment="Center"
+                                            Text="Difficulty"
+                                            TextColor="White" />
+                                    </VerticalStackLayout>
+                                </Border>
+                            </Grid>
+
+                            <BoxView StyleClass="Divider" />
+
+                            <VerticalStackLayout Spacing="8">
+                                <Label
+                                    FontAttributes="Bold"
+                                    FontSize="{OnPlatform Android=25,
+                                                          WinUI=16}"
+                                    Text="Ingredients"
+                                    TextColor="{StaticResource PrimaryDarkText}" />
+
+                                <VerticalStackLayout Margin="8,0,0,0" Spacing="8">
+                                    <HorizontalStackLayout Spacing="8">
+                                        <Image HorizontalOptions="Center">
+                                            <Image.Source>
+                                                <FontImageSource
+                                                    FontFamily="MaterialSharp"
+                                                    Glyph="{x:Static m:MaterialSharp.Check_circle}"
+                                                    Size="25"
+                                                    Color="{StaticResource Primary}" />
+                                            </Image.Source>
+                                        </Image>
+                                        <Label
+                                            FontSize="{OnPlatform Android=22,
+                                                                  WinUI=14}"
+                                            Text="Chicken"
+                                            TextColor="{StaticResource PrimaryDarkText}" />
+                                        <Label
+                                            FontSize="{OnPlatform Android=22,
+                                                                  WinUI=14}"
+                                            Text="1"
+                                            TextColor="{StaticResource PrimaryDarkText}" />
+                                        <Label
+                                            FontSize="{OnPlatform Android=22,
+                                                                  WinUI=14}"
+                                            Text="pcs"
+                                            TextColor="{StaticResource PrimaryDarkText}" />
+                                    </HorizontalStackLayout>
+
+                                    <HorizontalStackLayout Spacing="8">
+                                        <Image HorizontalOptions="Center">
+                                            <Image.Source>
+                                                <FontImageSource
+                                                    FontFamily="MaterialSharp"
+                                                    Glyph="{x:Static m:MaterialSharp.Check_circle}"
+                                                    Size="25"
+                                                    Color="{StaticResource Primary}" />
+                                            </Image.Source>
+                                        </Image>
+                                        <Label
+                                            FontSize="{OnPlatform Android=22,
+                                                                  WinUI=14}"
+                                            Text="Chicken"
+                                            TextColor="{StaticResource PrimaryDarkText}" />
+                                        <Label
+                                            FontSize="{OnPlatform Android=22,
+                                                                  WinUI=14}"
+                                            Text="1"
+                                            TextColor="{StaticResource PrimaryDarkText}" />
+                                        <Label
+                                            FontSize="{OnPlatform Android=22,
+                                                                  WinUI=14}"
+                                            Text="pcs"
+                                            TextColor="{StaticResource PrimaryDarkText}" />
+                                    </HorizontalStackLayout>
+
+                                    <HorizontalStackLayout Spacing="8">
+                                        <Image HorizontalOptions="Center">
+                                            <Image.Source>
+                                                <FontImageSource
+                                                    FontFamily="MaterialSharp"
+                                                    Glyph="{x:Static m:MaterialSharp.Check_circle}"
+                                                    Size="25"
+                                                    Color="{StaticResource Primary}" />
+                                            </Image.Source>
+                                        </Image>
+                                        <Label
+                                            FontSize="{OnPlatform Android=22,
+                                                                  WinUI=14}"
+                                            Text="Chicken"
+                                            TextColor="{StaticResource PrimaryDarkText}" />
+                                        <Label
+                                            FontSize="{OnPlatform Android=22,
+                                                                  WinUI=14}"
+                                            Text="1"
+                                            TextColor="{StaticResource PrimaryDarkText}" />
+                                        <Label
+                                            FontSize="{OnPlatform Android=22,
+                                                                  WinUI=14}"
+                                            Text="pcs"
+                                            TextColor="{StaticResource PrimaryDarkText}" />
+                                    </HorizontalStackLayout>
+
+                                    <HorizontalStackLayout Spacing="8">
+                                        <Image HorizontalOptions="Center">
+                                            <Image.Source>
+                                                <FontImageSource
+                                                    FontFamily="MaterialSharp"
+                                                    Glyph="{x:Static m:MaterialSharp.Check_circle}"
+                                                    Size="25"
+                                                    Color="{StaticResource Primary}" />
+                                            </Image.Source>
+                                        </Image>
+                                        <Label
+                                            FontSize="{OnPlatform Android=22,
+                                                                  WinUI=14}"
+                                            Text="Chicken"
+                                            TextColor="{StaticResource PrimaryDarkText}" />
+                                        <Label
+                                            FontSize="{OnPlatform Android=22,
+                                                                  WinUI=14}"
+                                            Text="1"
+                                            TextColor="{StaticResource PrimaryDarkText}" />
+                                        <Label
+                                            FontSize="{OnPlatform Android=22,
+                                                                  WinUI=14}"
+                                            Text="pcs"
+                                            TextColor="{StaticResource PrimaryDarkText}" />
+                                    </HorizontalStackLayout>
+
+                                    <HorizontalStackLayout Spacing="8">
+                                        <Image HorizontalOptions="Center">
+                                            <Image.Source>
+                                                <FontImageSource
+                                                    FontFamily="MaterialSharp"
+                                                    Glyph="{x:Static m:MaterialSharp.Check_circle}"
+                                                    Size="25"
+                                                    Color="{StaticResource Primary}" />
+                                            </Image.Source>
+                                        </Image>
+                                        <Label
+                                            FontSize="{OnPlatform Android=22,
+                                                                  WinUI=14}"
+                                            Text="Chicken"
+                                            TextColor="{StaticResource PrimaryDarkText}" />
+                                        <Label
+                                            FontSize="{OnPlatform Android=22,
+                                                                  WinUI=14}"
+                                            Text="1"
+                                            TextColor="{StaticResource PrimaryDarkText}" />
+                                        <Label
+                                            FontSize="{OnPlatform Android=22,
+                                                                  WinUI=14}"
+                                            Text="pcs"
+                                            TextColor="{StaticResource PrimaryDarkText}" />
+                                    </HorizontalStackLayout>
+
+                                    <HorizontalStackLayout Spacing="8">
+                                        <Image HorizontalOptions="Center">
+                                            <Image.Source>
+                                                <FontImageSource
+                                                    FontFamily="MaterialSharp"
+                                                    Glyph="{x:Static m:MaterialSharp.Check_circle}"
+                                                    Size="25"
+                                                    Color="{StaticResource Primary}" />
+                                            </Image.Source>
+                                        </Image>
+                                        <Label
+                                            FontSize="{OnPlatform Android=22,
+                                                                  WinUI=14}"
+                                            Text="Chicken"
+                                            TextColor="{StaticResource PrimaryDarkText}" />
+                                        <Label
+                                            FontSize="{OnPlatform Android=22,
+                                                                  WinUI=14}"
+                                            Text="1"
+                                            TextColor="{StaticResource PrimaryDarkText}" />
+                                        <Label
+                                            FontSize="{OnPlatform Android=22,
+                                                                  WinUI=14}"
+                                            Text="pcs"
+                                            TextColor="{StaticResource PrimaryDarkText}" />
+                                    </HorizontalStackLayout>
+
+                                    <HorizontalStackLayout Spacing="8">
+                                        <Image HorizontalOptions="Center">
+                                            <Image.Source>
+                                                <FontImageSource
+                                                    FontFamily="MaterialSharp"
+                                                    Glyph="{x:Static m:MaterialSharp.Check_circle}"
+                                                    Size="25"
+                                                    Color="{StaticResource Primary}" />
+                                            </Image.Source>
+                                        </Image>
+                                        <Label
+                                            FontSize="{OnPlatform Android=22,
+                                                                  WinUI=14}"
+                                            Text="Chicken"
+                                            TextColor="{StaticResource PrimaryDarkText}" />
+                                        <Label
+                                            FontSize="{OnPlatform Android=22,
+                                                                  WinUI=14}"
+                                            Text="1"
+                                            TextColor="{StaticResource PrimaryDarkText}" />
+                                        <Label
+                                            FontSize="{OnPlatform Android=22,
+                                                                  WinUI=14}"
+                                            Text="pcs"
+                                            TextColor="{StaticResource PrimaryDarkText}" />
+                                    </HorizontalStackLayout>
+                                </VerticalStackLayout>
+
+                            </VerticalStackLayout>
+
+                            <BoxView StyleClass="Divider" />
+
+                            <VerticalStackLayout Spacing="8">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                    </Grid.RowDefinitions>
+
+                                    <Label
+                                        Grid.Row="0"
+                                        Grid.Column="0"
+                                        FontAttributes="Bold"
+                                        FontSize="{OnPlatform Android=25,
+                                                              WinUI=16}"
+                                        Text="Rating from other users"
+                                        TextColor="{StaticResource PrimaryDarkText}"
+                                        VerticalOptions="Center" />
+
+
+                                    <HorizontalStackLayout
+                                        Grid.Row="1"
+                                        Grid.Column="0"
+                                        HorizontalOptions="Start"
+                                        VerticalOptions="Center">
+                                        <Image HorizontalOptions="Center">
+                                            <Image.Source>
+                                                <FontImageSource
+                                                    FontFamily="MaterialSharp"
+                                                    Glyph="{x:Static m:MaterialSharp.Star}"
+                                                    Size="25"
+                                                    Color="{StaticResource Primary}" />
+                                            </Image.Source>
+                                        </Image>
+                                        <Image HorizontalOptions="Center">
+                                            <Image.Source>
+                                                <FontImageSource
+                                                    FontFamily="MaterialSharp"
+                                                    Glyph="{x:Static m:MaterialSharp.Star}"
+                                                    Size="25"
+                                                    Color="{StaticResource Primary}" />
+                                            </Image.Source>
+                                        </Image>
+                                        <Image HorizontalOptions="Center">
+                                            <Image.Source>
+                                                <FontImageSource
+                                                    FontFamily="MaterialSharp"
+                                                    Glyph="{x:Static m:MaterialSharp.Star}"
+                                                    Size="25"
+                                                    Color="{StaticResource Primary}" />
+                                            </Image.Source>
+                                        </Image>
+                                        <Image HorizontalOptions="Center">
+                                            <Image.Source>
+                                                <FontImageSource
+                                                    FontFamily="MaterialSharp"
+                                                    Glyph="{x:Static m:MaterialSharp.Star}"
+                                                    Size="25"
+                                                    Color="{StaticResource Primary}" />
+                                            </Image.Source>
+                                        </Image>
+                                        <Image HorizontalOptions="Center">
+                                            <Image.Source>
+                                                <FontImageSource
+                                                    FontFamily="MaterialSharp"
+                                                    Glyph="{x:Static m:MaterialSharp.Star}"
+                                                    Size="25"
+                                                    Color="{StaticResource Primary}" />
+                                            </Image.Source>
+                                        </Image>
+
+                                    </HorizontalStackLayout>
+                                    <Button
+                                        Grid.Column="1"
+                                        BackgroundColor="Transparent"
+                                        CornerRadius="0"
+                                        FontAttributes="Bold"
+                                        FontSize="{OnPlatform Android=18,
+                                                              WinUI=14}"
+                                        HorizontalOptions="End"
+                                        Text="See All"
+                                        TextColor="{StaticResource Primary}" />
+                                </Grid>
+
+                                <VerticalStackLayout Margin="8,0,0,0" Spacing="8">
+                                    <VerticalStackLayout Spacing="8">
+
+
+                                        <HorizontalStackLayout
+                                            Grid.Row="1"
+                                            Grid.Column="0"
+                                            HorizontalOptions="Start"
+                                            VerticalOptions="Center">
+                                            <Label
+                                                Margin="0,0,8,0"
+                                                FontSize="{OnPlatform Android=22,
+                                                                      WinUI=14}"
+                                                Text="User1"
+                                                TextColor="{StaticResource PrimaryDarkText}" />
+                                            <Image HorizontalOptions="Center">
+                                                <Image.Source>
+                                                    <FontImageSource
+                                                        FontFamily="MaterialSharp"
+                                                        Glyph="{x:Static m:MaterialSharp.Star}"
+                                                        Size="20"
+                                                        Color="{StaticResource Primary}" />
+                                                </Image.Source>
+                                            </Image>
+                                            <Image HorizontalOptions="Center">
+                                                <Image.Source>
+                                                    <FontImageSource
+                                                        FontFamily="MaterialSharp"
+                                                        Glyph="{x:Static m:MaterialSharp.Star}"
+                                                        Size="20"
+                                                        Color="{StaticResource Primary}" />
+                                                </Image.Source>
+                                            </Image>
+                                            <Image HorizontalOptions="Center">
+                                                <Image.Source>
+                                                    <FontImageSource
+                                                        FontFamily="MaterialSharp"
+                                                        Glyph="{x:Static m:MaterialSharp.Star}"
+                                                        Size="20"
+                                                        Color="{StaticResource Primary}" />
+                                                </Image.Source>
+                                            </Image>
+                                            <Image HorizontalOptions="Center">
+                                                <Image.Source>
+                                                    <FontImageSource
+                                                        FontFamily="MaterialSharp"
+                                                        Glyph="{x:Static m:MaterialSharp.Star}"
+                                                        Size="20"
+                                                        Color="{StaticResource Primary}" />
+                                                </Image.Source>
+                                            </Image>
+                                            <Image HorizontalOptions="Center">
+                                                <Image.Source>
+                                                    <FontImageSource
+                                                        FontFamily="MaterialSharp"
+                                                        Glyph="{x:Static m:MaterialSharp.Star}"
+                                                        Size="20"
+                                                        Color="{StaticResource Primary}" />
+                                                </Image.Source>
+                                            </Image>
+
+                                        </HorizontalStackLayout>
+                                        <Label Text="What is Lorem Ipsum?  Lorem Ipsum is simply dummy text of the printing and  typesetting industry. Lorem Ipsum has been the industry's  standard dummy text ever since the 1500s, when an unknown  printer took a galley of type and scrambled it to make a  type specimen book. It has survived not only five centuries,  but also the leap into electronic typesetting,  remaining essentially unchanged.   It was popularised in the 1960s with the release of Letraset  sheets containing Lorem Ipsum passages, and more recently  with desktop publishing software like Aldus PageMaker  including versions of Lorem Ipsum." TextColor="{StaticResource Gray400}" />
+                                    </VerticalStackLayout>
+
+                                    <VerticalStackLayout Spacing="8">
+
+
+                                        <HorizontalStackLayout
+                                            Grid.Row="1"
+                                            Grid.Column="0"
+                                            HorizontalOptions="Start"
+                                            VerticalOptions="Center">
+                                            <Label
+                                                Margin="0,0,8,0"
+                                                FontSize="{OnPlatform Android=22,
+                                                                      WinUI=14}"
+                                                Text="User1"
+                                                TextColor="{StaticResource PrimaryDarkText}" />
+                                            <Image HorizontalOptions="Center">
+                                                <Image.Source>
+                                                    <FontImageSource
+                                                        FontFamily="MaterialSharp"
+                                                        Glyph="{x:Static m:MaterialSharp.Star}"
+                                                        Size="20"
+                                                        Color="{StaticResource Primary}" />
+                                                </Image.Source>
+                                            </Image>
+                                            <Image HorizontalOptions="Center">
+                                                <Image.Source>
+                                                    <FontImageSource
+                                                        FontFamily="MaterialSharp"
+                                                        Glyph="{x:Static m:MaterialSharp.Star}"
+                                                        Size="20"
+                                                        Color="{StaticResource Primary}" />
+                                                </Image.Source>
+                                            </Image>
+                                            <Image HorizontalOptions="Center">
+                                                <Image.Source>
+                                                    <FontImageSource
+                                                        FontFamily="MaterialSharp"
+                                                        Glyph="{x:Static m:MaterialSharp.Star}"
+                                                        Size="20"
+                                                        Color="{StaticResource Primary}" />
+                                                </Image.Source>
+                                            </Image>
+                                            <Image HorizontalOptions="Center">
+                                                <Image.Source>
+                                                    <FontImageSource
+                                                        FontFamily="MaterialSharp"
+                                                        Glyph="{x:Static m:MaterialSharp.Star}"
+                                                        Size="20"
+                                                        Color="{StaticResource Primary}" />
+                                                </Image.Source>
+                                            </Image>
+                                            <Image HorizontalOptions="Center">
+                                                <Image.Source>
+                                                    <FontImageSource
+                                                        FontFamily="MaterialSharp"
+                                                        Glyph="{x:Static m:MaterialSharp.Star}"
+                                                        Size="20"
+                                                        Color="{StaticResource Primary}" />
+                                                </Image.Source>
+                                            </Image>
+
+                                        </HorizontalStackLayout>
+                                        <Label Text="What is Lorem Ipsum?  Lorem Ipsum is simply dummy text of the printing and  typesetting industry. Lorem Ipsum has been the industry's  standard dummy text ever since the 1500s, when an unknown  printer took a galley of type and scrambled it to make a  type specimen book. It has survived not only five centuries,  but also the leap into electronic typesetting,  remaining essentially unchanged.   It was popularised in the 1960s with the release of Letraset  sheets containing Lorem Ipsum passages, and more recently  with desktop publishing software like Aldus PageMaker  including versions of Lorem Ipsum." TextColor="{StaticResource Gray400}" />
+                                    </VerticalStackLayout>
+
+                                    <VerticalStackLayout Spacing="8">
+
+
+                                        <HorizontalStackLayout
+                                            Grid.Row="1"
+                                            Grid.Column="0"
+                                            HorizontalOptions="Start"
+                                            VerticalOptions="Center">
+                                            <Label
+                                                Margin="0,0,8,0"
+                                                FontSize="{OnPlatform Android=22,
+                                                                      WinUI=14}"
+                                                Text="User1"
+                                                TextColor="{StaticResource PrimaryDarkText}" />
+                                            <Image HorizontalOptions="Center">
+                                                <Image.Source>
+                                                    <FontImageSource
+                                                        FontFamily="MaterialSharp"
+                                                        Glyph="{x:Static m:MaterialSharp.Star}"
+                                                        Size="20"
+                                                        Color="{StaticResource Primary}" />
+                                                </Image.Source>
+                                            </Image>
+                                            <Image HorizontalOptions="Center">
+                                                <Image.Source>
+                                                    <FontImageSource
+                                                        FontFamily="MaterialSharp"
+                                                        Glyph="{x:Static m:MaterialSharp.Star}"
+                                                        Size="20"
+                                                        Color="{StaticResource Primary}" />
+                                                </Image.Source>
+                                            </Image>
+                                            <Image HorizontalOptions="Center">
+                                                <Image.Source>
+                                                    <FontImageSource
+                                                        FontFamily="MaterialSharp"
+                                                        Glyph="{x:Static m:MaterialSharp.Star}"
+                                                        Size="20"
+                                                        Color="{StaticResource Primary}" />
+                                                </Image.Source>
+                                            </Image>
+                                            <Image HorizontalOptions="Center">
+                                                <Image.Source>
+                                                    <FontImageSource
+                                                        FontFamily="MaterialSharp"
+                                                        Glyph="{x:Static m:MaterialSharp.Star}"
+                                                        Size="20"
+                                                        Color="{StaticResource Primary}" />
+                                                </Image.Source>
+                                            </Image>
+                                            <Image HorizontalOptions="Center">
+                                                <Image.Source>
+                                                    <FontImageSource
+                                                        FontFamily="MaterialSharp"
+                                                        Glyph="{x:Static m:MaterialSharp.Star}"
+                                                        Size="20"
+                                                        Color="{StaticResource Primary}" />
+                                                </Image.Source>
+                                            </Image>
+
+                                        </HorizontalStackLayout>
+                                        <Label Text="What is Lorem Ipsum?  Lorem Ipsum is simply dummy text of the printing and  typesetting industry. Lorem Ipsum has been the industry's  standard dummy text ever since the 1500s, when an unknown  printer took a galley of type and scrambled it to make a  type specimen book. It has survived not only five centuries,  but also the leap into electronic typesetting,  remaining essentially unchanged.   It was popularised in the 1960s with the release of Letraset  sheets containing Lorem Ipsum passages, and more recently  with desktop publishing software like Aldus PageMaker  including versions of Lorem Ipsum." TextColor="{StaticResource Gray400}" />
+                                    </VerticalStackLayout>
+
+                                    <VerticalStackLayout Spacing="8">
+
+
+                                        <HorizontalStackLayout
+                                            Grid.Row="1"
+                                            Grid.Column="0"
+                                            HorizontalOptions="Start"
+                                            VerticalOptions="Center">
+                                            <Label
+                                                Margin="0,0,8,0"
+                                                FontSize="{OnPlatform Android=22,
+                                                                      WinUI=14}"
+                                                Text="User1"
+                                                TextColor="{StaticResource PrimaryDarkText}" />
+                                            <Image HorizontalOptions="Center">
+                                                <Image.Source>
+                                                    <FontImageSource
+                                                        FontFamily="MaterialSharp"
+                                                        Glyph="{x:Static m:MaterialSharp.Star}"
+                                                        Size="20"
+                                                        Color="{StaticResource Primary}" />
+                                                </Image.Source>
+                                            </Image>
+                                            <Image HorizontalOptions="Center">
+                                                <Image.Source>
+                                                    <FontImageSource
+                                                        FontFamily="MaterialSharp"
+                                                        Glyph="{x:Static m:MaterialSharp.Star}"
+                                                        Size="20"
+                                                        Color="{StaticResource Primary}" />
+                                                </Image.Source>
+                                            </Image>
+                                            <Image HorizontalOptions="Center">
+                                                <Image.Source>
+                                                    <FontImageSource
+                                                        FontFamily="MaterialSharp"
+                                                        Glyph="{x:Static m:MaterialSharp.Star}"
+                                                        Size="20"
+                                                        Color="{StaticResource Primary}" />
+                                                </Image.Source>
+                                            </Image>
+                                            <Image HorizontalOptions="Center">
+                                                <Image.Source>
+                                                    <FontImageSource
+                                                        FontFamily="MaterialSharp"
+                                                        Glyph="{x:Static m:MaterialSharp.Star}"
+                                                        Size="20"
+                                                        Color="{StaticResource Primary}" />
+                                                </Image.Source>
+                                            </Image>
+                                            <Image HorizontalOptions="Center">
+                                                <Image.Source>
+                                                    <FontImageSource
+                                                        FontFamily="MaterialSharp"
+                                                        Glyph="{x:Static m:MaterialSharp.Star}"
+                                                        Size="20"
+                                                        Color="{StaticResource Primary}" />
+                                                </Image.Source>
+                                            </Image>
+
+                                        </HorizontalStackLayout>
+                                        <Label Text="What is Lorem Ipsum?  Lorem Ipsum is simply dummy text of the printing and  typesetting industry. Lorem Ipsum has been the industry's  standard dummy text ever since the 1500s, when an unknown  printer took a galley of type and scrambled it to make a  type specimen book. It has survived not only five centuries,  but also the leap into electronic typesetting,  remaining essentially unchanged.   It was popularised in the 1960s with the release of Letraset  sheets containing Lorem Ipsum passages, and more recently  with desktop publishing software like Aldus PageMaker  including versions of Lorem Ipsum." TextColor="{StaticResource Gray400}" />
+                                    </VerticalStackLayout>
+                                </VerticalStackLayout>
+
+                            </VerticalStackLayout>
+
+                        </VerticalStackLayout>
+                    </Border>
+
+
+                </Grid>
+
+
+
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>

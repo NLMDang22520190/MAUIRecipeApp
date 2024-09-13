@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="MAUIRecipeApp.View.UserView.HomePageView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:m="clr-namespace:UraniumUI.Icons.MaterialSymbols;assembly=UraniumUI.Icons.MaterialSymbols"
+    xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    Title=""
+    Background="{StaticResource WhiteText}">
+    <ScrollView>
+        <VerticalStackLayout
+            Margin="16,16,16,0"
+            HorizontalOptions="{OnPlatform Android=Fill,
+                                           WinUI=Center}"
+            Spacing="16">
+
+
+            <VerticalStackLayout HorizontalOptions="Start" Spacing="4">
+                <Label
+                    FontSize="18"
+                    Text="Good Morning!"
+                    TextColor="{StaticResource PrimaryDarkText}" />
+                <Label
+                    FontAttributes="Bold"
+                    FontSize="22"
+                    Text="TEKATOJI"
+                    TextColor="{StaticResource Primary}" />
+            </VerticalStackLayout>
+
+
+            <VerticalStackLayout Spacing="8">
+                <Label
+                    FontAttributes="Bold"
+                    FontSize="20"
+                    Text="Featured Food"
+                    TextColor="{StaticResource PrimaryDarkText}" />
+                <ScrollView Orientation="Horizontal">
+                    <HorizontalStackLayout Spacing="8">
+                        <Button
+                            BackgroundColor="{StaticResource Primary}"
+                            HeightRequest="150"
+                            WidthRequest="200" />
+                        <Button
+                            BackgroundColor="{StaticResource Primary}"
+                            HeightRequest="150"
+                            WidthRequest="200" />
+                        <Button
+                            BackgroundColor="{StaticResource Primary}"
+                            HeightRequest="150"
+                            WidthRequest="200" />
+                        <Button
+                            BackgroundColor="{StaticResource Primary}"
+                            HeightRequest="150"
+                            WidthRequest="200" />
+                    </HorizontalStackLayout>
+                </ScrollView>
+
+            </VerticalStackLayout>
+
+
+            <VerticalStackLayout Spacing="8">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Label
+                        Grid.Column="0"
+                        FontAttributes="Bold"
+                        FontSize="20"
+                        Text="Category"
+                        TextColor="{StaticResource PrimaryDarkText}"
+                        VerticalTextAlignment="Center" />
+                    <Button
+                        Grid.Column="1"
+                        BackgroundColor="Transparent"
+                        CornerRadius="0"
+                        FontAttributes="Bold"
+                        FontSize="{OnPlatform Android=18,
+                                              WinUI=14}"
+                        HorizontalOptions="End"
+                        Text="See All"
+                        TextColor="{StaticResource Primary}" />
+                </Grid>
+
+                <ScrollView Orientation="Horizontal">
+                    <HorizontalStackLayout Spacing="8">
+                        <Button
+                            BackgroundColor="Transparent"
+                            BorderColor="{StaticResource Primary}"
+                            HeightRequest="50"
+                            WidthRequest="125" />
+                        <Button
+                            BackgroundColor="Transparent"
+                            BorderColor="{StaticResource Primary}"
+                            HeightRequest="50"
+                            WidthRequest="125" />
+                        <Button
+                            BackgroundColor="Transparent"
+                            BorderColor="{StaticResource Primary}"
+                            HeightRequest="50"
+                            WidthRequest="125" />
+                        <Button
+                            BackgroundColor="Transparent"
+                            BorderColor="{StaticResource Primary}"
+                            HeightRequest="50"
+                            WidthRequest="125" />
+                    </HorizontalStackLayout>
+                </ScrollView>
+            </VerticalStackLayout>
+
+
+
+            <VerticalStackLayout Spacing="8">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Label
+                        Grid.Column="0"
+                        FontAttributes="Bold"
+                        FontSize="20"
+                        Text="Recipes"
+                        TextColor="{StaticResource PrimaryDarkText}"
+                        VerticalTextAlignment="Center" />
+                    <Button
+                        Grid.Column="1"
+                        BackgroundColor="Transparent"
+                        CornerRadius="0"
+                        FontAttributes="Bold"
+                        FontSize="{OnPlatform Android=18,
+                                              WinUI=14}"
+                        HorizontalOptions="End"
+                        Text="See All"
+                        TextColor="{StaticResource Primary}" />
+                </Grid>
+
+
+                <FlexLayout
+                    FlowDirection="LeftToRight"
+                    HorizontalOptions="CenterAndExpand"
+                    JustifyContent="SpaceBetween"
+                    Wrap="Wrap">
+
+                    <FlexLayout.Resources>
+                        <Style TargetType="Button">
+                            <Setter Property="Margin" Value="0,0,0,8 " />
+                            <Setter Property="CornerRadius" Value="15" />
+                            <Setter Property="HeightRequest" Value="175" />
+                            <Setter Property="WidthRequest" Value="175" />
+
+                        </Style>
+                    </FlexLayout.Resources>
+
+                    <Button BackgroundColor="Transparent" BorderColor="{StaticResource Primary}" />
+                    <Button BackgroundColor="Transparent" BorderColor="{StaticResource Primary}" />
+                    <Button BackgroundColor="Transparent" BorderColor="{StaticResource Primary}" />
+                    <Button BackgroundColor="Transparent" BorderColor="{StaticResource Primary}" />
+                    <Button BackgroundColor="Transparent" BorderColor="{StaticResource Primary}" />
+                    <Button BackgroundColor="Transparent" BorderColor="{StaticResource Primary}" />
+                    <Button BackgroundColor="Transparent" BorderColor="{StaticResource Primary}" />
+                    <Button BackgroundColor="Transparent" BorderColor="{StaticResource Primary}" />
+                </FlexLayout>
+
+                <VerticalStackLayout />
+
+
+            </VerticalStackLayout>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

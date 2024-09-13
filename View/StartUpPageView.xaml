@@ -6,7 +6,9 @@
     xmlns:m="clr-namespace:UraniumUI.Icons.MaterialSymbols;assembly=UraniumUI.Icons.MaterialSymbols"
     xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:viewmodel="clr-namespace:MAUIRecipeApp.ViewModel"
     Title=""
+    x:DataType="viewmodel:StartUpPageViewModel"
     Background="{StaticResource WhiteText}">
     <ScrollView>
         <Grid>
@@ -43,6 +45,7 @@
                 <Button
                     Margin="32,24,32,0"
                     BackgroundColor="{StaticResource Primary}"
+                    Command="{Binding LoginCommand}"
                     CornerRadius="20"
                     FontSize="18"
                     Text="Login"
@@ -50,6 +53,7 @@
                 <Button
                     Margin="0,0,0,32"
                     BackgroundColor="Transparent"
+                    Command="{Binding SignUpCommand}"
                     FontSize="16"
                     Text="Create New Account"
                     TextColor="{StaticResource PrimaryDarkText}" />

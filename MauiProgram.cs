@@ -1,6 +1,8 @@
 ﻿using Microsoft.Extensions.Logging;
 using CommunityToolkit.Maui;
 using UraniumUI;
+using MAUIRecipeApp.View;
+using MAUIRecipeApp.ViewModel;
 
 namespace MAUIRecipeApp
 {
@@ -24,6 +26,9 @@ namespace MAUIRecipeApp
 #if DEBUG
     		builder.Logging.AddDebug();
 #endif
+
+            builder.Services.AddSingleton<StartUpPageView>();
+            builder.Services.AddSingleton<StartUpPageViewModel>();
 
             return builder.Build();
         }
