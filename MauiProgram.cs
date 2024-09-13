@@ -5,6 +5,8 @@ using MAUIRecipeApp.View;
 using MAUIRecipeApp.ViewModel;
 using MAUIRecipeApp.View.Auth;
 using MAUIRecipeApp.ViewModel.Auth;
+using MAUIRecipeApp.View.UserView;
+using MAUIRecipeApp.ViewModel.UserView;
 
 namespace MAUIRecipeApp
 {
@@ -42,7 +44,19 @@ namespace MAUIRecipeApp
             builder.Services.AddTransient<PasswordRecoveryPageView>();
             builder.Services.AddTransient<PasswordRecoveryPageViewModel>();
 
+            builder.Services.AddTransient<PasswordVerifyCodePageView>();
+            builder.Services.AddTransient<PasswordVerifyCodePageViewModel>();
 
+            builder.Services.AddTransient<NewPasswordPageView>();
+            builder.Services.AddTransient<NewPasswordPageViewModel>();
+
+            builder.Services.AddTransient<VerifyCodePageView>();
+            builder.Services.AddTransient<VerifyCodePageViewModel>();
+            #endregion
+
+            #region UserView
+            builder.Services.AddTransient<HomePageView>();
+            builder.Services.AddTransient<HomePageViewModel>();
             #endregion
 
             return builder.Build();

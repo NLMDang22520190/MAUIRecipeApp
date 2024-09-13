@@ -15,5 +15,19 @@ namespace MAUIRecipeApp.ViewModel.Auth
         {
             await Shell.Current.GoToAsync("//signup");
         }
+
+        [RelayCommand]
+
+        private async Task ForgotPassword()
+        {
+            await Shell.Current.GoToAsync("//forgotpass");
+        }
+
+        [RelayCommand]
+
+        private async Task Login()
+        {
+            await Shell.Current.GoToAsync("//home");
+        }
     }
 }

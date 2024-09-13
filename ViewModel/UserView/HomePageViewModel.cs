@@ -6,14 +6,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MAUIRecipeApp.ViewModel.Auth
+namespace MAUIRecipeApp.ViewModel.UserView
 {
-    public partial class PasswordRecoveryPageViewModel: ObservableObject
+    public partial class HomePageViewModel: ObservableObject
     {
         [RelayCommand]
-        private async Task SendCode()
+        public async Task FoodDetail()
         {
-            await Shell.Current.GoToAsync("//passwordcode");
+            await Shell.Current.GoToAsync("//fooddetail");
         }
     }
 }

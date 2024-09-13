@@ -1,9 +1,12 @@
+using MAUIRecipeApp.ViewModel.UserView;
+
 namespace MAUIRecipeApp.View.UserView;
 
 public partial class HomePageView : ContentPage
 {
-	public HomePageView()
+	public HomePageView(HomePageViewModel vm)
 	{
 		InitializeComponent();
-	}
+        BindingContext = vm;
+    }
 }

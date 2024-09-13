@@ -1,13 +1,14 @@
 using MauiIcons.Core;
+using MAUIRecipeApp.ViewModel.Auth;
 
 namespace MAUIRecipeApp.View.Auth;
 
 public partial class SignUpPageView : ContentPage
 {
-	public SignUpPageView()
+	public SignUpPageView(SignUpPageViewModel vm)
 	{
 		InitializeComponent();
 
-        _ = new MauiIcon();
+		BindingContext = vm;
     }
 }
