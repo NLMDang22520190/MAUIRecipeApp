@@ -1,9 +1,12 @@
+using MAUIRecipeApp.ViewModel.Auth;
+
 namespace MAUIRecipeApp.View.Auth;
 
 public partial class PasswordRecoveryPageView : ContentPage
 {
-	public PasswordRecoveryPageView()
+	public PasswordRecoveryPageView(PasswordRecoveryPageViewModel vm)
 	{
 		InitializeComponent();
-	}
+        BindingContext = vm;
+    }
 }

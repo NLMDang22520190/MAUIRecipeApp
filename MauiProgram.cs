@@ -32,11 +32,18 @@ namespace MAUIRecipeApp
             builder.Services.AddTransient<StartUpPageView>();
             builder.Services.AddTransient<StartUpPageViewModel>();
 
+            #region Auth
             builder.Services.AddTransient<LoginPageView>();
             builder.Services.AddTransient<LoginPageViewModel>();
 
             builder.Services.AddTransient<SignUpPageView>();
             builder.Services.AddTransient<SignUpPageViewModel>();
+
+            builder.Services.AddTransient<PasswordRecoveryPageView>();
+            builder.Services.AddTransient<PasswordRecoveryPageViewModel>();
+
+
+            #endregion
 
             return builder.Build();
         }

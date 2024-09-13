@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 
 namespace MAUIRecipeApp.ViewModel.Auth
 {
-    public partial class LoginPageViewModel : ObservableObject
+    public partial class PasswordRecoveryPageViewModel: ObservableObject
     {
         [RelayCommand]
-        private async Task SignUp()
+        private async Task SendCode()
         {
-            await Shell.Current.GoToAsync("//signup");
+            await Shell.Current.GoToAsync("//verifycode");
         }
     }
 }

@@ -83,6 +83,9 @@
 	  <MauiXaml Update="View\Auth\PasswordRecoveryPageView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="View\Auth\PasswordVerifyCodePageView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="View\Auth\SignUpPageView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

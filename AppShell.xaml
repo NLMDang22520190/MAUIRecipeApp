@@ -13,5 +13,12 @@
     <ShellContent ContentTemplate="{DataTemplate View:StartUpPageView}" Route="startup" />
     <ShellContent ContentTemplate="{DataTemplate Auth:LoginPageView}" Route="login" />
     <ShellContent ContentTemplate="{DataTemplate Auth:SignUpPageView}" Route="signup" />
+    <ShellContent ContentTemplate="{DataTemplate Auth:PasswordRecoveryPageView}" Route="forgotpass" />
+    <ShellContent ContentTemplate="{DataTemplate Auth:VerifyCodePageView}" Route="verifycode" />
+    <ShellContent ContentTemplate="{DataTemplate Auth:NewPasswordPageView}" Route="newpassword" />
+    <ShellContent ContentTemplate="{DataTemplate UserView:HomePageView}" Route="home" />
+    <ShellContent ContentTemplate="{DataTemplate UserView:FoodRecipePageView}" Route="fooddetail" />
+
+
 
 </Shell>

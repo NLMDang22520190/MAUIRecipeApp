@@ -83,7 +83,11 @@
                     FontAttributes="Bold"
                     FontSize="15"
                     Text="Sign Up"
-                    TextColor="{StaticResource Primary}" />
+                    TextColor="{StaticResource Primary}">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding SignUpCommand}" />
+                    </Label.GestureRecognizers>
+                </Label>
             </HorizontalStackLayout>
         </VerticalStackLayout>
 
