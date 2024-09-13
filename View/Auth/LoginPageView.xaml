@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="MAUIRecipeApp.View.Auth.LoginPageView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:m="clr-namespace:UraniumUI.Icons.MaterialSymbols;assembly=UraniumUI.Icons.MaterialSymbols"
+    xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
+    xmlns:mi="http://www.aathifmahir.com/dotnet/2022/maui/icons"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    Title=""
+    Background="{StaticResource WhiteText}">
+    <ScrollView HorizontalOptions="Center" VerticalOptions="Center">
+
+        <VerticalStackLayout
+            Background="Transparent"
+            HorizontalOptions="Center"
+            Spacing="12"
+            VerticalOptions="Center">
+
+
+
+            <Label
+                FontAttributes="Bold"
+                FontSize="45"
+                HorizontalTextAlignment="Center"
+                TextColor="{StaticResource Primary}">
+                Welcome Back!
+            </Label>
+            <Label
+                FontSize="20"
+                HorizontalTextAlignment="Center"
+                TextColor="{StaticResource Primary}">
+                Please enter your account here
+            </Label>
+
+            <material:TextField
+                Title="Email"
+                Margin="0,16,0,0"
+                AllowClear="True"
+                BorderColor="{StaticResource PrimaryDarkText}"
+                CornerRadius="16"
+                FontSize="16"
+                TextColor="{StaticResource PrimaryDarkText}">
+                <material:TextField.Icon>
+                    <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Mail}" />
+                </material:TextField.Icon>
+            </material:TextField>
+
+            <material:TextField
+                Title="Password"
+                BorderColor="{StaticResource PrimaryDarkText}"
+                CornerRadius="16"
+                FontSize="16"
+                IsPassword="True"
+                TextColor="{StaticResource PrimaryDarkText}">
+                <material:TextField.Icon>
+                    <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Lock}" />
+                </material:TextField.Icon>
+                <material:TextField.Attachments>
+                    <material:TextFieldPasswordShowHideAttachment />
+                </material:TextField.Attachments>
+            </material:TextField>
+
+            <Label
+                FontAttributes="Italic"
+                FontSize="14"
+                HorizontalOptions="End"
+                TextColor="{StaticResource Primary}">
+                Forgot Password?
+            </Label>
+            <Button
+                Margin="0,24,0,0"
+                BackgroundColor="{StaticResource Secondary}"
+                FontSize="18"
+                Text="Login"
+                TextColor="#FDFEFB" />
+            <HorizontalStackLayout HorizontalOptions="Center">
+                <Label TextColor="{StaticResource PrimaryDarkText}">Don't have an account?</Label>
+                <Label
+                    FontAttributes="Bold"
+                    FontSize="15"
+                    Text="Sign Up"
+                    TextColor="{StaticResource Primary}" />
+            </HorizontalStackLayout>
+        </VerticalStackLayout>
+
+    </ScrollView>
+</ContentPage>

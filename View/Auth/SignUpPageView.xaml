@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="MAUIRecipeApp.View.Auth.SignUpPageView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:m="clr-namespace:UraniumUI.Icons.MaterialSymbols;assembly=UraniumUI.Icons.MaterialSymbols"
+    xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    Title=""
+    Background="{StaticResource WhiteText}">
+    <ScrollView>
+        <VerticalStackLayout
+            Margin="16,16,16,0"
+            HorizontalOptions="{OnPlatform Android=Fill,
+                                           WinUI=Center}"
+            Spacing="12">
+            <Label
+                FontAttributes="Bold"
+                FontSize="35"
+                HorizontalOptions="Center"
+                Text="Welcome!"
+                TextColor="{StaticResource PrimaryDarkText}" />
+            <Label
+                FontSize="16"
+                HorizontalOptions="Center"
+                Text="Please enter your account here"
+                TextColor="{StaticResource PrimaryDarkText}" />
+
+            <material:TextField
+                Title="Email"
+                Margin="0,16,0,0"
+                AllowClear="True"
+                BorderColor="{StaticResource PrimaryDarkText}"
+                CornerRadius="16"
+                FontSize="16"
+                TextColor="{StaticResource PrimaryDarkText}">
+                <material:TextField.Icon>
+                    <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Mail}" />
+                </material:TextField.Icon>
+            </material:TextField>
+
+            <material:TextField
+                Title="Password"
+                BorderColor="{StaticResource PrimaryDarkText}"
+                CornerRadius="16"
+                FontSize="16"
+                IsPassword="True"
+                TextColor="{StaticResource PrimaryDarkText}">
+                <material:TextField.Icon>
+                    <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Lock}" />
+                </material:TextField.Icon>
+                <material:TextField.Attachments>
+                    <material:TextFieldPasswordShowHideAttachment />
+                </material:TextField.Attachments>
+            </material:TextField>
+
+            <Label
+                FontSize="16"
+                Text="Your Password must contain:"
+                TextColor="{StaticResource PrimaryDarkText}" />
+            <HorizontalStackLayout Margin="8,0,0,0" Spacing="8">
+                <Image>
+                    <Image.Source>
+                        <FontImageSource
+                            FontFamily="MaterialSharp"
+                            Glyph="{x:Static m:MaterialSharp.Check_circle}"
+                            Size="22"
+                            Color="{StaticResource Primary}" />
+                    </Image.Source>
+                </Image>
+                <Label Text="Atleast 6 characters" />
+            </HorizontalStackLayout>
+
+            <HorizontalStackLayout Margin="8,0,0,0" Spacing="8">
+                <Image>
+                    <Image.Source>
+                        <FontImageSource
+                            FontFamily="MaterialSharp"
+                            Glyph="{x:Static m:MaterialSharp.Check_circle}"
+                            Size="22"
+                            Color="{StaticResource Primary}" />
+                    </Image.Source>
+                </Image>
+                <Label Text="Contains a number" />
+            </HorizontalStackLayout>
+
+            <Button
+                Margin="0,16,0,0"
+                BackgroundColor="{StaticResource Secondary}"
+                FontSize="18"
+                Text="Sign Up"
+                TextColor="{StaticResource WhiteText}" />
+        </VerticalStackLayout>
+
+    </ScrollView>
+</ContentPage>
