@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="MAUIRecipeApp.View.StartUpPageView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:m="clr-namespace:UraniumUI.Icons.MaterialSymbols;assembly=UraniumUI.Icons.MaterialSymbols"
+    xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    Title=""
+    Background="{StaticResource WhiteText}">
+    <ScrollView>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+
+            <Image
+                Grid.Row="0"
+                Aspect="Fill"
+                Background="{StaticResource WhiteText}"
+                Source="cartoon_food4.png" />
+
+
+            <VerticalStackLayout
+                Grid.Row="1"
+                HorizontalOptions="Fill"
+                Spacing="12"
+                VerticalOptions="Center">
+                <Label
+                    FontAttributes="Bold"
+                    FontSize="40"
+                    HorizontalOptions="Center"
+                    TextColor="{StaticResource PrimaryDarkText}">
+                    Start Cooking
+                </Label>
+                <Label
+                    FontSize="16"
+                    HorizontalTextAlignment="Center"
+                    Text="Let's join our community &#10; to cook better food!"
+                    TextColor="{StaticResource PrimaryDarkText}" />
+                <Button
+                    Margin="32,24,32,0"
+                    BackgroundColor="{StaticResource Primary}"
+                    CornerRadius="20"
+                    FontSize="18"
+                    Text="Login"
+                    TextColor="{StaticResource WhiteText}" />
+                <Button
+                    Margin="0,0,0,32"
+                    BackgroundColor="Transparent"
+                    FontSize="16"
+                    Text="Create New Account"
+                    TextColor="{StaticResource PrimaryDarkText}" />
+            </VerticalStackLayout>
+        </Grid>
+
+    </ScrollView>
+</ContentPage>
