@@ -12,19 +12,19 @@
     Background="{StaticResource WhiteText}">
     <ScrollView>
         <VerticalStackLayout
-            Margin="16,16,16,0"
-            HorizontalOptions="{OnPlatform Android=Fill,
-                                           WinUI=Center}"
-            Spacing="12">
+            Margin="16,0,16,0"
+            HorizontalOptions="Fill"
+            Spacing="12"
+            VerticalOptions="Center">
             <Label
                 FontAttributes="Bold"
-                FontSize="35"
-                HorizontalOptions="Center"
+                FontSize="40"
+                HorizontalTextAlignment="Center"
                 Text="Welcome!"
                 TextColor="{StaticResource PrimaryDarkText}" />
             <Label
                 FontSize="16"
-                HorizontalOptions="Center"
+                HorizontalTextAlignment="Center"
                 Text="Please enter your account here"
                 TextColor="{StaticResource PrimaryDarkText}" />
 
@@ -38,6 +38,18 @@
                 TextColor="{StaticResource PrimaryDarkText}">
                 <material:TextField.Icon>
                     <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Mail}" />
+                </material:TextField.Icon>
+            </material:TextField>
+
+            <material:TextField
+                Title="Username"
+                AllowClear="True"
+                BorderColor="{StaticResource PrimaryDarkText}"
+                CornerRadius="16"
+                FontSize="16"
+                TextColor="{StaticResource PrimaryDarkText}">
+                <material:TextField.Icon>
+                    <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Person}" />
                 </material:TextField.Icon>
             </material:TextField>
 

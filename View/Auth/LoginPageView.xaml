@@ -3,6 +3,7 @@
     x:Class="MAUIRecipeApp.View.Auth.LoginPageView"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:fa="clr-namespace:UraniumUI.Icons.FontAwesome;assembly=UraniumUI.Icons.FontAwesome"
     xmlns:m="clr-namespace:UraniumUI.Icons.MaterialSymbols;assembly=UraniumUI.Icons.MaterialSymbols"
     xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
     xmlns:mi="http://www.aathifmahir.com/dotnet/2022/maui/icons"
@@ -81,12 +82,42 @@
                 FontSize="18"
                 Text="Login"
                 TextColor="#FDFEFB" />
+            <Label
+                FontSize="14"
+                HorizontalTextAlignment="Center"
+                TextColor="{StaticResource Gray300}">
+                Or continue with
+            </Label>
+            <Button
+                BackgroundColor="#ff5842"
+                FontSize="18"
+                Text="Google"
+                TextColor="#FDFEFB">
+                <Button.ImageSource>
+                    <FontImageSource
+                        FontFamily="FABrand"
+                        Glyph="{x:Static fa:Regular.g}"
+                        Color="{StaticResource WhiteText}" />
+                </Button.ImageSource>
+            </Button>
+            <Button
+                BackgroundColor="#0866ff"
+                FontSize="18"
+                Text="Facebook"
+                TextColor="#FDFEFB">
+                <Button.ImageSource>
+                    <FontImageSource
+                        FontFamily="FABrand"
+                        Glyph="{x:Static fa:Regular.f}"
+                        Color="{StaticResource WhiteText}" />
+                </Button.ImageSource>
+            </Button>
             <HorizontalStackLayout HorizontalOptions="Center">
                 <Label TextColor="{StaticResource PrimaryDarkText}">Don't have an account?</Label>
                 <Label
                     FontAttributes="Bold"
                     FontSize="15"
-                    Text="Sign Up"
+                    Text=" Sign Up"
                     TextColor="{StaticResource Primary}">
                     <Label.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding SignUpCommand}" />
