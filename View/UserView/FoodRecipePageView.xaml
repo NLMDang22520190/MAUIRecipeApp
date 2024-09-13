@@ -240,203 +240,222 @@
                             <BoxView StyleClass="Divider" />
 
                             <VerticalStackLayout Spacing="8">
-                                <Label
-                                    FontAttributes="Bold"
-                                    FontSize="{OnPlatform Android=25,
-                                                          WinUI=16}"
-                                    Text="Ingredients"
-                                    TextColor="{StaticResource PrimaryDarkText}" />
+                                <toolkit:Expander IsExpanded="True" >
+                                    <toolkit:Expander.Header>
+                                        <HorizontalStackLayout Spacing="8">
+                                            <Label
+                                                VerticalOptions="Center"
+                                                FontAttributes="Bold"
+                                                FontSize="{OnPlatform Android=25,
+                                                                      WinUI=16}"
+                                                Text="Ingredients"
+                                                TextColor="{StaticResource PrimaryDarkText}" />
+                                            <Image VerticalOptions="Center">
+                                                <Image.Source>
+                                                    <FontImageSource
+                                                        FontFamily="MaterialSharp"
+                                                        Glyph="{x:Static m:MaterialSharp.Keyboard_arrow_down}"
+                                                        Size="25"
+                                                        Color="{StaticResource Primary}" />
+                                                </Image.Source>
+                                            </Image>
+                                        </HorizontalStackLayout>
 
-                                <VerticalStackLayout Margin="8,0,0,0" Spacing="8">
-                                    <HorizontalStackLayout Spacing="8">
-                                        <Image HorizontalOptions="Center">
-                                            <Image.Source>
-                                                <FontImageSource
-                                                    FontFamily="MaterialSharp"
-                                                    Glyph="{x:Static m:MaterialSharp.Check_circle}"
-                                                    Size="25"
-                                                    Color="{StaticResource Primary}" />
-                                            </Image.Source>
-                                        </Image>
-                                        <Label
-                                            FontSize="{OnPlatform Android=22,
-                                                                  WinUI=14}"
-                                            Text="Chicken"
-                                            TextColor="{StaticResource PrimaryDarkText}" />
-                                        <Label
-                                            FontSize="{OnPlatform Android=22,
-                                                                  WinUI=14}"
-                                            Text="1"
-                                            TextColor="{StaticResource PrimaryDarkText}" />
-                                        <Label
-                                            FontSize="{OnPlatform Android=22,
-                                                                  WinUI=14}"
-                                            Text="pcs"
-                                            TextColor="{StaticResource PrimaryDarkText}" />
-                                    </HorizontalStackLayout>
+                                    </toolkit:Expander.Header>
+                                    <VerticalStackLayout Margin="8,8,0,0" Spacing="8">
+                                        <HorizontalStackLayout Spacing="8">
+                                            <Image HorizontalOptions="Center">
+                                                <Image.Source>
+                                                    <FontImageSource
+                                                        FontFamily="MaterialSharp"
+                                                        Glyph="{x:Static m:MaterialSharp.Check_circle}"
+                                                        Size="25"
+                                                        Color="{StaticResource Primary}" />
+                                                </Image.Source>
+                                            </Image>
+                                            <Label
+                                                FontSize="{OnPlatform Android=22,
+                                                                      WinUI=14}"
+                                                Text="Chicken"
+                                                TextColor="{StaticResource PrimaryDarkText}" />
+                                            <Label
+                                                FontSize="{OnPlatform Android=22,
+                                                                      WinUI=14}"
+                                                Text="1"
+                                                TextColor="{StaticResource PrimaryDarkText}" />
+                                            <Label
+                                                FontSize="{OnPlatform Android=22,
+                                                                      WinUI=14}"
+                                                Text="pcs"
+                                                TextColor="{StaticResource PrimaryDarkText}" />
+                                        </HorizontalStackLayout>
 
-                                    <HorizontalStackLayout Spacing="8">
-                                        <Image HorizontalOptions="Center">
-                                            <Image.Source>
-                                                <FontImageSource
-                                                    FontFamily="MaterialSharp"
-                                                    Glyph="{x:Static m:MaterialSharp.Check_circle}"
-                                                    Size="25"
-                                                    Color="{StaticResource Primary}" />
-                                            </Image.Source>
-                                        </Image>
-                                        <Label
-                                            FontSize="{OnPlatform Android=22,
-                                                                  WinUI=14}"
-                                            Text="Chicken"
-                                            TextColor="{StaticResource PrimaryDarkText}" />
-                                        <Label
-                                            FontSize="{OnPlatform Android=22,
-                                                                  WinUI=14}"
-                                            Text="1"
-                                            TextColor="{StaticResource PrimaryDarkText}" />
-                                        <Label
-                                            FontSize="{OnPlatform Android=22,
-                                                                  WinUI=14}"
-                                            Text="pcs"
-                                            TextColor="{StaticResource PrimaryDarkText}" />
-                                    </HorizontalStackLayout>
+                                        <HorizontalStackLayout Spacing="8">
+                                            <Image HorizontalOptions="Center">
+                                                <Image.Source>
+                                                    <FontImageSource
+                                                        FontFamily="MaterialSharp"
+                                                        Glyph="{x:Static m:MaterialSharp.Check_circle}"
+                                                        Size="25"
+                                                        Color="{StaticResource Primary}" />
+                                                </Image.Source>
+                                            </Image>
+                                            <Label
+                                                FontSize="{OnPlatform Android=22,
+                                                                      WinUI=14}"
+                                                Text="Chicken"
+                                                TextColor="{StaticResource PrimaryDarkText}" />
+                                            <Label
+                                                FontSize="{OnPlatform Android=22,
+                                                                      WinUI=14}"
+                                                Text="1"
+                                                TextColor="{StaticResource PrimaryDarkText}" />
+                                            <Label
+                                                FontSize="{OnPlatform Android=22,
+                                                                      WinUI=14}"
+                                                Text="pcs"
+                                                TextColor="{StaticResource PrimaryDarkText}" />
+                                        </HorizontalStackLayout>
 
-                                    <HorizontalStackLayout Spacing="8">
-                                        <Image HorizontalOptions="Center">
-                                            <Image.Source>
-                                                <FontImageSource
-                                                    FontFamily="MaterialSharp"
-                                                    Glyph="{x:Static m:MaterialSharp.Check_circle}"
-                                                    Size="25"
-                                                    Color="{StaticResource Primary}" />
-                                            </Image.Source>
-                                        </Image>
-                                        <Label
-                                            FontSize="{OnPlatform Android=22,
-                                                                  WinUI=14}"
-                                            Text="Chicken"
-                                            TextColor="{StaticResource PrimaryDarkText}" />
-                                        <Label
-                                            FontSize="{OnPlatform Android=22,
-                                                                  WinUI=14}"
-                                            Text="1"
-                                            TextColor="{StaticResource PrimaryDarkText}" />
-                                        <Label
-                                            FontSize="{OnPlatform Android=22,
-                                                                  WinUI=14}"
-                                            Text="pcs"
-                                            TextColor="{StaticResource PrimaryDarkText}" />
-                                    </HorizontalStackLayout>
+                                        <HorizontalStackLayout Spacing="8">
+                                            <Image HorizontalOptions="Center">
+                                                <Image.Source>
+                                                    <FontImageSource
+                                                        FontFamily="MaterialSharp"
+                                                        Glyph="{x:Static m:MaterialSharp.Check_circle}"
+                                                        Size="25"
+                                                        Color="{StaticResource Primary}" />
+                                                </Image.Source>
+                                            </Image>
+                                            <Label
+                                                FontSize="{OnPlatform Android=22,
+                                                                      WinUI=14}"
+                                                Text="Chicken"
+                                                TextColor="{StaticResource PrimaryDarkText}" />
+                                            <Label
+                                                FontSize="{OnPlatform Android=22,
+                                                                      WinUI=14}"
+                                                Text="1"
+                                                TextColor="{StaticResource PrimaryDarkText}" />
+                                            <Label
+                                                FontSize="{OnPlatform Android=22,
+                                                                      WinUI=14}"
+                                                Text="pcs"
+                                                TextColor="{StaticResource PrimaryDarkText}" />
+                                        </HorizontalStackLayout>
 
-                                    <HorizontalStackLayout Spacing="8">
-                                        <Image HorizontalOptions="Center">
-                                            <Image.Source>
-                                                <FontImageSource
-                                                    FontFamily="MaterialSharp"
-                                                    Glyph="{x:Static m:MaterialSharp.Check_circle}"
-                                                    Size="25"
-                                                    Color="{StaticResource Primary}" />
-                                            </Image.Source>
-                                        </Image>
-                                        <Label
-                                            FontSize="{OnPlatform Android=22,
-                                                                  WinUI=14}"
-                                            Text="Chicken"
-                                            TextColor="{StaticResource PrimaryDarkText}" />
-                                        <Label
-                                            FontSize="{OnPlatform Android=22,
-                                                                  WinUI=14}"
-                                            Text="1"
-                                            TextColor="{StaticResource PrimaryDarkText}" />
-                                        <Label
-                                            FontSize="{OnPlatform Android=22,
-                                                                  WinUI=14}"
-                                            Text="pcs"
-                                            TextColor="{StaticResource PrimaryDarkText}" />
-                                    </HorizontalStackLayout>
+                                        <HorizontalStackLayout Spacing="8">
+                                            <Image HorizontalOptions="Center">
+                                                <Image.Source>
+                                                    <FontImageSource
+                                                        FontFamily="MaterialSharp"
+                                                        Glyph="{x:Static m:MaterialSharp.Check_circle}"
+                                                        Size="25"
+                                                        Color="{StaticResource Primary}" />
+                                                </Image.Source>
+                                            </Image>
+                                            <Label
+                                                FontSize="{OnPlatform Android=22,
+                                                                      WinUI=14}"
+                                                Text="Chicken"
+                                                TextColor="{StaticResource PrimaryDarkText}" />
+                                            <Label
+                                                FontSize="{OnPlatform Android=22,
+                                                                      WinUI=14}"
+                                                Text="1"
+                                                TextColor="{StaticResource PrimaryDarkText}" />
+                                            <Label
+                                                FontSize="{OnPlatform Android=22,
+                                                                      WinUI=14}"
+                                                Text="pcs"
+                                                TextColor="{StaticResource PrimaryDarkText}" />
+                                        </HorizontalStackLayout>
 
-                                    <HorizontalStackLayout Spacing="8">
-                                        <Image HorizontalOptions="Center">
-                                            <Image.Source>
-                                                <FontImageSource
-                                                    FontFamily="MaterialSharp"
-                                                    Glyph="{x:Static m:MaterialSharp.Check_circle}"
-                                                    Size="25"
-                                                    Color="{StaticResource Primary}" />
-                                            </Image.Source>
-                                        </Image>
-                                        <Label
-                                            FontSize="{OnPlatform Android=22,
-                                                                  WinUI=14}"
-                                            Text="Chicken"
-                                            TextColor="{StaticResource PrimaryDarkText}" />
-                                        <Label
-                                            FontSize="{OnPlatform Android=22,
-                                                                  WinUI=14}"
-                                            Text="1"
-                                            TextColor="{StaticResource PrimaryDarkText}" />
-                                        <Label
-                                            FontSize="{OnPlatform Android=22,
-                                                                  WinUI=14}"
-                                            Text="pcs"
-                                            TextColor="{StaticResource PrimaryDarkText}" />
-                                    </HorizontalStackLayout>
+                                        <HorizontalStackLayout Spacing="8">
+                                            <Image HorizontalOptions="Center">
+                                                <Image.Source>
+                                                    <FontImageSource
+                                                        FontFamily="MaterialSharp"
+                                                        Glyph="{x:Static m:MaterialSharp.Check_circle}"
+                                                        Size="25"
+                                                        Color="{StaticResource Primary}" />
+                                                </Image.Source>
+                                            </Image>
+                                            <Label
+                                                FontSize="{OnPlatform Android=22,
+                                                                      WinUI=14}"
+                                                Text="Chicken"
+                                                TextColor="{StaticResource PrimaryDarkText}" />
+                                            <Label
+                                                FontSize="{OnPlatform Android=22,
+                                                                      WinUI=14}"
+                                                Text="1"
+                                                TextColor="{StaticResource PrimaryDarkText}" />
+                                            <Label
+                                                FontSize="{OnPlatform Android=22,
+                                                                      WinUI=14}"
+                                                Text="pcs"
+                                                TextColor="{StaticResource PrimaryDarkText}" />
+                                        </HorizontalStackLayout>
 
-                                    <HorizontalStackLayout Spacing="8">
-                                        <Image HorizontalOptions="Center">
-                                            <Image.Source>
-                                                <FontImageSource
-                                                    FontFamily="MaterialSharp"
-                                                    Glyph="{x:Static m:MaterialSharp.Check_circle}"
-                                                    Size="25"
-                                                    Color="{StaticResource Primary}" />
-                                            </Image.Source>
-                                        </Image>
-                                        <Label
-                                            FontSize="{OnPlatform Android=22,
-                                                                  WinUI=14}"
-                                            Text="Chicken"
-                                            TextColor="{StaticResource PrimaryDarkText}" />
-                                        <Label
-                                            FontSize="{OnPlatform Android=22,
-                                                                  WinUI=14}"
-                                            Text="1"
-                                            TextColor="{StaticResource PrimaryDarkText}" />
-                                        <Label
-                                            FontSize="{OnPlatform Android=22,
-                                                                  WinUI=14}"
-                                            Text="pcs"
-                                            TextColor="{StaticResource PrimaryDarkText}" />
-                                    </HorizontalStackLayout>
+                                        <HorizontalStackLayout Spacing="8">
+                                            <Image HorizontalOptions="Center">
+                                                <Image.Source>
+                                                    <FontImageSource
+                                                        FontFamily="MaterialSharp"
+                                                        Glyph="{x:Static m:MaterialSharp.Check_circle}"
+                                                        Size="25"
+                                                        Color="{StaticResource Primary}" />
+                                                </Image.Source>
+                                            </Image>
+                                            <Label
+                                                FontSize="{OnPlatform Android=22,
+                                                                      WinUI=14}"
+                                                Text="Chicken"
+                                                TextColor="{StaticResource PrimaryDarkText}" />
+                                            <Label
+                                                FontSize="{OnPlatform Android=22,
+                                                                      WinUI=14}"
+                                                Text="1"
+                                                TextColor="{StaticResource PrimaryDarkText}" />
+                                            <Label
+                                                FontSize="{OnPlatform Android=22,
+                                                                      WinUI=14}"
+                                                Text="pcs"
+                                                TextColor="{StaticResource PrimaryDarkText}" />
+                                        </HorizontalStackLayout>
 
-                                    <HorizontalStackLayout Spacing="8">
-                                        <Image HorizontalOptions="Center">
-                                            <Image.Source>
-                                                <FontImageSource
-                                                    FontFamily="MaterialSharp"
-                                                    Glyph="{x:Static m:MaterialSharp.Check_circle}"
-                                                    Size="25"
-                                                    Color="{StaticResource Primary}" />
-                                            </Image.Source>
-                                        </Image>
-                                        <Label
-                                            FontSize="{OnPlatform Android=22,
-                                                                  WinUI=14}"
-                                            Text="Chicken"
-                                            TextColor="{StaticResource PrimaryDarkText}" />
-                                        <Label
-                                            FontSize="{OnPlatform Android=22,
-                                                                  WinUI=14}"
-                                            Text="1"
-                                            TextColor="{StaticResource PrimaryDarkText}" />
-                                        <Label
-                                            FontSize="{OnPlatform Android=22,
-                                                                  WinUI=14}"
-                                            Text="pcs"
-                                            TextColor="{StaticResource PrimaryDarkText}" />
-                                    </HorizontalStackLayout>
-                                </VerticalStackLayout>
+                                        <HorizontalStackLayout Spacing="8">
+                                            <Image HorizontalOptions="Center">
+                                                <Image.Source>
+                                                    <FontImageSource
+                                                        FontFamily="MaterialSharp"
+                                                        Glyph="{x:Static m:MaterialSharp.Check_circle}"
+                                                        Size="25"
+                                                        Color="{StaticResource Primary}" />
+                                                </Image.Source>
+                                            </Image>
+                                            <Label
+                                                FontSize="{OnPlatform Android=22,
+                                                                      WinUI=14}"
+                                                Text="Chicken"
+                                                TextColor="{StaticResource PrimaryDarkText}" />
+                                            <Label
+                                                FontSize="{OnPlatform Android=22,
+                                                                      WinUI=14}"
+                                                Text="1"
+                                                TextColor="{StaticResource PrimaryDarkText}" />
+                                            <Label
+                                                FontSize="{OnPlatform Android=22,
+                                                                      WinUI=14}"
+                                                Text="pcs"
+                                                TextColor="{StaticResource PrimaryDarkText}" />
+                                        </HorizontalStackLayout>
+                                    </VerticalStackLayout>
+                                </toolkit:Expander>
+
+
+
 
                             </VerticalStackLayout>
 
