@@ -10,7 +10,7 @@
     Title="MAUIRecipeApp"
     Shell.FlyoutBehavior="Disabled">
 
-    <ShellContent ContentTemplate="{DataTemplate View:StartUpPageView}" Route="join" />
+    <ShellContent ContentTemplate="{DataTemplate View:StartUpPageView}" Route="startup" />
     <ShellContent ContentTemplate="{DataTemplate Auth:LoginPageView}" Route="login" />
     <ShellContent ContentTemplate="{DataTemplate Auth:SignUpPageView}" Route="signup" />
 

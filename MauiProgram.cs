@@ -3,6 +3,8 @@ using CommunityToolkit.Maui;
 using UraniumUI;
 using MAUIRecipeApp.View;
 using MAUIRecipeApp.ViewModel;
+using MAUIRecipeApp.View.Auth;
+using MAUIRecipeApp.ViewModel.Auth;
 
 namespace MAUIRecipeApp
 {
@@ -27,8 +29,14 @@ namespace MAUIRecipeApp
     		builder.Logging.AddDebug();
 #endif
 
-            builder.Services.AddSingleton<StartUpPageView>();
-            builder.Services.AddSingleton<StartUpPageViewModel>();
+            builder.Services.AddTransient<StartUpPageView>();
+            builder.Services.AddTransient<StartUpPageViewModel>();
+
+            builder.Services.AddTransient<LoginPageView>();
+            builder.Services.AddTransient<LoginPageViewModel>();
+
+            builder.Services.AddTransient<SignUpPageView>();
+            builder.Services.AddTransient<SignUpPageViewModel>();
 
             return builder.Build();
         }
