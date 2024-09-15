@@ -7,6 +7,8 @@ using MAUIRecipeApp.View.Auth;
 using MAUIRecipeApp.ViewModel.Auth;
 using MAUIRecipeApp.View.UserView;
 using MAUIRecipeApp.ViewModel.UserView;
+using Microsoft.Extensions.Configuration;
+using System.Reflection;
 
 namespace MAUIRecipeApp
 {
@@ -15,6 +17,17 @@ namespace MAUIRecipeApp
         public static MauiApp CreateMauiApp()
         {
             var builder = MauiApp.CreateBuilder();
+
+            // Đọc tệp appsettings.json
+            var a = Assembly.GetExecutingAssembly();
+            using var stream = a.GetManifestResourceStream("MAUIRecipeApp.appsettings.json");
+            var config = new ConfigurationBuilder()
+                            .AddJsonStream(stream)
+                            .Build();
+
+            // Đăng ký cấu hình vào DI container
+            builder.Configuration.AddConfiguration(config);
+
             builder
                 .UseMauiApp<App>()
                 .UseMauiCommunityToolkit()
