@@ -25,6 +25,8 @@ namespace MAUIRecipeApp
                             .AddJsonStream(stream)
                             .Build();
 
+            // Đăng ký IConfiguration
+            builder.Services.AddSingleton<IConfiguration>(config);
             // Đăng ký cấu hình vào DI container
             builder.Configuration.AddConfiguration(config);
 

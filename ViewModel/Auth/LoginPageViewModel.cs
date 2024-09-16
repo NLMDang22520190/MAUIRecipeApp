@@ -1,15 +1,32 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using IdentityModel.Client;
+using IdentityModel.OidcClient;
+using MAUIRecipeApp.Models;
+using MAUIRecipeApp.Service;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Diagnostics;
+using System.Net.Http.Headers;
+using System.Text.Json;
 using System.Threading.Tasks;
+
 
 namespace MAUIRecipeApp.ViewModel.Auth
 {
     public partial class LoginPageViewModel : ObservableObject
     {
+        private readonly IConfiguration _configuration;
+        
+
+        public LoginPageViewModel(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
+
         [RelayCommand]
         private async Task SignUp()
         {
@@ -17,17 +34,24 @@ namespace MAUIRecipeApp.ViewModel.Auth
         }
 
         [RelayCommand]
-
         private async Task ForgotPassword()
         {
             await Shell.Current.GoToAsync("//forgotpass");
         }
 
         [RelayCommand]
-
         private async Task Login()
         {
             await Shell.Current.GoToAsync("//home");
         }
+
+
+
+
+        #region GoogleSignIn
+
+
+     
+        #endregion
     }
 }
