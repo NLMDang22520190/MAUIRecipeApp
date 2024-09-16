@@ -3,8 +3,10 @@
     x:Class="MAUIRecipeApp.View.UserView.HomePageView"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:fa="clr-namespace:UraniumUI.Icons.FontAwesome;assembly=UraniumUI.Icons.FontAwesome"
     xmlns:m="clr-namespace:UraniumUI.Icons.MaterialSymbols;assembly=UraniumUI.Icons.MaterialSymbols"
     xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
+    xmlns:models="clr-namespace:MAUIRecipeApp.Models"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     xmlns:viewmodel="clr-namespace:MAUIRecipeApp.ViewModel.UserView"
     Title=""
@@ -60,7 +62,7 @@
 
             </VerticalStackLayout>
 
-
+            <!--  Food Types  -->
             <VerticalStackLayout Spacing="8">
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -87,28 +89,21 @@
                 </Grid>
 
                 <ScrollView Orientation="Horizontal">
-                    <HorizontalStackLayout Spacing="8">
-                        <Button
-                            BackgroundColor="Transparent"
-                            BorderColor="{StaticResource Primary}"
-                            HeightRequest="50"
-                            WidthRequest="125" />
-                        <Button
-                            BackgroundColor="Transparent"
-                            BorderColor="{StaticResource Primary}"
-                            HeightRequest="50"
-                            WidthRequest="125" />
-                        <Button
-                            BackgroundColor="Transparent"
-                            BorderColor="{StaticResource Primary}"
-                            HeightRequest="50"
-                            WidthRequest="125" />
-                        <Button
-                            BackgroundColor="Transparent"
-                            BorderColor="{StaticResource Primary}"
-                            HeightRequest="50"
-                            WidthRequest="125" />
-                    </HorizontalStackLayout>
+                    <CollectionView ItemsLayout="HorizontalList" ItemsSource="{Binding FoodRecipeTypes}">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="models:FoodRecipeType">
+                                <Button
+                                    Margin="0,0,8,0"
+                                    BackgroundColor="Transparent"
+                                    BorderColor="{StaticResource Primary}"
+                                    HeightRequest="50"
+                                    Text="{Binding FoodTypeName}"
+                                    TextColor="{StaticResource PrimaryDarkText}"
+                                    WidthRequest="130" />
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+
                 </ScrollView>
             </VerticalStackLayout>
 
@@ -139,8 +134,68 @@
                         TextColor="{StaticResource Primary}" />
                 </Grid>
 
+                <CollectionView ItemsLayout="VerticalGrid,2 " ItemsSource="{Binding FoodRecipes}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="models:FoodRecipe">
+                            <Grid Padding="8">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="100" />
+                                    <RowDefinition Height="75" />
+                                </Grid.RowDefinitions>
 
-                <FlexLayout JustifyContent="SpaceBetween" Wrap="Wrap">
+
+                                <ImageButton
+                                    Grid.Row="0"
+                                    Aspect="Fill"
+                                    Command="{Binding Path=FoodDetailCommand, Source={RelativeSource AncestorType={x:Type viewmodel:HomePageViewModel}}}"
+                                    CornerRadius="20"
+                                    Source="https://superfoods.vn/wp-content/uploads/2023/07/banh-mi-hamburger-truyen-thong.jpeg" />
+
+                                <!--<Border Stroke="Transparent" StrokeShape="RoundRectangle 15">
+                                    <Image
+                                        Grid.Row="0"
+                                        Aspect="Fill"
+                                        Source="https://superfoods.vn/wp-content/uploads/2023/07/banh-mi-hamburger-truyen-thong.jpeg" />
+                                </Border>-->
+
+
+                                <VerticalStackLayout
+                                    Grid.Row="1"
+                                    Margin="8,8,0,0"
+                                    Spacing="8">
+                                    <Label
+                                        FontSize="20"
+                                        Text="{Binding RecipeName}"
+                                        TextColor="{StaticResource PrimaryDarkText}" />
+                                    <HorizontalStackLayout Spacing="8">
+                                        <Label Text="{Binding Calories, StringFormat='{0} cals'}" TextColor="{StaticResource Gray300}" />
+                                        <Image>
+                                            <Image.Source>
+                                                <FontImageSource
+                                                    FontFamily="MaterialSharp"
+                                                    Glyph="{x:Static m:MaterialSharp.Circle}"
+                                                    Size="15"
+                                                    Color="{StaticResource Gray300}" />
+                                            </Image.Source>
+                                        </Image>
+                                        <Label Text="{Binding CookingTime, StringFormat='{0} mins'}" TextColor="{StaticResource Gray300}" />
+                                    </HorizontalStackLayout>
+                                </VerticalStackLayout>
+                            </Grid>
+                            <!--<Button
+                                BackgroundColor="Transparent"
+                                BorderColor="{StaticResource Primary}"
+                                CornerRadius="15"
+                                HeightRequest="175"
+                                Text="{Binding RecipeName}"
+                                TextColor="{StaticResource PrimaryDarkText}"
+                                WidthRequest="175" />-->
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+
+                <!--<FlexLayout JustifyContent="SpaceBetween" Wrap="Wrap">
 
                     <FlexLayout.Resources>
                         <Style TargetType="Button">
@@ -163,7 +218,7 @@
                     <Button BackgroundColor="Transparent" BorderColor="{StaticResource Primary}" />
                     <Button BackgroundColor="Transparent" BorderColor="{StaticResource Primary}" />
                     <Button BackgroundColor="Transparent" BorderColor="{StaticResource Primary}" />
-                </FlexLayout>
+                </FlexLayout>-->
 
                 <VerticalStackLayout />
 

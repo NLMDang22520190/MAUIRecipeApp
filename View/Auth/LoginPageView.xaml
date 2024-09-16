@@ -90,7 +90,6 @@
             </Label>
             <Button
                 BackgroundColor="#ff5842"
-                Command="{Binding SignInWithGoogleCommand}"
                 FontSize="18"
                 Text="Google"
                 TextColor="#FDFEFB">
