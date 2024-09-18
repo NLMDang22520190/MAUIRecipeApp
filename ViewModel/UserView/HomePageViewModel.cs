@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,9 +29,9 @@ namespace MAUIRecipeApp.ViewModel.UserView
 
 
         [RelayCommand]
-        public async Task FoodDetail()
+        public async Task FoodDetail(int Frid)
         {
-            await Shell.Current.GoToAsync("//fooddetail");
+            await Shell.Current.GoToAsync($"fooddetail?FRID={Frid}");
         }
 
         private void LoadItem()

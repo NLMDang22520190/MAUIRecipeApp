@@ -3,11 +3,17 @@
     x:Class="MAUIRecipeApp.View.UserView.FoodRecipePageView"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:dto="clr-namespace:MAUIRecipeApp.DTO"
     xmlns:m="clr-namespace:UraniumUI.Icons.MaterialSymbols;assembly=UraniumUI.Icons.MaterialSymbols"
     xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:viewmodel="clr-namespace:MAUIRecipeApp.ViewModel.UserView"
     Title=""
+    x:DataType="viewmodel:FoodRecipePageViewModel"
     Background="{StaticResource WhiteText}">
+    <Shell.BackButtonBehavior>
+        <BackButtonBehavior IsEnabled="False" IsVisible="False" />
+    </Shell.BackButtonBehavior>
     <Grid HorizontalOptions="{OnPlatform Android=Fill, WinUI=Center}">
         <Image
             HeightRequest="400"
@@ -34,8 +40,11 @@
                         <Button
                             Grid.Column="0"
                             Background="{StaticResource WhiteText}"
-                            HorizontalOptions="Start"
-                            StyleClass="ElevatedButton">
+                            BorderColor="{StaticResource PrimaryDarkText}"
+                            BorderWidth="0.1"
+                            Command="{Binding BackCommand}"
+                            HorizontalOptions="Start">
+
                             <Button.ImageSource>
                                 <FontImageSource
                                     FontFamily="MaterialSharp"
@@ -47,7 +56,6 @@
                             Grid.Column="1"
                             Background="Transparent"
                             HorizontalOptions="End"
-                            StyleClass="ElevatedButton"
                             VerticalOptions="Center">
                             <Button.ImageSource>
                                 <FontImageSource
@@ -78,13 +86,13 @@
                                 FontAttributes="Bold"
                                 FontSize="{OnPlatform Android=30,
                                                       WinUI=25}"
-                                Text="Food Name"
+                                Text="{Binding SelectedFoodRecipe.RecipeName}"
                                 TextColor="{StaticResource PrimaryDarkText}" />
 
                             <Label
                                 FontSize="{OnPlatform Android=25,
                                                       WinUI=16}"
-                                Text="Made by admin"
+                                Text="{Binding UploaderName, StringFormat='made by {0}'}"
                                 TextColor="{StaticResource Gray300}" />
 
                             <BoxView StyleClass="Divider" />
@@ -124,7 +132,7 @@
                                             FontAttributes="Bold"
                                             FontSize="20"
                                             HorizontalTextAlignment="Center"
-                                            Text="35"
+                                            Text="{Binding SelectedFoodRecipe.CookingTime}"
                                             TextColor="White" />
                                         <Label
                                             FontSize="16"
@@ -158,7 +166,7 @@
                                             FontAttributes="Bold"
                                             FontSize="20"
                                             HorizontalTextAlignment="Center"
-                                            Text="04"
+                                            Text="{Binding SelectedFoodRecipe.Portion, StringFormat='{}{0:D2}'}"
                                             TextColor="White" />
                                         <Label
                                             FontSize="16"
@@ -192,7 +200,7 @@
                                             FontAttributes="Bold"
                                             FontSize="20"
                                             HorizontalTextAlignment="Center"
-                                            Text="104"
+                                            Text="{Binding SelectedFoodRecipe.Calories}"
                                             TextColor="White" />
                                         <Label
                                             FontSize="16"
@@ -226,7 +234,7 @@
                                             FontAttributes="Bold"
                                             FontSize="20"
                                             HorizontalTextAlignment="Center"
-                                            Text="Easy"
+                                            Text="{Binding SelectedFoodRecipe.DifficultyLevel}"
                                             TextColor="White" />
                                         <Label
                                             FontSize="16"
@@ -239,17 +247,18 @@
 
                             <BoxView StyleClass="Divider" />
 
+                            <!--  Ingredients  -->
                             <VerticalStackLayout Spacing="8">
-                                <toolkit:Expander IsExpanded="True" >
+                                <toolkit:Expander IsExpanded="True">
                                     <toolkit:Expander.Header>
                                         <HorizontalStackLayout Spacing="8">
                                             <Label
-                                                VerticalOptions="Center"
                                                 FontAttributes="Bold"
                                                 FontSize="{OnPlatform Android=25,
                                                                       WinUI=16}"
                                                 Text="Ingredients"
-                                                TextColor="{StaticResource PrimaryDarkText}" />
+                                                TextColor="{StaticResource PrimaryDarkText}"
+                                                VerticalOptions="Center" />
                                             <Image VerticalOptions="Center">
                                                 <Image.Source>
                                                     <FontImageSource
@@ -262,196 +271,39 @@
                                         </HorizontalStackLayout>
 
                                     </toolkit:Expander.Header>
-                                    <VerticalStackLayout Margin="8,8,0,0" Spacing="8">
-                                        <HorizontalStackLayout Spacing="8">
-                                            <Image HorizontalOptions="Center">
-                                                <Image.Source>
-                                                    <FontImageSource
-                                                        FontFamily="MaterialSharp"
-                                                        Glyph="{x:Static m:MaterialSharp.Check_circle}"
-                                                        Size="25"
-                                                        Color="{StaticResource Primary}" />
-                                                </Image.Source>
-                                            </Image>
-                                            <Label
-                                                FontSize="{OnPlatform Android=22,
-                                                                      WinUI=14}"
-                                                Text="Chicken"
-                                                TextColor="{StaticResource PrimaryDarkText}" />
-                                            <Label
-                                                FontSize="{OnPlatform Android=22,
-                                                                      WinUI=14}"
-                                                Text="1"
-                                                TextColor="{StaticResource PrimaryDarkText}" />
-                                            <Label
-                                                FontSize="{OnPlatform Android=22,
-                                                                      WinUI=14}"
-                                                Text="pcs"
-                                                TextColor="{StaticResource PrimaryDarkText}" />
-                                        </HorizontalStackLayout>
+                                    <CollectionView ItemsSource="{Binding IngredientDetails}">
+                                        <CollectionView.ItemTemplate>
+                                            <DataTemplate x:DataType="dto:IngredientDetailDto">
+                                                <HorizontalStackLayout Margin="8,8,0,0" Spacing="8">
+                                                    <Image HorizontalOptions="Center">
+                                                        <Image.Source>
+                                                            <FontImageSource
+                                                                FontFamily="MaterialSharp"
+                                                                Glyph="{x:Static m:MaterialSharp.Check_circle}"
+                                                                Size="25"
+                                                                Color="{StaticResource Primary}" />
+                                                        </Image.Source>
+                                                    </Image>
+                                                    <Label
+                                                        FontSize="{OnPlatform Android=22,
+                                                                              WinUI=14}"
+                                                        Text="{Binding IngredientName}"
+                                                        TextColor="{StaticResource PrimaryDarkText}" />
+                                                    <Label
+                                                        FontSize="{OnPlatform Android=22,
+                                                                              WinUI=14}"
+                                                        Text="{Binding Quantity}"
+                                                        TextColor="{StaticResource PrimaryDarkText}" />
+                                                    <Label
+                                                        FontSize="{OnPlatform Android=22,
+                                                                              WinUI=14}"
+                                                        Text="{Binding MeasurementUnit}"
+                                                        TextColor="{StaticResource PrimaryDarkText}" />
+                                                </HorizontalStackLayout>
+                                            </DataTemplate>
+                                        </CollectionView.ItemTemplate>
+                                    </CollectionView>
 
-                                        <HorizontalStackLayout Spacing="8">
-                                            <Image HorizontalOptions="Center">
-                                                <Image.Source>
-                                                    <FontImageSource
-                                                        FontFamily="MaterialSharp"
-                                                        Glyph="{x:Static m:MaterialSharp.Check_circle}"
-                                                        Size="25"
-                                                        Color="{StaticResource Primary}" />
-                                                </Image.Source>
-                                            </Image>
-                                            <Label
-                                                FontSize="{OnPlatform Android=22,
-                                                                      WinUI=14}"
-                                                Text="Chicken"
-                                                TextColor="{StaticResource PrimaryDarkText}" />
-                                            <Label
-                                                FontSize="{OnPlatform Android=22,
-                                                                      WinUI=14}"
-                                                Text="1"
-                                                TextColor="{StaticResource PrimaryDarkText}" />
-                                            <Label
-                                                FontSize="{OnPlatform Android=22,
-                                                                      WinUI=14}"
-                                                Text="pcs"
-                                                TextColor="{StaticResource PrimaryDarkText}" />
-                                        </HorizontalStackLayout>
-
-                                        <HorizontalStackLayout Spacing="8">
-                                            <Image HorizontalOptions="Center">
-                                                <Image.Source>
-                                                    <FontImageSource
-                                                        FontFamily="MaterialSharp"
-                                                        Glyph="{x:Static m:MaterialSharp.Check_circle}"
-                                                        Size="25"
-                                                        Color="{StaticResource Primary}" />
-                                                </Image.Source>
-                                            </Image>
-                                            <Label
-                                                FontSize="{OnPlatform Android=22,
-                                                                      WinUI=14}"
-                                                Text="Chicken"
-                                                TextColor="{StaticResource PrimaryDarkText}" />
-                                            <Label
-                                                FontSize="{OnPlatform Android=22,
-                                                                      WinUI=14}"
-                                                Text="1"
-                                                TextColor="{StaticResource PrimaryDarkText}" />
-                                            <Label
-                                                FontSize="{OnPlatform Android=22,
-                                                                      WinUI=14}"
-                                                Text="pcs"
-                                                TextColor="{StaticResource PrimaryDarkText}" />
-                                        </HorizontalStackLayout>
-
-                                        <HorizontalStackLayout Spacing="8">
-                                            <Image HorizontalOptions="Center">
-                                                <Image.Source>
-                                                    <FontImageSource
-                                                        FontFamily="MaterialSharp"
-                                                        Glyph="{x:Static m:MaterialSharp.Check_circle}"
-                                                        Size="25"
-                                                        Color="{StaticResource Primary}" />
-                                                </Image.Source>
-                                            </Image>
-                                            <Label
-                                                FontSize="{OnPlatform Android=22,
-                                                                      WinUI=14}"
-                                                Text="Chicken"
-                                                TextColor="{StaticResource PrimaryDarkText}" />
-                                            <Label
-                                                FontSize="{OnPlatform Android=22,
-                                                                      WinUI=14}"
-                                                Text="1"
-                                                TextColor="{StaticResource PrimaryDarkText}" />
-                                            <Label
-                                                FontSize="{OnPlatform Android=22,
-                                                                      WinUI=14}"
-                                                Text="pcs"
-                                                TextColor="{StaticResource PrimaryDarkText}" />
-                                        </HorizontalStackLayout>
-
-                                        <HorizontalStackLayout Spacing="8">
-                                            <Image HorizontalOptions="Center">
-                                                <Image.Source>
-                                                    <FontImageSource
-                                                        FontFamily="MaterialSharp"
-                                                        Glyph="{x:Static m:MaterialSharp.Check_circle}"
-                                                        Size="25"
-                                                        Color="{StaticResource Primary}" />
-                                                </Image.Source>
-                                            </Image>
-                                            <Label
-                                                FontSize="{OnPlatform Android=22,
-                                                                      WinUI=14}"
-                                                Text="Chicken"
-                                                TextColor="{StaticResource PrimaryDarkText}" />
-                                            <Label
-                                                FontSize="{OnPlatform Android=22,
-                                                                      WinUI=14}"
-                                                Text="1"
-                                                TextColor="{StaticResource PrimaryDarkText}" />
-                                            <Label
-                                                FontSize="{OnPlatform Android=22,
-                                                                      WinUI=14}"
-                                                Text="pcs"
-                                                TextColor="{StaticResource PrimaryDarkText}" />
-                                        </HorizontalStackLayout>
-
-                                        <HorizontalStackLayout Spacing="8">
-                                            <Image HorizontalOptions="Center">
-                                                <Image.Source>
-                                                    <FontImageSource
-                                                        FontFamily="MaterialSharp"
-                                                        Glyph="{x:Static m:MaterialSharp.Check_circle}"
-                                                        Size="25"
-                                                        Color="{StaticResource Primary}" />
-                                                </Image.Source>
-                                            </Image>
-                                            <Label
-                                                FontSize="{OnPlatform Android=22,
-                                                                      WinUI=14}"
-                                                Text="Chicken"
-                                                TextColor="{StaticResource PrimaryDarkText}" />
-                                            <Label
-                                                FontSize="{OnPlatform Android=22,
-                                                                      WinUI=14}"
-                                                Text="1"
-                                                TextColor="{StaticResource PrimaryDarkText}" />
-                                            <Label
-                                                FontSize="{OnPlatform Android=22,
-                                                                      WinUI=14}"
-                                                Text="pcs"
-                                                TextColor="{StaticResource PrimaryDarkText}" />
-                                        </HorizontalStackLayout>
-
-                                        <HorizontalStackLayout Spacing="8">
-                                            <Image HorizontalOptions="Center">
-                                                <Image.Source>
-                                                    <FontImageSource
-                                                        FontFamily="MaterialSharp"
-                                                        Glyph="{x:Static m:MaterialSharp.Check_circle}"
-                                                        Size="25"
-                                                        Color="{StaticResource Primary}" />
-                                                </Image.Source>
-                                            </Image>
-                                            <Label
-                                                FontSize="{OnPlatform Android=22,
-                                                                      WinUI=14}"
-                                                Text="Chicken"
-                                                TextColor="{StaticResource PrimaryDarkText}" />
-                                            <Label
-                                                FontSize="{OnPlatform Android=22,
-                                                                      WinUI=14}"
-                                                Text="1"
-                                                TextColor="{StaticResource PrimaryDarkText}" />
-                                            <Label
-                                                FontSize="{OnPlatform Android=22,
-                                                                      WinUI=14}"
-                                                Text="pcs"
-                                                TextColor="{StaticResource PrimaryDarkText}" />
-                                        </HorizontalStackLayout>
-                                    </VerticalStackLayout>
                                 </toolkit:Expander>
 
 

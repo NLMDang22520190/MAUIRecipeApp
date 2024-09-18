@@ -148,6 +148,7 @@
                                     Grid.Row="0"
                                     Aspect="Fill"
                                     Command="{Binding Path=FoodDetailCommand, Source={RelativeSource AncestorType={x:Type viewmodel:HomePageViewModel}}}"
+                                    CommandParameter="{Binding Frid}"
                                     CornerRadius="20"
                                     Source="https://superfoods.vn/wp-content/uploads/2023/07/banh-mi-hamburger-truyen-thong.jpeg" />
 
@@ -182,43 +183,13 @@
                                     </HorizontalStackLayout>
                                 </VerticalStackLayout>
                             </Grid>
-                            <!--<Button
-                                BackgroundColor="Transparent"
-                                BorderColor="{StaticResource Primary}"
-                                CornerRadius="15"
-                                HeightRequest="175"
-                                Text="{Binding RecipeName}"
-                                TextColor="{StaticResource PrimaryDarkText}"
-                                WidthRequest="175" />-->
+
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>
 
 
-                <!--<FlexLayout JustifyContent="SpaceBetween" Wrap="Wrap">
 
-                    <FlexLayout.Resources>
-                        <Style TargetType="Button">
-                            <Setter Property="Margin" Value="0,0,0,8 " />
-                            <Setter Property="CornerRadius" Value="15" />
-                            <Setter Property="HeightRequest" Value="175" />
-                            <Setter Property="WidthRequest" Value="175" />
-
-                        </Style>
-                    </FlexLayout.Resources>
-
-                    <Button
-                        BackgroundColor="Transparent"
-                        BorderColor="{StaticResource Primary}"
-                        Command="{Binding FoodDetailCommand}" />
-                    <Button BackgroundColor="Transparent" BorderColor="{StaticResource Primary}" />
-                    <Button BackgroundColor="Transparent" BorderColor="{StaticResource Primary}" />
-                    <Button BackgroundColor="Transparent" BorderColor="{StaticResource Primary}" />
-                    <Button BackgroundColor="Transparent" BorderColor="{StaticResource Primary}" />
-                    <Button BackgroundColor="Transparent" BorderColor="{StaticResource Primary}" />
-                    <Button BackgroundColor="Transparent" BorderColor="{StaticResource Primary}" />
-                    <Button BackgroundColor="Transparent" BorderColor="{StaticResource Primary}" />
-                </FlexLayout>-->
 
                 <VerticalStackLayout />
 

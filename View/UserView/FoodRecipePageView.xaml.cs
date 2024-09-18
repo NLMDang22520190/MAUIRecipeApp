@@ -1,9 +1,22 @@
+using MAUIRecipeApp.ViewModel.UserView;
+
 namespace MAUIRecipeApp.View.UserView;
 
 public partial class FoodRecipePageView : ContentPage
 {
-	public FoodRecipePageView()
+	public FoodRecipePageView(FoodRecipePageViewModel vm)
 	{
 		InitializeComponent();
-	}
+		BindingContext = vm;
+		
+    }
+
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+        if (BindingContext is FoodRecipePageViewModel viewModel)
+        {
+            viewModel.OnAppearing();
+        }
+    }
 }

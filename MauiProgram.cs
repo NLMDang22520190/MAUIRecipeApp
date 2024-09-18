@@ -73,6 +73,9 @@ namespace MAUIRecipeApp
             #region UserView
             builder.Services.AddTransient<HomePageView>();
             builder.Services.AddTransient<HomePageViewModel>();
+
+            builder.Services.AddTransient<FoodRecipePageView>();
+            builder.Services.AddTransient<FoodRecipePageViewModel>();
             #endregion
 
             return builder.Build();

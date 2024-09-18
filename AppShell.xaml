@@ -18,7 +18,6 @@
     <ShellContent ContentTemplate="{DataTemplate Auth:VerifyCodePageView}" Route="verifycode" />
     <ShellContent ContentTemplate="{DataTemplate Auth:NewPasswordPageView}" Route="newpassword" />
     <ShellContent ContentTemplate="{DataTemplate UserView:HomePageView}" Route="home" />
-    <ShellContent ContentTemplate="{DataTemplate UserView:FoodRecipePageView}" Route="fooddetail" />
 
 
 
