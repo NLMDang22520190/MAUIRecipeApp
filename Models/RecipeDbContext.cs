@@ -58,9 +58,9 @@ public partial class RecipeDbContext : DbContext
                 .HasColumnName("isDeleted");
             entity.Property(e => e.Uid).HasColumnName("UID");
 
-            entity.HasOne(d => d.Fr).WithMany(p => p.FoodRatings)
-                .HasForeignKey(d => d.Frid)
-                .HasConstraintName("FK__FoodRating__FRID__7C4F7684");
+            //entity.HasOne(d => d.Fr).WithMany(p => p.FoodRatings)
+            //    .HasForeignKey(d => d.Frid)
+            //    .HasConstraintName("FK__FoodRating__FRID__7C4F7684");
 
             entity.HasOne(d => d.UidNavigation).WithMany(p => p.FoodRatings)
                 .HasForeignKey(d => d.Uid)
@@ -80,9 +80,9 @@ public partial class RecipeDbContext : DbContext
             entity.Property(e => e.RecipeName).HasMaxLength(255);
             entity.Property(e => e.UploaderUid).HasColumnName("UploaderUID");
 
-            entity.HasOne(d => d.UploaderU).WithMany(p => p.FoodRecipes)
-                .HasForeignKey(d => d.UploaderUid)
-                .HasConstraintName("FK__FoodRecip__Uploa__5FB337D6");
+            //entity.HasOne(d => d.UploaderU).WithMany(p => p.FoodRecipes)
+            //    .HasForeignKey(d => d.UploaderUid)
+            //    .HasConstraintName("FK__FoodRecip__Uploa__5FB337D6");
         });
 
         modelBuilder.Entity<FoodRecipeType>(entity =>
@@ -106,10 +106,10 @@ public partial class RecipeDbContext : DbContext
                 .HasDefaultValue(false)
                 .HasColumnName("isDeleted");
 
-            entity.HasOne(d => d.Fr).WithMany(p => p.FoodRecipeTypeMappings)
-                .HasForeignKey(d => d.Frid)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__FoodRecipe__FRID__6EF57B66");
+            //entity.HasOne(d => d.Fr).WithMany(p => p.FoodRecipeTypeMappings)
+            //    .HasForeignKey(d => d.Frid)
+            //    .OnDelete(DeleteBehavior.ClientSetNull)
+            //    .HasConstraintName("FK__FoodRecipe__FRID__6EF57B66");
 
             entity.HasOne(d => d.Tof).WithMany(p => p.FoodRecipeTypeMappings)
                 .HasForeignKey(d => d.Tofid)
@@ -140,10 +140,10 @@ public partial class RecipeDbContext : DbContext
                 .HasColumnName("isDeleted");
             entity.Property(e => e.Quantity).HasColumnType("decimal(10, 2)");
 
-            entity.HasOne(d => d.Fr).WithMany(p => p.RecipeIngredients)
-                .HasForeignKey(d => d.Frid)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__RecipeIngr__FRID__76969D2E");
+            //entity.HasOne(d => d.Fr).WithMany(p => p.RecipeIngredients)
+            //    .HasForeignKey(d => d.Frid)
+            //    .OnDelete(DeleteBehavior.ClientSetNull)
+            //    .HasConstraintName("FK__RecipeIngr__FRID__76969D2E");
 
             entity.HasOne(d => d.IidNavigation).WithMany(p => p.RecipeIngredients)
                 .HasForeignKey(d => d.Iid)
@@ -164,9 +164,9 @@ public partial class RecipeDbContext : DbContext
                 .HasMaxLength(255)
                 .HasColumnName("VideoURL");
 
-            entity.HasOne(d => d.Fr).WithMany(p => p.RecipeVideos)
-                .HasForeignKey(d => d.Frid)
-                .HasConstraintName("FK__RecipeVide__FRID__02084FDA");
+            //entity.HasOne(d => d.Fr).WithMany(p => p.RecipeVideos)
+            //    .HasForeignKey(d => d.Frid)
+            //    .HasConstraintName("FK__RecipeVide__FRID__02084FDA");
         });
 
         modelBuilder.Entity<User>(entity =>
@@ -213,10 +213,10 @@ public partial class RecipeDbContext : DbContext
                 .HasDefaultValue(false)
                 .HasColumnName("isDeleted");
 
-            entity.HasOne(d => d.Fr).WithMany(p => p.UserSavedRecipes)
-                .HasForeignKey(d => d.Frid)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__UserSavedR__FRID__6477ECF3");
+            //entity.HasOne(d => d.Fr).WithMany(p => p.UserSavedRecipes)
+            //    .HasForeignKey(d => d.Frid)
+            //    .OnDelete(DeleteBehavior.ClientSetNull)
+            //    .HasConstraintName("FK__UserSavedR__FRID__6477ECF3");
 
             entity.HasOne(d => d.UidNavigation).WithMany(p => p.UserSavedRecipes)
                 .HasForeignKey(d => d.Uid)
