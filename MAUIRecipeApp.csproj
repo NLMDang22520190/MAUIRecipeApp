@@ -121,4 +121,10 @@
 			  </MauiXaml>
 	</ItemGroup>
 
+	<ItemGroup>
+	  <None Update="recipeapp-3c612-firebase-adminsdk-blmv2-aabcd1703d.json">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	</ItemGroup>
+
 </Project>

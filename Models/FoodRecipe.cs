@@ -32,5 +32,8 @@ public class FoodRecipe
     public int? UploaderUid { get; set; }
 
     [FirestoreProperty]
+    public string? ImageUrl { get; set; }
+
+    [FirestoreProperty]
     public bool? IsDeleted { get; set; } = false;
 }
