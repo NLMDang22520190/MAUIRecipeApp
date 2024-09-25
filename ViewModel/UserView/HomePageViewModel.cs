@@ -22,11 +22,13 @@ namespace MAUIRecipeApp.ViewModel.UserView
         [ObservableProperty]
         ObservableCollection<FoodRecipe> foodRecipes = new ObservableCollection<FoodRecipe>();
 
-        private FirestoreDb db;
+        private readonly FirestoreService _firestoreService;
+        private readonly FirestoreDb db;
 
-        public HomePageViewModel()
+        public HomePageViewModel(FirestoreService firestoreService)
         {
-            db = FirestoreService.Instance.Db;
+            _firestoreService = firestoreService;
+            db = _firestoreService.Db;
             if (db == null)
             {
                 Debug.WriteLine("Firestore DB is null");

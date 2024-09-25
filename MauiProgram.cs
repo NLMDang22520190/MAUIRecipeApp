@@ -9,6 +9,7 @@ using MAUIRecipeApp.View.UserView;
 using MAUIRecipeApp.ViewModel.UserView;
 using Microsoft.Extensions.Configuration;
 using System.Reflection;
+using MAUIRecipeApp.Service;
 
 namespace MAUIRecipeApp
 {
@@ -46,6 +47,9 @@ namespace MAUIRecipeApp
 #if DEBUG
     		builder.Logging.AddDebug();
 #endif
+
+            // Đăng ký FirestoreService là Singleton
+            builder.Services.AddSingleton(FirestoreService.Instance);
 
             builder.Services.AddTransient<StartUpPageView>();
             builder.Services.AddTransient<StartUpPageViewModel>();

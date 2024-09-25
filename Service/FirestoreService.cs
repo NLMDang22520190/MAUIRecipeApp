@@ -20,19 +20,48 @@ namespace MAUIRecipeApp.Service
         // Private constructor để ngăn chặn khởi tạo từ bên ngoài
         private FirestoreService()
         {
-            //var pathToServiceAccountKey = "C:\\Users\\TEKATOJI\\source\\repos\\NLMDang22520190\\MAUIRecipeApp\\recipeapp-3c612-firebase-adminsdk-blmv2-aabcd1703d.json";
-
-            //var credential = GoogleCredential.FromFile(pathToServiceAccountKey);
-            //FirestoreDb db = FirestoreDb.Create("recipeapp-3c612", new FirestoreClientBuilder { ChannelCredentials = credential.ToChannelCredentials() }.Build());
-
-            // Lấy đường dẫn tuyệt đối đến file Firebase Admin SDK JSON
-
             try
             {
-                string basePath = AppDomain.CurrentDomain.BaseDirectory;
+                string credentialsPath;
 
-                // Kết hợp đường dẫn cơ bản với tên file (giả sử file nằm trong thư mục gốc của dự án)
-                string credentialsPath = Path.Combine(basePath, "recipeapp-3c612-firebase-adminsdk-blmv2-aabcd1703d.json");
+                if (DeviceInfo.Platform == DevicePlatform.Android)
+                {
+                    credentialsPath = Path.Combine(FileSystem.AppDataDirectory, "recipeapp-3c612-firebase-adminsdk-blmv2-aabcd1703d.json");
+
+                    // Debugging output to check the file existence
+                    Debug.WriteLine("Attempting to open file from app package...");
+
+                    Stream stream = null;
+                    try
+                    {
+                        stream = FileSystem.OpenAppPackageFileAsync("recipeapp-3c612-firebase-adminsdk-blmv2-aabcd1703d.json").Result;
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.WriteLine($"Error accessing file: {ex.Message}");
+                        return; // Exit if there was an error accessing the file
+                    }
+
+                    // Check if the stream is null
+                    if (stream == null)
+                    {
+                        Debug.WriteLine("Error: File not found in app package.");
+                        return; // Exit if the file doesn't exist
+                    }
+
+                    using (var fileStream = File.Create(credentialsPath))
+                    {
+                        stream.CopyTo(fileStream);
+                    }
+                }
+                else if (DeviceInfo.Platform == DevicePlatform.WinUI || DeviceInfo.Platform == DevicePlatform.MacCatalyst)
+                {
+                    credentialsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "recipeapp-3c612-firebase-adminsdk-blmv2-aabcd1703d.json");
+                }
+                else
+                {
+                    throw new PlatformNotSupportedException("This platform is not supported.");
+                }
 
                 // Kiểm tra file có tồn tại hay không
                 if (!File.Exists(credentialsPath))
@@ -40,14 +69,13 @@ namespace MAUIRecipeApp.Service
                     throw new FileNotFoundException("Firebase Admin SDK JSON file not found.", credentialsPath);
                 }
 
-                // Sử dụng đường dẫn đến file JSON để thiết lập Firestore
                 Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", credentialsPath);
                 _db = FirestoreDb.Create("recipeapp-3c612");
             }
-            catch (Exception ex) { 
-                Debug.WriteLine("Error: " +  ex.Message);
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Error: " + ex.Message);
             }
-           
         }
 
         // Phương thức để lấy instance duy nhất của FirestoreService
