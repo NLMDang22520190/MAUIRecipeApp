@@ -8,7 +8,7 @@ namespace MAUIRecipeApp.Models;
 public class FoodRecipe
 {
     [FirestoreProperty]
-    public int Frid { get; set; }
+    public string Frid { get; set; }
 
     [FirestoreProperty]
     public string RecipeName { get; set; } = null!;
@@ -32,7 +32,7 @@ public class FoodRecipe
     public int? UploaderUid { get; set; }
 
     [FirestoreProperty]
-    public string? ImageUrl { get; set; }
+    public string? ImgUrl { get; set; }
 
     [FirestoreProperty]
     public bool? IsDeleted { get; set; } = false;

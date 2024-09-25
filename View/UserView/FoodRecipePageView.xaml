@@ -16,8 +16,9 @@
     </Shell.BackButtonBehavior>
     <Grid HorizontalOptions="{OnPlatform Android=Fill, WinUI=Center}">
         <Image
+            Aspect="Fill"
             HeightRequest="400"
-            Source="cartoon_food4.png"
+            Source="{Binding SelectedFoodRecipe.ImgUrl}"
             VerticalOptions="Start"
             ZIndex="-1" />
         <ScrollView>

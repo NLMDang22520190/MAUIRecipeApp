@@ -1,6 +1,8 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Google.Cloud.Firestore;
 using MAUIRecipeApp.Models;
+using MAUIRecipeApp.Service;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -15,10 +17,10 @@ namespace MAUIRecipeApp.ViewModel.UserView
     public partial class HomePageViewModel : ObservableObject
     {
         [ObservableProperty]
-        ObservableCollection<FoodRecipeType> foodRecipeTypes;
+        ObservableCollection<FoodRecipeType> foodRecipeTypes = new ObservableCollection<FoodRecipeType>();
 
         [ObservableProperty]
-        ObservableCollection<FoodRecipe> foodRecipes;
+        ObservableCollection<FoodRecipe> foodRecipes = new ObservableCollection<FoodRecipe>();
 
         public HomePageViewModel()
         {
@@ -29,22 +31,57 @@ namespace MAUIRecipeApp.ViewModel.UserView
 
 
         [RelayCommand]
-        public async Task FoodDetail(int Frid)
+        public async Task FoodDetail(string Frid)
         {
             await Shell.Current.GoToAsync($"fooddetail?FRID={Frid}");
         }
 
         private void LoadItem()
         {
-            // Lọc các phần tử không bị xóa trong FoodRecipeTypes
-            FoodRecipeTypes = new ObservableCollection<FoodRecipeType>(
-                DataProvider.Ins.DB.FoodRecipeTypes.AsNoTracking()
-                .Where(item => (bool)!item.IsDeleted).ToList());
+            //// Lọc các phần tử không bị xóa trong FoodRecipeTypes
+            //FoodRecipeTypes = new ObservableCollection<FoodRecipeType>(
+            //    DataProvider.Ins.DB.FoodRecipeTypes.AsNoTracking()
+            //    .Where(item => (bool)!item.IsDeleted).ToList());
 
-            // Lọc các phần tử không bị xóa trong FoodRecipes
-            FoodRecipes = new ObservableCollection<FoodRecipe>(
-                DataProvider.Ins.DB.FoodRecipes.AsNoTracking()
-                .Where(item => (bool)!item.IsDeleted).ToList());
+            LoadFoodRecipes();
+        }
+
+        private async void LoadFoodRecipes()
+        {
+            var db = FirestoreService.Instance.Db; // Lấy FirestoreDb từ singleton service
+
+            // Truy vấn để lấy các mục có IsDeleted = false
+            CollectionReference recipesRef = db.Collection("FoodRecipes");
+            Query query = recipesRef.WhereEqualTo("IsDeleted", false);
+            QuerySnapshot snapshot = await query.GetSnapshotAsync();
+
+            foreach (DocumentSnapshot document in snapshot.Documents)
+            {
+                if (document.Exists)
+                {
+                    FoodRecipe recipe = document.ConvertTo<FoodRecipe>();
+                    recipe.Frid = document.Id; // Lấy FRID từ Document ID
+                    FoodRecipes.Add(recipe); // Thêm vào ObservableCollection
+                }
+            }
+        }
+
+        private async void LoadFoodRecipeTypes()
+        {
+            var db = FirestoreService.Instance.Db; // Lấy FirestoreDb từ singleton service
+            // Truy vấn để lấy các mục có IsDeleted = false
+            CollectionReference recipeTypesRef = db.Collection("FoodRecipeTypes");
+            Query query = recipeTypesRef.WhereEqualTo("IsDeleted", false);
+            QuerySnapshot snapshot = await query.GetSnapshotAsync();
+            foreach (DocumentSnapshot document in snapshot.Documents)
+            {
+                if (document.Exists)
+                {
+                    FoodRecipeType recipeType = document.ConvertTo<FoodRecipeType>();
+                    recipeType.Tofid = document.Id; // Lấy FRTID từ Document ID
+                    FoodRecipeTypes.Add(recipeType); // Thêm vào ObservableCollection
+                }
+            }
         }
     }
 }
