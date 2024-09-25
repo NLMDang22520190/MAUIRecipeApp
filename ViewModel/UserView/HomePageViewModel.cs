@@ -44,6 +44,7 @@ namespace MAUIRecipeApp.ViewModel.UserView
             //    .Where(item => (bool)!item.IsDeleted).ToList());
 
             LoadFoodRecipes();
+            LoadFoodRecipeTypes();
         }
 
         private async void LoadFoodRecipes()

@@ -111,10 +111,10 @@ public partial class RecipeDbContext : DbContext
             //    .OnDelete(DeleteBehavior.ClientSetNull)
             //    .HasConstraintName("FK__FoodRecipe__FRID__6EF57B66");
 
-            entity.HasOne(d => d.Tof).WithMany(p => p.FoodRecipeTypeMappings)
-                .HasForeignKey(d => d.Tofid)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__FoodRecip__TOFID__6FE99F9F");
+            //entity.HasOne(d => d.Tof).WithMany(p => p.FoodRecipeTypeMappings)
+            //    .HasForeignKey(d => d.Tofid)
+            //    .OnDelete(DeleteBehavior.ClientSetNull)
+                //.HasConstraintName("FK__FoodRecip__TOFID__6FE99F9F");
         });
 
         modelBuilder.Entity<Ingredient>(entity =>

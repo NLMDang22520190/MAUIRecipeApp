@@ -21,8 +21,10 @@ namespace MAUIRecipeApp.ViewModel
         [RelayCommand]
         private async Task Login()
         {
-           
+           var db = FirestoreService.Instance.Db;
 
+            // Tạo danh sách các FoodRecipeType
+          
 
             await Shell.Current.GoToAsync("//login");
         }
