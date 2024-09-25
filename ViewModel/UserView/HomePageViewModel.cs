@@ -22,8 +22,16 @@ namespace MAUIRecipeApp.ViewModel.UserView
         [ObservableProperty]
         ObservableCollection<FoodRecipe> foodRecipes = new ObservableCollection<FoodRecipe>();
 
+        private FirestoreDb db;
+
         public HomePageViewModel()
         {
+            db = FirestoreService.Instance.Db;
+            if (db == null)
+            {
+                Debug.WriteLine("Firestore DB is null");
+                return;
+            }
             LoadItem();
         }
 
@@ -49,8 +57,6 @@ namespace MAUIRecipeApp.ViewModel.UserView
 
         private async void LoadFoodRecipes()
         {
-            var db = FirestoreService.Instance.Db; // Lấy FirestoreDb từ singleton service
-
             // Truy vấn để lấy các mục có IsDeleted = false
             CollectionReference recipesRef = db.Collection("FoodRecipes");
             Query query = recipesRef.WhereEqualTo("IsDeleted", false);
@@ -69,20 +75,26 @@ namespace MAUIRecipeApp.ViewModel.UserView
 
         private async void LoadFoodRecipeTypes()
         {
-            var db = FirestoreService.Instance.Db; // Lấy FirestoreDb từ singleton service
-            // Truy vấn để lấy các mục có IsDeleted = false
-            CollectionReference recipeTypesRef = db.Collection("FoodRecipeTypes");
-            Query query = recipeTypesRef.WhereEqualTo("IsDeleted", false);
-            QuerySnapshot snapshot = await query.GetSnapshotAsync();
-            foreach (DocumentSnapshot document in snapshot.Documents)
-            {
-                if (document.Exists)
+            try {
+               
+                CollectionReference recipeTypesRef = db.Collection("FoodRecipeTypes");
+                Query query = recipeTypesRef.WhereEqualTo("IsDeleted", false);
+                QuerySnapshot snapshot = await query.GetSnapshotAsync();
+                foreach (DocumentSnapshot document in snapshot.Documents)
                 {
-                    FoodRecipeType recipeType = document.ConvertTo<FoodRecipeType>();
-                    recipeType.Tofid = document.Id; // Lấy FRTID từ Document ID
-                    FoodRecipeTypes.Add(recipeType); // Thêm vào ObservableCollection
+                    if (document.Exists)
+                    {
+                        FoodRecipeType recipeType = document.ConvertTo<FoodRecipeType>();
+                        recipeType.Tofid = document.Id; // Lấy FRTID từ Document ID
+                        FoodRecipeTypes.Add(recipeType); // Thêm vào ObservableCollection
+                    }
                 }
             }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("error: " + ex.Message);
+            }
+
         }
     }
 }

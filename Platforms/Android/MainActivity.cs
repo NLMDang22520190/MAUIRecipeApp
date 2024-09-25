@@ -10,7 +10,7 @@ namespace MAUIRecipeApp
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-           
+            FirebaseApp.InitializeApp(this);
         }
     }
 }

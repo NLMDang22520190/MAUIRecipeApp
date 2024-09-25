@@ -77,7 +77,7 @@
             </Label>
             <Button
                 Margin="0,24,0,0"
-                BackgroundColor="{StaticResource Secondary}"
+                BackgroundColor="{StaticResource Primary}"
                 Command="{Binding LoginCommand}"
                 FontSize="18"
                 Text="Login"

@@ -100,7 +100,7 @@
 
             <Button
                 Margin="0,16,0,0"
-                BackgroundColor="{StaticResource Secondary}"
+                BackgroundColor="{StaticResource Primary}"
                 Command="{Binding SignUpCommand}"
                 FontSize="18"
                 Text="Sign Up"
