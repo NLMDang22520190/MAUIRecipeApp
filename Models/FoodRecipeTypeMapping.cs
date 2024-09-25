@@ -8,10 +8,10 @@ namespace MAUIRecipeApp.Models;
 public partial class FoodRecipeTypeMapping
 {
     [FirestoreProperty] // Ánh xạ thuộc tính này với trường 'Frid' trong Firestore
-    public int Frid { get; set; }
+    public string Frid { get; set; }
 
     [FirestoreProperty] // Ánh xạ thuộc tính này với trường 'Tofid' trong Firestore
-    public int Tofid { get; set; }
+    public string Tofid { get; set; }
 
     [FirestoreProperty] // Ánh xạ thuộc tính này với trường 'IsDeleted' trong Firestore
     public bool? IsDeleted { get; set; }

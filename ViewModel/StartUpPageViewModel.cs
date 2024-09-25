@@ -24,7 +24,22 @@ namespace MAUIRecipeApp.ViewModel
            var db = FirestoreService.Instance.Db;
 
             // Tạo danh sách các FoodRecipeType
-          
+            // Danh sách các nguyên liệu
+            try
+            {
+                
+                // Thêm từng đối tượng vào Firestore
+                //CollectionReference recipeIngredientsCollection = db.Collection("RecipeIngredients");
+                //foreach (var ingredient in recipeIngredients)
+                //{
+                //    await recipeIngredientsCollection.AddAsync(ingredient);
+                //}
+
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("error: " + ex.Message);
+            }
 
             await Shell.Current.GoToAsync("//login");
         }

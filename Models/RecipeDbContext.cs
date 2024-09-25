@@ -145,10 +145,10 @@ public partial class RecipeDbContext : DbContext
             //    .OnDelete(DeleteBehavior.ClientSetNull)
             //    .HasConstraintName("FK__RecipeIngr__FRID__76969D2E");
 
-            entity.HasOne(d => d.IidNavigation).WithMany(p => p.RecipeIngredients)
-                .HasForeignKey(d => d.Iid)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__RecipeIngre__IID__778AC167");
+            //entity.HasOne(d => d.IidNavigation).WithMany(p => p.RecipeIngredients)
+            //    .HasForeignKey(d => d.Iid)
+            //    .OnDelete(DeleteBehavior.ClientSetNull)
+            //    .HasConstraintName("FK__RecipeIngre__IID__778AC167");
         });
 
         modelBuilder.Entity<RecipeVideo>(entity =>

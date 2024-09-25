@@ -67,6 +67,7 @@ namespace MAUIRecipeApp.ViewModel.UserView
             //.ToList();
 
             //IngredientDetails = new ObservableCollection<IngredientDetailDto>(ingredients);
+            LoadIngredientDetails();
 
             //UploaderName = DataProvider.Ins.DB.Users.FirstOrDefault(u => u.Uid == SelectedFoodRecipe.UploaderUid).Username;
         }
@@ -79,9 +80,7 @@ namespace MAUIRecipeApp.ViewModel.UserView
             if (snapshot.Exists)
             {
                 // Chuyển đổi DocumentSnapshot sang đối tượng FoodRecipe
-                Debug.WriteLine("Document data for {0} document:" + snapshot.Id);
                 SelectedFoodRecipe = snapshot.ConvertTo<FoodRecipe>();
-                Debug.WriteLine("Selected Food Recipe: " + SelectedFoodRecipe.Frid);
 
             }
             else
@@ -90,5 +89,39 @@ namespace MAUIRecipeApp.ViewModel.UserView
             }
         }
 
+        private async void LoadIngredientDetails()
+        {  // Collection "RecipeIngredients"
+            CollectionReference recipeIngredientsCollection = _db.Collection("RecipeIngredients");
+
+            // Bước 1: Lấy tất cả RecipeIngredients với Frid = selectedFoodRecipeID
+            Query recipeIngredientsQuery = recipeIngredientsCollection.WhereEqualTo("Frid", selectedFoodRecipeID);
+            QuerySnapshot recipeIngredientsSnapshot = await recipeIngredientsQuery.GetSnapshotAsync();
+            Debug.WriteLine("RecipeIngredients count: " + recipeIngredientsSnapshot.Count);
+            List<IngredientDetailDto> ingredientDetails = new List<IngredientDetailDto>();
+
+            foreach (DocumentSnapshot recipeIngredientDoc in recipeIngredientsSnapshot.Documents)
+            {
+                var recipeIngredient = recipeIngredientDoc.ConvertTo<RecipeIngredient>();
+
+                // Bước 2: Lấy chi tiết nguyên liệu từ collection "Ingredients" dựa trên Iid
+                DocumentReference ingredientDocRef = _db.Collection("Ingredients").Document(recipeIngredient.Iid.ToString());
+                DocumentSnapshot ingredientSnapshot = await ingredientDocRef.GetSnapshotAsync();
+
+                if (ingredientSnapshot.Exists)
+                {
+                    var ingredient = ingredientSnapshot.ConvertTo<Ingredient>();
+
+                    // Thêm chi tiết nguyên liệu vào danh sách
+                    ingredientDetails.Add(new IngredientDetailDto
+                    {
+                        IngredientName = ingredient.IngredientName,
+                        Quantity = recipeIngredient.Quantity ?? 0, // Chuyển Quantity từ double về decimal
+                        MeasurementUnit = ingredient.MeasurementUnit
+                    });
+                }
+            }
+
+            IngredientDetails = new ObservableCollection<IngredientDetailDto>(ingredientDetails);   
+        }
     }
 }

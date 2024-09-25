@@ -272,7 +272,7 @@
                                         </HorizontalStackLayout>
 
                                     </toolkit:Expander.Header>
-                                    <CollectionView ItemsSource="{Binding IngredientDetails}">
+                                    <CollectionView Margin="0,4,0,0" ItemsSource="{Binding IngredientDetails}">
                                         <CollectionView.ItemTemplate>
                                             <DataTemplate x:DataType="dto:IngredientDetailDto">
                                                 <HorizontalStackLayout Margin="8,8,0,0" Spacing="8">
