@@ -34,6 +34,7 @@ namespace MAUIRecipeApp
             builder
                 .UseMauiApp<App>()
                 .UseMauiCommunityToolkit()
+                .UseMauiCommunityToolkitMediaElement()
                 .UseUraniumUI()
                 .UseUraniumUIMaterial()
                 .ConfigureFonts(fonts =>

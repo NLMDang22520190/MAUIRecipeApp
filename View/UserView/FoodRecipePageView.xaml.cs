@@ -1,4 +1,4 @@
-using MAUIRecipeApp.ViewModel.UserView;
+﻿using MAUIRecipeApp.ViewModel.UserView;
 
 namespace MAUIRecipeApp.View.UserView;
 
@@ -18,5 +18,11 @@ public partial class FoodRecipePageView : ContentPage
         {
             viewModel.OnAppearing();
         }
+    }
+    protected override void OnDisappearing()
+    {
+        base.OnDisappearing();
+        // Dừng video bằng cách đặt Source thành trang trắng
+        MyWebView.Source = "about:blank";
     }
 }

@@ -313,6 +313,40 @@
                             </VerticalStackLayout>
 
                             <BoxView StyleClass="Divider" />
+                            <toolkit:Expander IsExpanded="True">
+                                <toolkit:Expander.Header>
+                                    <HorizontalStackLayout Spacing="8">
+                                        <Label
+                                            FontAttributes="Bold"
+                                            FontSize="{OnPlatform Android=25,
+                                                                  WinUI=16}"
+                                            Text="{Binding SelectedFoodRecipe.RecipeName, StringFormat='How to make: {0}'}"
+                                            TextColor="{StaticResource PrimaryDarkText}"
+                                            VerticalOptions="Center" />
+                                        <Image VerticalOptions="Center">
+                                            <Image.Source>
+                                                <FontImageSource
+                                                    FontFamily="MaterialSharp"
+                                                    Glyph="{x:Static m:MaterialSharp.Keyboard_arrow_down}"
+                                                    Size="25"
+                                                    Color="{StaticResource Primary}" />
+                                            </Image.Source>
+                                        </Image>
+                                    </HorizontalStackLayout>
+
+                                </toolkit:Expander.Header>
+                                <WebView
+                                    x:Name="MyWebView"
+                                    Margin="0,8,0,0"
+                                    HeightRequest="250"
+                                    HorizontalOptions="FillAndExpand"
+                                    Source="{Binding SelectedFoodRecipe.VideoUrl}"
+                                    VerticalOptions="FillAndExpand" />
+                            </toolkit:Expander>
+
+
+                            <BoxView StyleClass="Divider" />
+
 
                             <VerticalStackLayout Spacing="8">
                                 <Grid>

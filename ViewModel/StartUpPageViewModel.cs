@@ -27,13 +27,9 @@ namespace MAUIRecipeApp.ViewModel
             // Danh sách các nguyên liệu
             try
             {
+
                 
-                // Thêm từng đối tượng vào Firestore
-                //CollectionReference recipeIngredientsCollection = db.Collection("RecipeIngredients");
-                //foreach (var ingredient in recipeIngredients)
-                //{
-                //    await recipeIngredientsCollection.AddAsync(ingredient);
-                //}
+
 
             }
             catch (Exception ex)

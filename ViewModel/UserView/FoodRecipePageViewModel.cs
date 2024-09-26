@@ -96,7 +96,6 @@ namespace MAUIRecipeApp.ViewModel.UserView
             // Bước 1: Lấy tất cả RecipeIngredients với Frid = selectedFoodRecipeID
             Query recipeIngredientsQuery = recipeIngredientsCollection.WhereEqualTo("Frid", selectedFoodRecipeID);
             QuerySnapshot recipeIngredientsSnapshot = await recipeIngredientsQuery.GetSnapshotAsync();
-            Debug.WriteLine("RecipeIngredients count: " + recipeIngredientsSnapshot.Count);
             List<IngredientDetailDto> ingredientDetails = new List<IngredientDetailDto>();
 
             foreach (DocumentSnapshot recipeIngredientDoc in recipeIngredientsSnapshot.Documents)

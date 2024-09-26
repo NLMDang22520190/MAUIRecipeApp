@@ -35,5 +35,8 @@ public class FoodRecipe
     public string? ImgUrl { get; set; }
 
     [FirestoreProperty]
+    public string? VideoUrl { get; set; }
+
+    [FirestoreProperty]
     public bool? IsDeleted { get; set; } = false;
 }
