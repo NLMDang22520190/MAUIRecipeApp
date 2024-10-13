@@ -20,7 +20,13 @@ namespace MAUIRecipeApp.ViewModel.Auth
     public partial class LoginPageViewModel : ObservableObject
     {
         private readonly IConfiguration _configuration;
-        
+
+        [ObservableProperty]
+        private string email;
+
+        [ObservableProperty]
+        private string password;
+
 
         public LoginPageViewModel(IConfiguration configuration)
         {
@@ -42,6 +48,11 @@ namespace MAUIRecipeApp.ViewModel.Auth
         [RelayCommand]
         private async Task Login()
         {
+            if (email == "admin" && password == "admin")
+            {
+                await Shell.Current.GoToAsync("//adminhome");
+                return;
+            }
             await Shell.Current.GoToAsync("//home");
         }
 

@@ -44,6 +44,7 @@
                 BorderColor="{StaticResource PrimaryDarkText}"
                 CornerRadius="16"
                 FontSize="16"
+                Text="{Binding Email}"
                 TextColor="{StaticResource PrimaryDarkText}">
                 <material:TextField.Icon>
                     <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Mail}" />
@@ -56,6 +57,7 @@
                 CornerRadius="16"
                 FontSize="16"
                 IsPassword="True"
+                Text="{Binding Password}"
                 TextColor="{StaticResource PrimaryDarkText}">
                 <material:TextField.Icon>
                     <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Lock}" />

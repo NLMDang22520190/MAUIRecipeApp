@@ -10,6 +10,8 @@ using MAUIRecipeApp.ViewModel.UserView;
 using Microsoft.Extensions.Configuration;
 using System.Reflection;
 using MAUIRecipeApp.Service;
+using MAUIRecipeApp.View.AdminView;
+using MAUIRecipeApp.ViewModel.AdminViewModel;
 
 namespace MAUIRecipeApp
 {
@@ -81,6 +83,11 @@ namespace MAUIRecipeApp
 
             builder.Services.AddTransient<FoodRecipePageView>();
             builder.Services.AddTransient<FoodRecipePageViewModel>();
+            #endregion
+
+            #region AdminView
+            builder.Services.AddTransient<BackDropMainPageView>();
+            builder.Services.AddTransient<BackDropMainPageViewModel>();
             #endregion
 
             return builder.Build();
