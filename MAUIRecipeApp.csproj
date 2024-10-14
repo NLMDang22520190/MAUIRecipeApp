@@ -111,6 +111,12 @@
 		<MauiXaml Update="View\AdminView\BackDropMainPageView.xaml">
 		  <Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
+		<MauiXaml Update="View\AdminView\IngredientsPageView.xaml">
+		  <Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="View\AdminView\RecipesPageView.xaml">
+		  <Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
 		<MauiXaml Update="View\Auth\LoginPageView.xaml">
 			<Generator>MSBuild:Compile</Generator>
 		</MauiXaml>

@@ -8,10 +8,13 @@
     xmlns:UserView="clr-namespace:MAUIRecipeApp.View.UserView"
     xmlns:View="clr-namespace:MAUIRecipeApp.View"
     xmlns:local="clr-namespace:MAUIRecipeApp"
-    Title="MAUIRecipeApp"
-    Shell.FlyoutBehavior="Disabled">
+    xmlns:m="clr-namespace:UraniumUI.Icons.MaterialSymbols;assembly=UraniumUI.Icons.MaterialSymbols"
+    Title="MAUIRecipeApp">
 
-    <ShellContent ContentTemplate="{DataTemplate View:StartUpPageView}" Route="startup" />
+    <ShellContent
+        ContentTemplate="{DataTemplate View:StartUpPageView}"
+        Route="startup"
+        Shell.FlyoutBehavior="Disabled" />
     <ShellContent ContentTemplate="{DataTemplate Auth:LoginPageView}" Route="login" />
     <ShellContent ContentTemplate="{DataTemplate Auth:SignUpPageView}" Route="signup" />
     <ShellContent ContentTemplate="{DataTemplate Auth:PasswordRecoveryPageView}" Route="forgotpass" />
@@ -19,7 +22,35 @@
     <ShellContent ContentTemplate="{DataTemplate Auth:VerifyCodePageView}" Route="verifycode" />
     <ShellContent ContentTemplate="{DataTemplate Auth:NewPasswordPageView}" Route="newpassword" />
     <ShellContent ContentTemplate="{DataTemplate UserView:HomePageView}" Route="home" />
-    <ShellContent ContentTemplate="{DataTemplate AdminView:BackDropMainPageView}" Route="adminhome" />
+    <ShellContent
+        ContentTemplate="{DataTemplate AdminView:BackDropMainPageView}"
+        FlyoutItemIsVisible="True"
+        Route="adminhome"
+        Shell.FlyoutBehavior="Flyout" />
+//chinh flyoutbehavior cho cac screen tren, su dung extender cho flyoutitem, tao cac screen can thiet, sai datagrid de hien data
+    <FlyoutItem FlyoutDisplayOptions="AsMultipleItems">
+        <Tab Title="Domestic" Icon="paw.png">
+            <ShellContent Title="Ingredients" ContentTemplate="{DataTemplate AdminView:IngredientsPageView}">
+                <ShellContent.Icon>
+                    <FontImageSource
+                        FontFamily="MaterialSharp"
+                        Glyph="{x:Static m:MaterialSharp.Warning}"
+                        Color="Red" />
+                </ShellContent.Icon>
+            </ShellContent>
+
+        </Tab>
+        <ShellContent Title="Monkeys" ContentTemplate="{DataTemplate AdminView:RecipesPageView}">
+            <ShellContent.Icon>
+                <FontImageSource
+                    FontFamily="MaterialSharp"
+                    Glyph="{x:Static m:MaterialSharp.Warning}"
+                    Color="Red" />
+            </ShellContent.Icon>
+        </ShellContent>
+
+    </FlyoutItem>
+
 
 
 
