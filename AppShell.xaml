@@ -9,49 +9,193 @@
     xmlns:View="clr-namespace:MAUIRecipeApp.View"
     xmlns:local="clr-namespace:MAUIRecipeApp"
     xmlns:m="clr-namespace:UraniumUI.Icons.MaterialSymbols;assembly=UraniumUI.Icons.MaterialSymbols"
-    Title="MAUIRecipeApp">
+    xmlns:sys="clr-namespace:System;assembly=netstandard"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    Title="MAUIRecipeApp"
+    FlyoutBackdrop="Transparent"
+    FlyoutBackgroundColor="{StaticResource Primary}"
+    Shell.NavBarIsVisible="False">
 
     <ShellContent
         ContentTemplate="{DataTemplate View:StartUpPageView}"
         Route="startup"
-        Shell.FlyoutBehavior="Disabled" />
-    <ShellContent ContentTemplate="{DataTemplate Auth:LoginPageView}" Route="login" />
-    <ShellContent ContentTemplate="{DataTemplate Auth:SignUpPageView}" Route="signup" />
-    <ShellContent ContentTemplate="{DataTemplate Auth:PasswordRecoveryPageView}" Route="forgotpass" />
-    <ShellContent ContentTemplate="{DataTemplate Auth:PasswordVerifyCodePageView}" Route="passwordcode" />
-    <ShellContent ContentTemplate="{DataTemplate Auth:VerifyCodePageView}" Route="verifycode" />
-    <ShellContent ContentTemplate="{DataTemplate Auth:NewPasswordPageView}" Route="newpassword" />
-    <ShellContent ContentTemplate="{DataTemplate UserView:HomePageView}" Route="home" />
+        Shell.FlyoutItemIsVisible="False" />
+    <ShellContent
+        ContentTemplate="{DataTemplate Auth:LoginPageView}"
+        Route="login"
+        Shell.FlyoutBehavior="Disabled"
+        Shell.FlyoutItemIsVisible="False" />
+    <ShellContent
+        ContentTemplate="{DataTemplate Auth:SignUpPageView}"
+        Route="signup"
+        Shell.FlyoutBehavior="Disabled"
+        Shell.FlyoutItemIsVisible="False" />
+    <ShellContent
+        ContentTemplate="{DataTemplate Auth:PasswordRecoveryPageView}"
+        Route="forgotpass"
+        Shell.FlyoutBehavior="Disabled"
+        Shell.FlyoutItemIsVisible="False" />
+    <ShellContent
+        ContentTemplate="{DataTemplate Auth:PasswordVerifyCodePageView}"
+        Route="passwordcode"
+        Shell.FlyoutBehavior="Disabled"
+        Shell.FlyoutItemIsVisible="False" />
+    <ShellContent
+        ContentTemplate="{DataTemplate Auth:VerifyCodePageView}"
+        Route="verifycode"
+        Shell.FlyoutBehavior="Disabled"
+        Shell.FlyoutItemIsVisible="False" />
+    <ShellContent
+        ContentTemplate="{DataTemplate Auth:NewPasswordPageView}"
+        Route="newpassword"
+        Shell.FlyoutBehavior="Disabled"
+        Shell.FlyoutItemIsVisible="False" />
+    <ShellContent
+        ContentTemplate="{DataTemplate UserView:HomePageView}"
+        Route="home"
+        Shell.FlyoutBehavior="Disabled"
+        Shell.FlyoutItemIsVisible="False" />
     <ShellContent
         ContentTemplate="{DataTemplate AdminView:BackDropMainPageView}"
-        FlyoutItemIsVisible="True"
         Route="adminhome"
-        Shell.FlyoutBehavior="Flyout" />
-//chinh flyoutbehavior cho cac screen tren, su dung extender cho flyoutitem, tao cac screen can thiet, sai datagrid de hien data
-    <FlyoutItem FlyoutDisplayOptions="AsMultipleItems">
-        <Tab Title="Domestic" Icon="paw.png">
-            <ShellContent Title="Ingredients" ContentTemplate="{DataTemplate AdminView:IngredientsPageView}">
-                <ShellContent.Icon>
-                    <FontImageSource
-                        FontFamily="MaterialSharp"
-                        Glyph="{x:Static m:MaterialSharp.Warning}"
-                        Color="Red" />
-                </ShellContent.Icon>
-            </ShellContent>
+        Shell.FlyoutItemIsVisible="False" />
 
-        </Tab>
-        <ShellContent Title="Monkeys" ContentTemplate="{DataTemplate AdminView:RecipesPageView}">
-            <ShellContent.Icon>
+
+    <!--  chinh flyoutbehavior cho cac screen tren, su dung extender cho flyoutitem, tao cac screen can thiet, sai datagrid de hien data  -->
+
+    <FlyoutItem FlyoutDisplayOptions="AsMultipleItems">
+        <Tab Title="User's">
+            <Tab.Icon>
                 <FontImageSource
                     FontFamily="MaterialSharp"
-                    Glyph="{x:Static m:MaterialSharp.Warning}"
-                    Color="Red" />
-            </ShellContent.Icon>
-        </ShellContent>
+                    Glyph="{x:Static m:MaterialSharp.Person}"
+                    Color="{StaticResource WhiteText}" />
+            </Tab.Icon>
+            <ShellContent Title="User" ContentTemplate="{DataTemplate AdminView:IngredientsPageView}" />
+            <ShellContent Title="UserInfo" ContentTemplate="{DataTemplate AdminView:IngredientsPageView}" />
+            <ShellContent Title="UserSavedRecipe" ContentTemplate="{DataTemplate AdminView:IngredientsPageView}" />
+        </Tab>
+    </FlyoutItem>
+
+    <FlyoutItem FlyoutDisplayOptions="AsMultipleItems">
+        <Tab Title="Food">
+            <Tab.Icon>
+                <FontImageSource
+                    FontFamily="MaterialSharp"
+                    Glyph="{x:Static m:MaterialSharp.Lunch_dining}"
+                    Color="{StaticResource WhiteText}" />
+            </Tab.Icon>
+            <ShellContent Title="FoodRecipe" ContentTemplate="{DataTemplate AdminView:IngredientsPageView}" />
+            <ShellContent Title="FoodRecipeType" ContentTemplate="{DataTemplate AdminView:IngredientsPageView}" />
+            <ShellContent Title="FoodRecipeMapping" ContentTemplate="{DataTemplate AdminView:IngredientsPageView}" />
+        </Tab>
 
     </FlyoutItem>
 
+    <FlyoutItem FlyoutDisplayOptions="AsMultipleItems">
+
+        <Tab Title="Ingredients">
+            <Tab.Icon>
+                <FontImageSource
+                    FontFamily="MaterialSharp"
+                    Glyph="{x:Static m:MaterialSharp.Grocery}"
+                    Color="{StaticResource WhiteText}" />
+            </Tab.Icon>
+            <ShellContent Title="Ingredients" ContentTemplate="{DataTemplate AdminView:IngredientsPageView}" />
+            <ShellContent Title="RecipeIngredients" ContentTemplate="{DataTemplate AdminView:IngredientsPageView}" />
+        </Tab>
+
+    </FlyoutItem>
+
+    <FlyoutItem FlyoutDisplayOptions="AsMultipleItems">
+        <Tab Title="Other">
+            <Tab.Icon>
+                <FontImageSource
+                    FontFamily="MaterialSharp"
+                    Glyph="{x:Static m:MaterialSharp.Other_admission}"
+                    Color="{StaticResource WhiteText}" />
+            </Tab.Icon>
+            <ShellContent Title="FoodRating" ContentTemplate="{DataTemplate AdminView:RecipesPageView}" />
+            <ShellContent Title="Temptable" ContentTemplate="{DataTemplate AdminView:RecipesPageView}" />
+        </Tab>
+
+    </FlyoutItem>
+
+    <MenuItem
+        Command="{Binding HelpCommand}"
+        CommandParameter="https://learn.microsoft.com/xamarin/xamarin-forms/app-fundamentals/shell"
+        Text="Logout">
+        <MenuItem.IconImageSource>
+            <FontImageSource
+                FontFamily="MaterialSharp"
+                Glyph="{x:Static m:MaterialSharp.Logout}"
+                Color="{StaticResource WhiteText}" />
+        </MenuItem.IconImageSource>
+    </MenuItem>
 
 
 
+    <Shell.FlyoutHeaderTemplate>
+        <DataTemplate>
+            <Grid BackgroundColor="Black" HeightRequest="200">
+                <Image
+                    Aspect="AspectFill"
+                    Opacity="0.6"
+                    Source="store.jpg" />
+                <Label
+                    FontAttributes="Bold"
+                    HorizontalTextAlignment="Center"
+                    Text="InsertLogoHere"
+                    TextColor="White"
+                    VerticalTextAlignment="Center" />
+            </Grid>
+        </DataTemplate>
+    </Shell.FlyoutHeaderTemplate>
+
+    <Shell.FlyoutFooterTemplate>
+        <DataTemplate>
+            <StackLayout>
+                <Label
+                    FontAttributes="Bold"
+                    HorizontalOptions="Center"
+                    Text="RecipeApp"
+                    TextColor="GhostWhite" />
+                <Label
+                    HorizontalOptions="Center"
+                    Text="{Binding Source={x:Static sys:DateTime.Now}, StringFormat='{0:MMMM dd, yyyy}'}"
+                    TextColor="GhostWhite" />
+            </StackLayout>
+        </DataTemplate>
+    </Shell.FlyoutFooterTemplate>
+
+
+    <Shell.ItemTemplate>
+        <DataTemplate>
+            <HorizontalStackLayout Spacing="8">
+                <Image HeightRequest="35" Source="{Binding FlyoutIcon}" />
+                <Label
+                    FontAttributes="Italic"
+                    FontSize="{OnPlatform Android=34,
+                                          WinUI=16}"
+                    Text="{Binding Title}"
+                    TextColor="{StaticResource WhiteText}"
+                    VerticalTextAlignment="Center" />
+            </HorizontalStackLayout>
+        </DataTemplate>
+    </Shell.ItemTemplate>
+
+    <Shell.MenuItemTemplate>
+        <DataTemplate>
+            <HorizontalStackLayout Spacing="8">
+                <Image HeightRequest="35" Source="{Binding Icon}" />
+                <Label
+                    FontAttributes="Italic"
+                    FontSize="{OnPlatform Android=34,
+                                          WinUI=16}"
+                    Text="{Binding Text}"
+                    TextColor="{StaticResource WhiteText}"
+                    VerticalTextAlignment="Center" />
+            </HorizontalStackLayout>
+        </DataTemplate>
+    </Shell.MenuItemTemplate>
 </Shell>
