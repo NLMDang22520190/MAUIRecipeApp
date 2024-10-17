@@ -88,6 +88,36 @@ namespace MAUIRecipeApp
             #region AdminView
             builder.Services.AddTransient<BackDropMainPageView>();
             builder.Services.AddTransient<BackDropMainPageViewModel>();
+
+            builder.Services.AddTransient<EditUserPageView>();
+            builder.Services.AddTransient<EditUserPageViewModel>();
+
+            builder.Services.AddTransient<EditUserInfoPageView>();
+            builder.Services.AddTransient<EditUserInfoPageViewModel>();
+
+            builder.Services.AddTransient<EditUserSavedRecipePageView>();
+            builder.Services.AddTransient<EditUserSavedRecipePageViewModel>();
+
+            builder.Services.AddTransient<EditFoodRecipePageView>();
+            builder.Services.AddTransient<EditFoodRecipePageViewModel>();
+
+            builder.Services.AddTransient<EditFoodRecipeTypePageView>();
+            builder.Services.AddTransient<EditFoodRecipeTypePageViewModel>();
+
+            builder.Services.AddTransient<EditFoodRecipeMappingPageView>();
+            builder.Services.AddTransient<EditFoodRecipeMappingPageViewModel>();
+
+            builder.Services.AddTransient<EditIngredientsPageView>();
+            builder.Services.AddTransient<EditIngredientsPageViewModel>();
+
+            builder.Services.AddTransient<EditRecipeIngredientsPageView>();
+            builder.Services.AddTransient<EditRecipeIngredientsPageViewModel>();
+
+            builder.Services.AddTransient<EditFoodRatingPageView>();
+            builder.Services.AddTransient<EditFoodRatingPageViewModel>();
+
+            builder.Services.AddTransient<EditTempTablePageView>();
+            builder.Services.AddTransient<EditTempTablePageViewModel>();
             #endregion
 
             return builder.Build();
