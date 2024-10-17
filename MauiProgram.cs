@@ -12,6 +12,7 @@ using System.Reflection;
 using MAUIRecipeApp.Service;
 using MAUIRecipeApp.View.AdminView;
 using MAUIRecipeApp.ViewModel.AdminViewModel;
+using Microsoft.Maui.LifecycleEvents;
 
 namespace MAUIRecipeApp
 {
@@ -46,9 +47,10 @@ namespace MAUIRecipeApp
                     fonts.AddMaterialSymbolsFonts();
                     fonts.AddFontAwesomeIconFonts();
                 });
+        
 
 #if DEBUG
-    		builder.Logging.AddDebug();
+            builder.Logging.AddDebug();
 #endif
 
             // Đăng ký FirestoreService là Singleton

@@ -5,15 +5,130 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:m="clr-namespace:UraniumUI.Icons.MaterialSymbols;assembly=UraniumUI.Icons.MaterialSymbols"
     xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
+    xmlns:models="clr-namespace:MAUIRecipeApp.Models"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     xmlns:viewmodel="clr-namespace:MAUIRecipeApp.ViewModel.AdminViewModel"
-    Title=""
+    Title="Edit Food Recipe Type"
     x:DataType="viewmodel:EditFoodRecipeTypePageViewModel"
     Background="{StaticResource WhiteText}">
-    <VerticalStackLayout>
-        <Label
-            HorizontalOptions="Center"
-            Text="Welcome to .NET Food Recipe Type!"
-            VerticalOptions="Center" />
-    </VerticalStackLayout>
+    <ScrollView>
+        <VerticalStackLayout Spacing="8">
+            <Grid Margin="16,8,16,0" VerticalOptions="Start">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <HorizontalStackLayout Grid.Column="0" Spacing="8">
+                    <Label
+                        Grid.ColumnSpan="2"
+                        FontAttributes="Bold"
+                        FontSize="24"
+                        HorizontalOptions="Center"
+                        Text="{Binding Source={x:Reference PageRef}, Path=Title}"
+                        TextColor="{StaticResource Primary}"
+                        VerticalOptions="Center" />
+
+                </HorizontalStackLayout>
+                <HorizontalStackLayout
+                    Grid.Column="1"
+                    HorizontalOptions="End"
+                    Spacing="8"
+                    VerticalOptions="Center">
+                    <Button
+                        Background="Aqua"
+                        FontAttributes="Bold"
+                        TextColor="{StaticResource WhiteText}"
+                        ToolTipProperties.Text="Edit">
+                        <Button.ImageSource>
+                            <FontImageSource
+                                FontFamily="MaterialSharp"
+                                Glyph="{x:Static m:MaterialSharp.Edit}"
+                                Size="20" />
+                        </Button.ImageSource>
+                    </Button>
+                    <Button
+                        Background="Lime"
+                        FontAttributes="Bold"
+                        TextColor="{StaticResource WhiteText}"
+                        ToolTipProperties.Text="Save">
+                        <Button.ImageSource>
+                            <FontImageSource
+                                FontFamily="MaterialSharp"
+                                Glyph="{x:Static m:MaterialSharp.Save}"
+                                Size="20" />
+                        </Button.ImageSource>
+                    </Button>
+                </HorizontalStackLayout>
+                <material:TextField
+                    Title="Search..."
+                    Grid.Row="1"
+                    AllowClear="True"
+                    TextColor="{StaticResource Primary}">
+                    <material:TextField.Icon>
+                        <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Search}" />
+                    </material:TextField.Icon>
+                </material:TextField>
+            </Grid>
+
+
+            <ScrollView HorizontalScrollBarVisibility="Always" Orientation="Horizontal">
+                <!--<material:DataGrid Margin="16,0,16,0" ItemsSource="{Binding FoodRecipes}">
+
+
+                    <material:DataGrid.Columns>
+                        <material:DataGridColumn Title="Recipe IMG">
+                            <material:DataGridColumn.CellItemTemplate>
+                                <DataTemplate x:DataType="models:FoodRecipe">
+                                    <Image
+                                        Aspect="Fill"
+                                        HeightRequest="50"
+                                        Source="{Binding ImgUrl}"
+                                        WidthRequest="50" />
+                                </DataTemplate>
+                            </material:DataGridColumn.CellItemTemplate>
+                        </material:DataGridColumn>
+
+
+                        <material:DataGridColumn Title="Recipe Name" ValueBinding="{Binding RecipeName}" />
+
+                        <material:DataGridColumn Title="Calories" ValueBinding="{Binding Calories}" />
+
+                        <material:DataGridColumn Title="Portion" ValueBinding="{Binding Portion}" />
+
+                        <material:DataGridColumn Title="Difficulty Level" ValueBinding="{Binding DifficultyLevel}" />
+
+                        <material:DataGridColumn Title="Cooking Time" ValueBinding="{Binding CookingTime}" />
+                        <material:DataGridColumn Title="Health Benefits" ValueBinding="{Binding HealthBenefits}" />
+                        <material:DataGridColumn Title="Img Url" ValueBinding="{Binding ImgUrl}" />
+                        <material:DataGridColumn Title="Video Url" ValueBinding="{Binding VideoUrl}" />
+                        <material:DataGridColumn Title="Uploader Uid" ValueBinding="{Binding UploaderUid}" />
+                        <material:DataGridColumn Title="Actions">
+                            <material:DataGridColumn.CellItemTemplate>
+                                <DataTemplate>
+                                    <Button Background="PaleVioletRed" Text="Remove" />
+                                </DataTemplate>
+                            </material:DataGridColumn.CellItemTemplate>
+                        </material:DataGridColumn>
+                        <material:DataGridColumn Title="Is Deleted ?">
+                            <material:DataGridColumn.CellItemTemplate>
+                                <DataTemplate x:DataType="models:FoodRecipe">
+                                    <material:CheckBox HorizontalOptions="Center" IsChecked="{Binding IsDeleted}" />
+                                </DataTemplate>
+                            </material:DataGridColumn.CellItemTemplate>
+                        </material:DataGridColumn>
+
+                    </material:DataGrid.Columns>
+                </material:DataGrid>-->
+
+            </ScrollView>
+
+
+
+        </VerticalStackLayout>
+    </ScrollView>
+
 </ContentPage>

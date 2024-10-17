@@ -19,6 +19,16 @@
     <Color x:Key="MidnightBlue">#190649</Color>
     <Color x:Key="OffBlack">#1f1f1f</Color>
 
+    <Color x:Key="Primary100">#EDF4D5</Color>
+    <Color x:Key="Primary200">#DBEAAB</Color>
+    <Color x:Key="Primary300">#C9E082</Color>
+    <Color x:Key="Primary400">#B7D558</Color>
+    <Color x:Key="Primary500">#9FBD48</Color>
+    <Color x:Key="Primary600">#7D9738</Color>
+    <Color x:Key="Primary900">#4A5C20</Color>
+    <Color x:Key="Primary950">#303B14</Color>
+
+
     <Color x:Key="Gray100">#E1E1E1</Color>
     <Color x:Key="Gray200">#C8C8C8</Color>
     <Color x:Key="Gray300">#ACACAC</Color>

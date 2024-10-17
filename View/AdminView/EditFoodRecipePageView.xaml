@@ -77,10 +77,23 @@
 
 
             <ScrollView HorizontalScrollBarVisibility="Always" Orientation="Horizontal">
-                <material:DataGrid ItemsSource="{Binding FoodRecipes}">
+                <material:DataGrid Margin="16,8,16,0" ItemsSource="{Binding FoodRecipes}">
 
 
                     <material:DataGrid.Columns>
+                        <material:DataGridColumn Title="Recipe IMG">
+                            <material:DataGridColumn.CellItemTemplate>
+                                <DataTemplate x:DataType="models:FoodRecipe">
+                                    <Image
+                                        Aspect="Fill"
+                                        HeightRequest="50"
+                                        Source="{Binding ImgUrl}"
+                                        WidthRequest="50" />
+                                </DataTemplate>
+                            </material:DataGridColumn.CellItemTemplate>
+                        </material:DataGridColumn>
+
+
                         <material:DataGridColumn Title="Recipe Name" ValueBinding="{Binding RecipeName}" />
 
                         <material:DataGridColumn Title="Calories" ValueBinding="{Binding Calories}" />

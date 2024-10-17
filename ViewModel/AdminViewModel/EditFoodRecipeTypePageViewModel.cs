@@ -9,5 +9,6 @@ namespace MAUIRecipeApp.ViewModel.AdminViewModel
 {
    public partial class EditFoodRecipeTypePageViewModel : ObservableObject
     {
+        
     }
 }
