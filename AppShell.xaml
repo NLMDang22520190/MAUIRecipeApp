@@ -56,7 +56,7 @@
         Shell.FlyoutBehavior="Disabled"
         Shell.FlyoutItemIsVisible="False" />
     <ShellContent
-        ContentTemplate="{DataTemplate AdminView:BackDropMainPageView}"
+        ContentTemplate="{DataTemplate AdminView:AdminHomePageView}"
         Route="adminhome"
         Shell.FlyoutItemIsVisible="False" />
 

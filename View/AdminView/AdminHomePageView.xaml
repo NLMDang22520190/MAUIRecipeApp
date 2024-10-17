@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="MAUIRecipeApp.View.AdminView.AdminHomePageView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:m="clr-namespace:UraniumUI.Icons.MaterialSymbols;assembly=UraniumUI.Icons.MaterialSymbols"
+    xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:viewmodel="clr-namespace:MAUIRecipeApp.ViewModel.AdminViewModel"
+    Title=""
+    x:DataType="viewmodel:AdminHomePageViewModel"
+    Background="{StaticResource WhiteText}">
+    <Grid>
+        <Image
+            Aspect="Fill"
+            Opacity="0.35"
+            Source="admin_home_image.png" />
+        <VerticalStackLayout
+            HorizontalOptions="Center"
+            Spacing="8"
+            VerticalOptions="Center">
+            <Label
+                FontAttributes="Bold"
+                FontSize="24"
+                HorizontalOptions="Center"
+                Text="Welcome to Admin Page"
+                TextColor="{StaticResource Black}"
+                VerticalOptions="Center" />
+            <Label
+                FontSize="18"
+                Text="Choose an item on the right to start editing"
+                TextColor="{StaticResource Black}" />
+        </VerticalStackLayout>
+    </Grid>
+
+</ContentPage>

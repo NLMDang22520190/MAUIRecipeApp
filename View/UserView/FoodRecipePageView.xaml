@@ -10,7 +10,8 @@
     xmlns:viewmodel="clr-namespace:MAUIRecipeApp.ViewModel.UserView"
     Title=""
     x:DataType="viewmodel:FoodRecipePageViewModel"
-    Background="{StaticResource WhiteText}">
+    Background="{StaticResource WhiteText}"
+    Shell.FlyoutBehavior="Disabled">
     <Shell.BackButtonBehavior>
         <BackButtonBehavior IsEnabled="False" IsVisible="False" />
     </Shell.BackButtonBehavior>

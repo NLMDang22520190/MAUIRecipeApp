@@ -89,6 +89,9 @@ namespace MAUIRecipeApp
             builder.Services.AddTransient<BackDropMainPageView>();
             builder.Services.AddTransient<BackDropMainPageViewModel>();
 
+            builder.Services.AddTransient<AdminHomePageView>();
+            builder.Services.AddTransient<AdminHomePageViewModel>();
+
             builder.Services.AddTransient<EditUserPageView>();
             builder.Services.AddTransient<EditUserPageViewModel>();
 

@@ -10,55 +10,54 @@
     Title=""
     x:DataType="viewmodel:StartUpPageViewModel"
     Background="{StaticResource WhiteText}">
-    <ScrollView>
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
 
 
-            <Image
-                Grid.Row="0"
-                Aspect="Fill"
-                Background="{StaticResource WhiteText}"
-                Source="cartoon_food4.png" />
+        <Image
+            Grid.Row="0"
+            Aspect="Fill"
+            Background="{StaticResource WhiteText}"
+            Source="cartoon_food4.png" />
 
 
-            <VerticalStackLayout
-                Grid.Row="1"
-                HorizontalOptions="Fill"
-                Spacing="12"
-                VerticalOptions="Center">
-                <Label
-                    FontAttributes="Bold"
-                    FontSize="40"
-                    HorizontalOptions="Center"
-                    TextColor="{StaticResource PrimaryDarkText}">
-                    Start Cooking
-                </Label>
-                <Label
-                    FontSize="16"
-                    HorizontalTextAlignment="Center"
-                    Text="Let's join our community &#10; to cook better food!"
-                    TextColor="{StaticResource PrimaryDarkText}" />
-                <Button
-                    Margin="32,24,32,0"
-                    BackgroundColor="{StaticResource Primary}"
-                    Command="{Binding LoginCommand}"
-                    CornerRadius="20"
-                    FontSize="18"
-                    Text="Login"
-                    TextColor="{StaticResource WhiteText}" />
-                <Button
-                    Margin="0,0,0,32"
-                    BackgroundColor="Transparent"
-                    Command="{Binding SignUpCommand}"
-                    FontSize="16"
-                    Text="Create New Account"
-                    TextColor="{StaticResource PrimaryDarkText}" />
-            </VerticalStackLayout>
-        </Grid>
+        <VerticalStackLayout
+            Grid.Row="1"
+            HorizontalOptions="Fill"
+            Spacing="12"
+            VerticalOptions="Center">
+            <Label
+                FontAttributes="Bold"
+                FontSize="40"
+                HorizontalOptions="Center"
+                TextColor="{StaticResource PrimaryDarkText}">
+                Start Cooking
+            </Label>
+            <Label
+                FontSize="16"
+                HorizontalTextAlignment="Center"
+                Text="Let's join our community &#10; to cook better food!"
+                TextColor="{StaticResource PrimaryDarkText}" />
+            <Button
+                Margin="32,24,32,0"
+                BackgroundColor="{StaticResource Primary}"
+                Command="{Binding LoginCommand}"
+                CornerRadius="20"
+                FontSize="18"
+                Text="Login"
+                TextColor="{StaticResource WhiteText}" />
+            <Button
+                Margin="0,0,0,32"
+                BackgroundColor="Transparent"
+                Command="{Binding SignUpCommand}"
+                FontSize="16"
+                Text="Create New Account"
+                TextColor="{StaticResource PrimaryDarkText}" />
+        </VerticalStackLayout>
+    </Grid>
 
-    </ScrollView>
 </ContentPage>

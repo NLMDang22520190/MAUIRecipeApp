@@ -15,17 +15,5 @@
     Background="{StaticResource WhiteText}">
 
     <Button Text="vai" />
-    <uranium:UraniumContentPage.Attachments>
-        <material:BackdropView
-            Title="menu"
-            BackgroundColor="{StaticResource Primary}"
-            InsertAfterToolbarIcons="True">
-            <VerticalStackLayout>
-                <Button Text="home" />
-                <Button Text="home" />
-                <Button Text="home" />
-                <Button Text="home" />
-            </VerticalStackLayout>
-        </material:BackdropView>
-    </uranium:UraniumContentPage.Attachments>
+
 </uranium:UraniumContentPage>
