@@ -8,6 +8,7 @@
     xmlns:models="clr-namespace:MAUIRecipeApp.Models"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     xmlns:viewmodel="clr-namespace:MAUIRecipeApp.ViewModel.AdminViewModel"
+    x:Name="PageRef"
     Title="Edit Food Recipe Type"
     x:DataType="viewmodel:EditFoodRecipeTypePageViewModel"
     Background="{StaticResource WhiteText}">
@@ -75,56 +76,37 @@
             </Grid>
 
 
-            <ScrollView HorizontalScrollBarVisibility="Always" Orientation="Horizontal">
-                <!--<material:DataGrid Margin="16,0,16,0" ItemsSource="{Binding FoodRecipes}">
+            <material:DataGrid Margin="16,0,16,0" ItemsSource="{Binding FoodRecipeTypes}">
 
 
-                    <material:DataGrid.Columns>
-                        <material:DataGridColumn Title="Recipe IMG">
-                            <material:DataGridColumn.CellItemTemplate>
-                                <DataTemplate x:DataType="models:FoodRecipe">
-                                    <Image
-                                        Aspect="Fill"
-                                        HeightRequest="50"
-                                        Source="{Binding ImgUrl}"
-                                        WidthRequest="50" />
-                                </DataTemplate>
-                            </material:DataGridColumn.CellItemTemplate>
-                        </material:DataGridColumn>
+                <material:DataGrid.Columns>
 
+                    <material:DataGridColumn
+                        Title="Food Type Name"
+                        Width="1.5*"
+                        ValueBinding="{Binding FoodTypeName}" />
 
-                        <material:DataGridColumn Title="Recipe Name" ValueBinding="{Binding RecipeName}" />
+                    <material:DataGridColumn Title="Actions" Width="*">
+                        <material:DataGridColumn.CellItemTemplate>
+                            <DataTemplate>
+                                <Button
+                                    Background="PaleVioletRed"
+                                    HorizontalOptions="Center"
+                                    Text="Remove" />
+                            </DataTemplate>
+                        </material:DataGridColumn.CellItemTemplate>
+                    </material:DataGridColumn>
+                    <material:DataGridColumn Title="Is Deleted ?" Width="*">
+                        <material:DataGridColumn.CellItemTemplate>
+                            <DataTemplate x:DataType="models:FoodRecipeType">
+                                <material:CheckBox HorizontalOptions="Center" IsChecked="{Binding IsDeleted}" />
+                            </DataTemplate>
+                        </material:DataGridColumn.CellItemTemplate>
+                    </material:DataGridColumn>
 
-                        <material:DataGridColumn Title="Calories" ValueBinding="{Binding Calories}" />
+                </material:DataGrid.Columns>
+            </material:DataGrid>
 
-                        <material:DataGridColumn Title="Portion" ValueBinding="{Binding Portion}" />
-
-                        <material:DataGridColumn Title="Difficulty Level" ValueBinding="{Binding DifficultyLevel}" />
-
-                        <material:DataGridColumn Title="Cooking Time" ValueBinding="{Binding CookingTime}" />
-                        <material:DataGridColumn Title="Health Benefits" ValueBinding="{Binding HealthBenefits}" />
-                        <material:DataGridColumn Title="Img Url" ValueBinding="{Binding ImgUrl}" />
-                        <material:DataGridColumn Title="Video Url" ValueBinding="{Binding VideoUrl}" />
-                        <material:DataGridColumn Title="Uploader Uid" ValueBinding="{Binding UploaderUid}" />
-                        <material:DataGridColumn Title="Actions">
-                            <material:DataGridColumn.CellItemTemplate>
-                                <DataTemplate>
-                                    <Button Background="PaleVioletRed" Text="Remove" />
-                                </DataTemplate>
-                            </material:DataGridColumn.CellItemTemplate>
-                        </material:DataGridColumn>
-                        <material:DataGridColumn Title="Is Deleted ?">
-                            <material:DataGridColumn.CellItemTemplate>
-                                <DataTemplate x:DataType="models:FoodRecipe">
-                                    <material:CheckBox HorizontalOptions="Center" IsChecked="{Binding IsDeleted}" />
-                                </DataTemplate>
-                            </material:DataGridColumn.CellItemTemplate>
-                        </material:DataGridColumn>
-
-                    </material:DataGrid.Columns>
-                </material:DataGrid>-->
-
-            </ScrollView>
 
 
 
