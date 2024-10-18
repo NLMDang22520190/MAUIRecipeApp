@@ -9,6 +9,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CommunityToolkit.Mvvm.Input;
 
 namespace MAUIRecipeApp.ViewModel.AdminViewModel
 {
@@ -16,6 +17,9 @@ namespace MAUIRecipeApp.ViewModel.AdminViewModel
     {
         [ObservableProperty]
         ObservableCollection<FoodRecipe> foodRecipes = new ObservableCollection<FoodRecipe>();
+
+        [ObservableProperty]
+        private bool isBackdropPresented; 
 
         private readonly FirestoreDb _db;
 
@@ -63,6 +67,13 @@ namespace MAUIRecipeApp.ViewModel.AdminViewModel
             {
                 Debug.WriteLine("Error: " + ex.Message);
             }
+        }
+
+        [RelayCommand]
+        public async void ToggleBackdrop()
+        {
+            IsBackdropPresented = !IsBackdropPresented;
+            Debug.Write(isBackdropPresented);
         }
     }
 }

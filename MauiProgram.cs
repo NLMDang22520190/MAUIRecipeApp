@@ -9,6 +9,7 @@ using MAUIRecipeApp.View.UserView;
 using MAUIRecipeApp.ViewModel.UserView;
 using Microsoft.Extensions.Configuration;
 using System.Reflection;
+using InputKit.Handlers;
 using MAUIRecipeApp.Service;
 using MAUIRecipeApp.View.AdminView;
 using MAUIRecipeApp.ViewModel.AdminViewModel;
@@ -46,8 +47,13 @@ namespace MAUIRecipeApp
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                     fonts.AddMaterialSymbolsFonts();
                     fonts.AddFontAwesomeIconFonts();
+                }).ConfigureMauiHandlers(handlers =>
+                {
+                    // Add following line:
+                    handlers.AddInputKitHandlers(); // 👈
                 });
-        
+
+
 
 #if DEBUG
             builder.Logging.AddDebug();

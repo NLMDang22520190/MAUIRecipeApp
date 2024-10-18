@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage
+<uranium:UraniumContentPage
     x:Class="MAUIRecipeApp.View.AdminView.EditFoodRecipePageView"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:input="clr-namespace:InputKit.Shared.Controls;assembly=InputKit.Maui"
     xmlns:m="clr-namespace:UraniumUI.Icons.MaterialSymbols;assembly=UraniumUI.Icons.MaterialSymbols"
     xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
     xmlns:models="clr-namespace:MAUIRecipeApp.Models"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:uranium="http://schemas.enisn-projects.io/dotnet/maui/uraniumui"
     xmlns:viewmodel="clr-namespace:MAUIRecipeApp.ViewModel.AdminViewModel"
     x:Name="PageRef"
     Title="Edit Food Recipe"
@@ -60,6 +62,19 @@
                             <FontImageSource
                                 FontFamily="MaterialSharp"
                                 Glyph="{x:Static m:MaterialSharp.Save}"
+                                Size="20" />
+                        </Button.ImageSource>
+                    </Button>
+                    <Button
+                        Background="{StaticResource Primary500}"
+                        Command="{Binding ToggleBackdropCommand}"
+                        FontAttributes="Bold"
+                        TextColor="{StaticResource WhiteText}"
+                        ToolTipProperties.Text="Filter">
+                        <Button.ImageSource>
+                            <FontImageSource
+                                FontFamily="MaterialSharp"
+                                Glyph="{x:Static m:MaterialSharp.Filter_alt}"
                                 Size="20" />
                         </Button.ImageSource>
                     </Button>
@@ -131,4 +146,62 @@
 
         </VerticalStackLayout>
     </ScrollView>
-</ContentPage>
+
+    <uranium:UraniumContentPage.Attachments>
+        <material:BackdropView
+            x:Name="backdrop"
+            Title="menu"
+            BackgroundColor="{StaticResource Primary100}"
+            InsertAfterToolbarIcons="True"
+            IsPresented="{Binding IsBackdropPresented, Mode=TwoWay}">
+            <VerticalStackLayout Spacing="8">
+                <material:MultiplePickerField
+                    Title="Difficulty Level"
+                    BorderColor="{StaticResource Primary400}"
+                    Icon="{FontImageSource FontFamily=MaterialSharp,
+                                           Glyph={x:Static m:MaterialSharp.Stacks},
+                                           Color={StaticResource Primary400}}"
+                    TitleColor="{StaticResource Primary400}">
+                    <material:MultiplePickerField.ItemsSource>
+                        <x:Array Type="{x:Type x:String}">
+                            <x:String>Easy</x:String>
+                            <x:String>Medium</x:String>
+                            <x:String>Hard</x:String>
+                        </x:Array>
+                    </material:MultiplePickerField.ItemsSource>
+                </material:MultiplePickerField>
+
+                <input:AdvancedSlider
+                    Title="Cooking Time"
+                    MaxValue="4"
+                    MaxValueSuffix="items"
+                    MinValue="0"
+                    StepValue="0.1"
+                    TextColor="{StaticResource Primary400}"
+                    ThumbColor="{StaticResource Primary400}" />
+                <input:AdvancedSlider
+                    Title="Portion"
+                    MaxValue="1200"
+                    MaxValueSuffix="items"
+                    MinValue="0"
+                    StepValue="1"
+                    TextColor="{StaticResource Primary400}"
+                    ThumbColor="{StaticResource Primary400}" />
+                <input:AdvancedSlider
+                    Title="Calories"
+                    MaxValue="1200"
+                    MaxValueSuffix="items"
+                    MinValue="0"
+                    StepValue="1"
+                    TextColor="{StaticResource Primary400}"
+                    ThumbColor="{StaticResource Primary400}" />
+                <Slider
+                    Maximum="4"
+                    MaximumTrackColor="Transparent"
+                    Minimum="0"
+                    MinimumTrackColor="{StaticResource Primary400}"
+                    ValueChanged="OnSliderValueChanged" />
+            </VerticalStackLayout>
+        </material:BackdropView>
+    </uranium:UraniumContentPage.Attachments>
+</uranium:UraniumContentPage>

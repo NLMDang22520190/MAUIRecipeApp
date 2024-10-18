@@ -59,6 +59,15 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <AndroidResource Remove="View\NewFolder1\**" />
+	  <Compile Remove="View\NewFolder1\**" />
+	  <EmbeddedResource Remove="View\NewFolder1\**" />
+	  <MauiCss Remove="View\NewFolder1\**" />
+	  <MauiXaml Remove="View\NewFolder1\**" />
+	  <None Remove="View\NewFolder1\**" />
+	</ItemGroup>
+
+	<ItemGroup>
 	  <None Remove="Platforms\Android\Assets\recipeapp-3c612-firebase-adminsdk-blmv2-aabcd1703d.json" />
 	  <None Remove="recipeapp-3c612-firebase-adminsdk-blmv2-aabcd1703d.json" />
 	  <None Remove="Resources\Images\admin_home_image.png" />
@@ -73,6 +82,7 @@
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
 		<PackageReference Include="Google.Cloud.Firestore" Version="3.8.0" />
 		<PackageReference Include="IdentityModel.OidcClient" Version="6.0.0" />
+		<PackageReference Include="InputKit.Maui" Version="4.4.7" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.8">
 		  <PrivateAssets>all</PrivateAssets>
 		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -172,10 +182,6 @@
 		<MauiXaml Update="View\UserView\HomePageView.xaml">
 			<Generator>MSBuild:Compile</Generator>
 			  </MauiXaml>
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="View\NewFolder1\" />
 	</ItemGroup>
 
 </Project>
