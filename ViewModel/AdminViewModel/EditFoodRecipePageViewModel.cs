@@ -19,7 +19,13 @@ namespace MAUIRecipeApp.ViewModel.AdminViewModel
         ObservableCollection<FoodRecipe> foodRecipes = new ObservableCollection<FoodRecipe>();
 
         [ObservableProperty]
-        private bool isBackdropPresented; 
+        private bool isBackdropPresented;
+
+        [ObservableProperty] private int maxCookingTime;
+
+        [ObservableProperty] private int maxCalorie;
+
+        [ObservableProperty] private int maxPortion;
 
         private readonly FirestoreDb _db;
 
@@ -53,6 +59,11 @@ namespace MAUIRecipeApp.ViewModel.AdminViewModel
                 Query query = recipesRef.WhereEqualTo("IsDeleted", false);
                 QuerySnapshot snapshot = await query.GetSnapshotAsync();
 
+                // Tạo các danh sách tạm để lưu trữ dữ liệu
+                List<int?> cookingTimes = new List<int?>();
+                List<int?> calories = new List<int?>();
+                List<int?> portions = new List<int?>();
+
                 foreach (DocumentSnapshot document in snapshot.Documents)
                 {
                     if (document.Exists)
@@ -60,8 +71,23 @@ namespace MAUIRecipeApp.ViewModel.AdminViewModel
                         FoodRecipe recipe = document.ConvertTo<FoodRecipe>();
                         recipe.Frid = document.Id; // Lấy FRID từ Document ID
                         FoodRecipes.Add(recipe); // Thêm vào ObservableCollection
+
+                        // Thêm các giá trị vào danh sách nếu không null
+                        if (recipe.CookingTime.HasValue)
+                            cookingTimes.Add(recipe.CookingTime);
+
+                        if (recipe.Calories.HasValue)
+                            calories.Add(recipe.Calories);
+
+                        if (recipe.Portion.HasValue)
+                            portions.Add(recipe.Portion);
                     }
                 }
+
+                // Tính toán các giá trị lớn nhất
+                MaxCookingTime = cookingTimes.Max() ?? 0;
+                MaxCalorie = calories.Max() ?? 0;
+                MaxPortion = portions.Max() ?? 0;
             }
             catch (Exception ex)
             {

@@ -171,36 +171,197 @@
                     </material:MultiplePickerField.ItemsSource>
                 </material:MultiplePickerField>
 
-                <input:AdvancedSlider
-                    Title="Cooking Time"
-                    MaxValue="4"
-                    MaxValueSuffix="items"
-                    MinValue="0"
-                    StepValue="0.1"
-                    TextColor="{StaticResource Primary400}"
-                    ThumbColor="{StaticResource Primary400}" />
-                <input:AdvancedSlider
-                    Title="Portion"
-                    MaxValue="1200"
-                    MaxValueSuffix="items"
-                    MinValue="0"
-                    StepValue="1"
-                    TextColor="{StaticResource Primary400}"
-                    ThumbColor="{StaticResource Primary400}" />
-                <input:AdvancedSlider
-                    Title="Calories"
-                    MaxValue="1200"
-                    MaxValueSuffix="items"
-                    MinValue="0"
-                    StepValue="1"
-                    TextColor="{StaticResource Primary400}"
-                    ThumbColor="{StaticResource Primary400}" />
-                <Slider
-                    Maximum="4"
-                    MaximumTrackColor="Transparent"
-                    Minimum="0"
-                    MinimumTrackColor="{StaticResource Primary400}"
-                    ValueChanged="OnSliderValueChanged" />
+
+
+                <!--  CalorieSlider  -->
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0.1*" />
+                        <ColumnDefinition Width="0.8*" />
+                        <ColumnDefinition Width="0.1*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+
+                    <!--  Title Label  -->
+                    <Label
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        FontAttributes="Bold"
+                        FontSize="18"
+                        HorizontalTextAlignment="Center"
+                        Text="Cooking Time"
+                        TextColor="{StaticResource Primary400}" />
+
+                    <!--  Minimum Value Label  -->
+                    <Label
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        FontSize="18"
+                        Text="0"
+                        TextColor="{StaticResource Primary400}" />
+
+                    <!--  Bound Value Label  -->
+                    <Label
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        FontSize="18"
+                        HorizontalTextAlignment="Center"
+                        Text="{Binding Source={x:Reference CookingSlider}, Path=Value, StringFormat='Value: {0:F0}'}"
+                        TextColor="{StaticResource Primary400}" />
+
+                    <!--  Maximum Value Label  -->
+                    <Label
+                        Grid.Row="1"
+                        Grid.Column="2"
+                        FontSize="18"
+                        HorizontalTextAlignment="End"
+                        Text="{Binding MaxCookingTime}"
+                        TextColor="{StaticResource Primary400}" />
+
+                    <!--  Slider  -->
+                    <Slider
+                        x:Name="CookingSlider"
+                        Grid.Row="2"
+                        Grid.ColumnSpan="3"
+                        Maximum="{Binding MaxCookingTime}"
+                        MaximumTrackColor="Transparent"
+                        Minimum="0"
+                        MinimumTrackColor="{StaticResource Primary400}"
+                        ValueChanged="OnSliderValueChanged" />
+                </Grid>
+                <!--  CalorieSlider  -->
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0.1*" />
+                        <ColumnDefinition Width="0.8*" />
+                        <ColumnDefinition Width="0.1*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+
+                    <!--  Title Label  -->
+                    <Label
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        FontAttributes="Bold"
+                        FontSize="18"
+                        HorizontalTextAlignment="Center"
+                        Text="Calories"
+                        TextColor="{StaticResource Primary400}" />
+
+                    <!--  Minimum Value Label  -->
+                    <Label
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        FontSize="18"
+                        Text="0"
+                        TextColor="{StaticResource Primary400}" />
+
+                    <!--  Bound Value Label  -->
+                    <Label
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        FontSize="18"
+                        HorizontalTextAlignment="Center"
+                        Text="{Binding Source={x:Reference CalorieSlider}, Path=Value, StringFormat='Value: {0:F0}'}"
+                        TextColor="{StaticResource Primary400}" />
+
+                    <!--  Maximum Value Label  -->
+                    <Label
+                        Grid.Row="1"
+                        Grid.Column="2"
+                        FontSize="18"
+                        HorizontalTextAlignment="End"
+                        Text="{Binding MaxCalorie}"
+                        TextColor="{StaticResource Primary400}" />
+
+                    <!--  Slider  -->
+                    <Slider
+                        x:Name="CalorieSlider"
+                        Grid.Row="2"
+                        Grid.ColumnSpan="3"
+                        Maximum="{Binding MaxCalorie}"
+                        MaximumTrackColor="Transparent"
+                        Minimum="0"
+                        MinimumTrackColor="{StaticResource Primary400}"
+                        ValueChanged="OnSliderValueChanged" />
+                </Grid>
+
+                <!--  PortionSlider  -->
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0.1*" />
+                        <ColumnDefinition Width="0.8*" />
+                        <ColumnDefinition Width="0.1*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+
+                    <!--  Title Label  -->
+                    <Label
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        FontAttributes="Bold"
+                        FontSize="18"
+                        HorizontalTextAlignment="Center"
+                        Text="Portion"
+                        TextColor="{StaticResource Primary400}" />
+
+                    <!--  Minimum Value Label  -->
+                    <Label
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        FontSize="18"
+                        Text="0"
+                        TextColor="{StaticResource Primary400}" />
+
+                    <!--  Bound Value Label  -->
+                    <Label
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        FontSize="18"
+                        HorizontalTextAlignment="Center"
+                        Text="{Binding Source={x:Reference PortionSlider}, Path=Value, StringFormat='Value: {0:F0}'}"
+                        TextColor="{StaticResource Primary400}" />
+
+                    <!--  Maximum Value Label  -->
+                    <Label
+                        Grid.Row="1"
+                        Grid.Column="2"
+                        FontSize="18"
+                        HorizontalTextAlignment="End"
+                        Text="{Binding MaxPortion}"
+                        TextColor="{StaticResource Primary400}" />
+
+                    <!--  Slider  -->
+                    <Slider
+                        x:Name="PortionSlider"
+                        Grid.Row="2"
+                        Grid.ColumnSpan="3"
+                        Maximum="{Binding MaxPortion}"
+                        MaximumTrackColor="Transparent"
+                        Minimum="0"
+                        MinimumTrackColor="{StaticResource Primary400}"
+                        ValueChanged="OnSliderValueChanged" />
+                </Grid>
+
+                <Button
+                    Margin="0,0,0,8"
+                    BorderColor="{StaticResource Primary400}"
+                    HorizontalOptions="End"
+                    Text="Show All"
+                    TextColor="{StaticResource Primary400}" />
+
             </VerticalStackLayout>
         </material:BackdropView>
     </uranium:UraniumContentPage.Attachments>
