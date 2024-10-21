@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage
+<uranium:UraniumContentPage
     x:Class="MAUIRecipeApp.View.AdminView.EditFoodRecipeTypePageView"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
@@ -7,6 +7,7 @@
     xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
     xmlns:models="clr-namespace:MAUIRecipeApp.Models"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:uranium="http://schemas.enisn-projects.io/dotnet/maui/uraniumui"
     xmlns:viewmodel="clr-namespace:MAUIRecipeApp.ViewModel.AdminViewModel"
     x:Name="PageRef"
     Title="Edit Food Recipe Type"
@@ -99,7 +100,10 @@
                     <material:DataGridColumn Title="Is Deleted ?" Width="*">
                         <material:DataGridColumn.CellItemTemplate>
                             <DataTemplate x:DataType="models:FoodRecipeType">
-                                <material:CheckBox HorizontalOptions="Center" IsChecked="{Binding IsDeleted}" />
+                                <material:CheckBox
+                                    HorizontalOptions="Center"
+                                    IsChecked="{Binding IsDeleted}"
+                                    IsEnabled="False" />
                             </DataTemplate>
                         </material:DataGridColumn.CellItemTemplate>
                     </material:DataGridColumn>
@@ -113,4 +117,4 @@
         </VerticalStackLayout>
     </ScrollView>
 
-</ContentPage>
+</uranium:UraniumContentPage>

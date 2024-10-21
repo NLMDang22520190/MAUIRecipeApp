@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using MAUIRecipeApp.DTO;
 using MAUIRecipeApp.Models;
 using MAUIRecipeApp.Service;
+using CommunityToolkit.Mvvm.Input;
 
 namespace MAUIRecipeApp.ViewModel.AdminViewModel
 {
@@ -20,6 +21,13 @@ namespace MAUIRecipeApp.ViewModel.AdminViewModel
 
         [ObservableProperty]
         ObservableCollection<FoodTypeMapDetailDto> foodTypeMapDetailDtos = new ObservableCollection<FoodTypeMapDetailDto>();
+
+        [ObservableProperty]
+        private ObservableCollection<string> foodTypeNameFilter = new ObservableCollection<string>();
+
+        [ObservableProperty]
+        private bool isBackdropPresented;
+
 
         private readonly FirestoreDb _db;
 
@@ -80,6 +88,8 @@ namespace MAUIRecipeApp.ViewModel.AdminViewModel
                             IsDeleted = mapping.IsDeleted
                         };
 
+                        AddFoodTypeNameToFilter(detailDto);
+
                         foodTypeMapDetailDtos.Add(detailDto);
                     }
                 }
@@ -88,6 +98,21 @@ namespace MAUIRecipeApp.ViewModel.AdminViewModel
             {
                 Debug.WriteLine("Error: " + ex.Message);
             }
+        }
+
+        private void AddFoodTypeNameToFilter(FoodTypeMapDetailDto dto)
+        {
+            if (!string.IsNullOrEmpty(dto.FoodTypeName) &&
+                !FoodTypeNameFilter.Contains(dto.FoodTypeName))
+            {
+                FoodTypeNameFilter.Add(dto.FoodTypeName);
+            }
+        }
+
+        [RelayCommand]
+        public async void ToggleBackdrop()
+        {
+            IsBackdropPresented = !IsBackdropPresented;
         }
 
     }

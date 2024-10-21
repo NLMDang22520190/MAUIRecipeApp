@@ -132,7 +132,10 @@
                         <material:DataGridColumn Title="Is Deleted ?">
                             <material:DataGridColumn.CellItemTemplate>
                                 <DataTemplate x:DataType="models:FoodRecipe">
-                                    <material:CheckBox HorizontalOptions="Center" IsChecked="{Binding IsDeleted}" />
+                                    <material:CheckBox
+                                        HorizontalOptions="Center"
+                                        IsChecked="{Binding IsDeleted}"
+                                        IsEnabled="False" />
                                 </DataTemplate>
                             </material:DataGridColumn.CellItemTemplate>
                         </material:DataGridColumn>
@@ -157,21 +160,13 @@
             <VerticalStackLayout Spacing="8">
                 <material:MultiplePickerField
                     Title="Difficulty Level"
+                    Margin="0,8,0,0"
                     BorderColor="{StaticResource Primary400}"
                     Icon="{FontImageSource FontFamily=MaterialSharp,
                                            Glyph={x:Static m:MaterialSharp.Stacks},
                                            Color={StaticResource Primary400}}"
-                    TitleColor="{StaticResource Primary400}">
-                    <material:MultiplePickerField.ItemsSource>
-                        <x:Array Type="{x:Type x:String}">
-                            <x:String>Easy</x:String>
-                            <x:String>Medium</x:String>
-                            <x:String>Hard</x:String>
-                        </x:Array>
-                    </material:MultiplePickerField.ItemsSource>
-                </material:MultiplePickerField>
-
-
+                    ItemsSource="{Binding FoodDifficulty}"
+                    TitleColor="{StaticResource Primary400}" />
 
                 <!--  CalorieSlider  -->
                 <Grid>
@@ -228,7 +223,7 @@
                         Grid.Row="2"
                         Grid.ColumnSpan="3"
                         Maximum="{Binding MaxCookingTime}"
-                        MaximumTrackColor="Transparent"
+                        MaximumTrackColor="{StaticResource Primary200}"
                         Minimum="0"
                         MinimumTrackColor="{StaticResource Primary400}"
                         ValueChanged="OnSliderValueChanged" />
@@ -288,7 +283,7 @@
                         Grid.Row="2"
                         Grid.ColumnSpan="3"
                         Maximum="{Binding MaxCalorie}"
-                        MaximumTrackColor="Transparent"
+                        MaximumTrackColor="{StaticResource Primary200}"
                         Minimum="0"
                         MinimumTrackColor="{StaticResource Primary400}"
                         ValueChanged="OnSliderValueChanged" />
@@ -349,7 +344,7 @@
                         Grid.Row="2"
                         Grid.ColumnSpan="3"
                         Maximum="{Binding MaxPortion}"
-                        MaximumTrackColor="Transparent"
+                        MaximumTrackColor="{StaticResource Primary200}"
                         Minimum="0"
                         MinimumTrackColor="{StaticResource Primary400}"
                         ValueChanged="OnSliderValueChanged" />
@@ -357,10 +352,11 @@
 
                 <Button
                     Margin="0,0,0,8"
+                    BackgroundColor="{StaticResource Primary400}"
                     BorderColor="{StaticResource Primary400}"
                     HorizontalOptions="End"
                     Text="Show All"
-                    TextColor="{StaticResource Primary400}" />
+                    TextColor="{StaticResource WhiteText}" />
 
             </VerticalStackLayout>
         </material:BackdropView>

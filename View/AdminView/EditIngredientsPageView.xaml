@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage
+<uranium:UraniumContentPage
     x:Class="MAUIRecipeApp.View.AdminView.EditIngredientsPageView"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
@@ -7,6 +7,7 @@
     xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
     xmlns:models="clr-namespace:MAUIRecipeApp.Models"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:uranium="http://schemas.enisn-projects.io/dotnet/maui/uraniumui"
     xmlns:viewmodel="clr-namespace:MAUIRecipeApp.ViewModel.AdminViewModel"
     x:Name="PageRef"
     Title="Edit Ingredients"
@@ -75,12 +76,60 @@
                 </material:TextField>
             </Grid>
 
+            <!--  ScrollView chỉ hiển thị trên Android  -->
+            <ScrollView
+                HorizontalScrollBarVisibility="Always"
+                IsEnabled="{OnPlatform Android=True,
+                                       WinUI=False}"
+                IsVisible="{OnPlatform Android=True,
+                                       WinUI=False}"
+                Orientation="Horizontal">
 
-            <material:DataGrid Margin="16,0,16,0" ItemsSource="{Binding Ingredients}">
+                <!--  DataGrid hiển thị trên cả Android và WinUI  -->
+                <material:DataGrid Margin="16,0,16,0" ItemsSource="{Binding Ingredients}">
+                    <material:DataGrid.Columns>
+                        <material:DataGridColumn
+                            Title="Ingredient Name"
+                            Width="*"
+                            ValueBinding="{Binding IngredientName}" />
 
+                        <material:DataGridColumn
+                            Title="Measurement Unit"
+                            Width="*"
+                            ValueBinding="{Binding MeasurementUnit}" />
 
+                        <material:DataGridColumn Title="Actions" Width="*">
+                            <material:DataGridColumn.CellItemTemplate>
+                                <DataTemplate>
+                                    <Button
+                                        Background="PaleVioletRed"
+                                        HorizontalOptions="Center"
+                                        Text="Remove" />
+                                </DataTemplate>
+                            </material:DataGridColumn.CellItemTemplate>
+                        </material:DataGridColumn>
+
+                        <material:DataGridColumn Title="Is Deleted ?" Width="*">
+                            <material:DataGridColumn.CellItemTemplate>
+                                <DataTemplate x:DataType="models:Ingredient">
+                                    <material:CheckBox
+                                        HorizontalOptions="Center"
+                                        IsChecked="{Binding IsDeleted}"
+                                        IsEnabled="False" />
+                                </DataTemplate>
+                            </material:DataGridColumn.CellItemTemplate>
+                        </material:DataGridColumn>
+                    </material:DataGrid.Columns>
+                </material:DataGrid>
+            </ScrollView>
+
+            <!--  DataGrid không nằm trong ScrollView trên WinUI  -->
+            <material:DataGrid
+                Margin="16,0,16,0"
+                IsVisible="{OnPlatform Android=False,
+                                       WinUI=True}"
+                ItemsSource="{Binding Ingredients}">
                 <material:DataGrid.Columns>
-
                     <material:DataGridColumn
                         Title="Ingredient Name"
                         Width="*"
@@ -101,16 +150,20 @@
                             </DataTemplate>
                         </material:DataGridColumn.CellItemTemplate>
                     </material:DataGridColumn>
+
                     <material:DataGridColumn Title="Is Deleted ?" Width="*">
                         <material:DataGridColumn.CellItemTemplate>
                             <DataTemplate x:DataType="models:Ingredient">
-                                <material:CheckBox HorizontalOptions="Center" IsChecked="{Binding IsDeleted}" />
+                                <material:CheckBox
+                                    HorizontalOptions="Center"
+                                    IsChecked="{Binding IsDeleted}"
+                                    IsEnabled="False" />
                             </DataTemplate>
                         </material:DataGridColumn.CellItemTemplate>
                     </material:DataGridColumn>
-
                 </material:DataGrid.Columns>
             </material:DataGrid>
+
 
 
 
@@ -118,4 +171,4 @@
         </VerticalStackLayout>
     </ScrollView>
 
-</ContentPage>
+</uranium:UraniumContentPage>

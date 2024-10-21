@@ -1,19 +1,20 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage
+<uranium:UraniumContentPage
     x:Class="MAUIRecipeApp.View.AdminView.EditFoodRecipeMappingPageView"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:dto="clr-namespace:MAUIRecipeApp.DTO"
     xmlns:m="clr-namespace:UraniumUI.Icons.MaterialSymbols;assembly=UraniumUI.Icons.MaterialSymbols"
     xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
-    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-    xmlns:viewmodel="clr-namespace:MAUIRecipeApp.ViewModel.AdminViewModel"
     xmlns:models="clr-namespace:MAUIRecipeApp.Models"
-    xmlns:dto="clr-namespace:MAUIRecipeApp.DTO"
-
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:uranium="http://schemas.enisn-projects.io/dotnet/maui/uraniumui"
+    xmlns:viewmodel="clr-namespace:MAUIRecipeApp.ViewModel.AdminViewModel"
+    x:Name="PageRef"
     Title="Edit Food Type Mapping"
     x:DataType="viewmodel:EditFoodRecipeMappingPageViewModel"
-    x:Name="PageRef"
-    Background="{StaticResource WhiteText}">
+    Background="{StaticResource WhiteText}"
+    SizeChanged="OnPageSizeChanged">
     <ScrollView>
         <VerticalStackLayout Spacing="8">
             <Grid Margin="16,8,16,0" VerticalOptions="Start">
@@ -65,6 +66,19 @@
                                 Size="20" />
                         </Button.ImageSource>
                     </Button>
+                    <Button
+                        Background="{StaticResource Primary500}"
+                        Command="{Binding ToggleBackdropCommand}"
+                        FontAttributes="Bold"
+                        TextColor="{StaticResource WhiteText}"
+                        ToolTipProperties.Text="Filter">
+                        <Button.ImageSource>
+                            <FontImageSource
+                                FontFamily="MaterialSharp"
+                                Glyph="{x:Static m:MaterialSharp.Filter_alt}"
+                                Size="20" />
+                        </Button.ImageSource>
+                    </Button>
                 </HorizontalStackLayout>
                 <material:TextField
                     Title="Search..."
@@ -77,22 +91,65 @@
                 </material:TextField>
             </Grid>
 
+            <ScrollView
+                HorizontalScrollBarVisibility="Always"
+                IsEnabled="{OnPlatform Android=True,
+                                       WinUI=False}"
+                IsVisible="{OnPlatform Android=True,
+                                       WinUI=False}"
+                Orientation="Horizontal">
 
-            <material:DataGrid Margin="16,0,16,0" ItemsSource="{Binding FoodTypeMapDetailDtos}">
+                <!--  DataGrid sẽ luôn hiển thị bất kể nền tảng  -->
+                <material:DataGrid
+                    x:Name="DataGrid"
+                    Margin="16,0,16,0"
+                    ItemsSource="{Binding FoodTypeMapDetailDtos}">
 
+                    <material:DataGrid.Columns>
+                        <material:DataGridColumn Title="Recipe Name" ValueBinding="{Binding RecipeName}" />
+                        <material:DataGridColumn Title="Food Type Name" ValueBinding="{Binding FoodTypeName}" />
+                        <material:DataGridColumn Title="Actions">
+                            <material:DataGridColumn.CellItemTemplate>
+                                <DataTemplate>
+                                    <Button
+                                        Background="PaleVioletRed"
+                                        HorizontalOptions="Center"
+                                        Text="Remove" />
+                                </DataTemplate>
+                            </material:DataGridColumn.CellItemTemplate>
+                        </material:DataGridColumn>
+                        <material:DataGridColumn Title="Is Deleted ?">
+                            <material:DataGridColumn.CellItemTemplate>
+                                <DataTemplate x:DataType="dto:FoodTypeMapDetailDto">
+                                    <material:CheckBox
+                                        HorizontalOptions="Center"
+                                        IsChecked="{Binding IsDeleted}"
+                                        IsEnabled="False" />
+                                </DataTemplate>
+                            </material:DataGridColumn.CellItemTemplate>
+                        </material:DataGridColumn>
+
+                    </material:DataGrid.Columns>
+                </material:DataGrid>
+            </ScrollView>
+
+            <!--  Hiển thị DataGrid mà không cần ScrollView trên WinUI  -->
+            <material:DataGrid
+                x:Name="DataGridWinUI"
+                Margin="16,0,16,0"
+                IsVisible="{OnPlatform Android=False,
+                                       WinUI=True}"
+                ItemsSource="{Binding FoodTypeMapDetailDtos}">
 
                 <material:DataGrid.Columns>
-
                     <material:DataGridColumn
                         Title="Recipe Name"
-                        Width="1.5*"    
+                        Width="1.5*"
                         ValueBinding="{Binding RecipeName}" />
-
                     <material:DataGridColumn
                         Title="Food Type Name"
                         Width="1.5*"
                         ValueBinding="{Binding FoodTypeName}" />
-
                     <material:DataGridColumn Title="Actions" Width="*">
                         <material:DataGridColumn.CellItemTemplate>
                             <DataTemplate>
@@ -106,7 +163,10 @@
                     <material:DataGridColumn Title="Is Deleted ?" Width="*">
                         <material:DataGridColumn.CellItemTemplate>
                             <DataTemplate x:DataType="dto:FoodTypeMapDetailDto">
-                                <material:CheckBox HorizontalOptions="Center" IsChecked="{Binding IsDeleted}" />
+                                <material:CheckBox
+                                    HorizontalOptions="Center"
+                                    IsChecked="{Binding IsDeleted}"
+                                    IsEnabled="False" />
                             </DataTemplate>
                         </material:DataGridColumn.CellItemTemplate>
                     </material:DataGridColumn>
@@ -116,8 +176,36 @@
 
 
 
-
         </VerticalStackLayout>
     </ScrollView>
+    <uranium:UraniumContentPage.Attachments>
+        <material:BackdropView
+            x:Name="backdrop"
+            Title="menu"
+            BackgroundColor="{StaticResource Primary100}"
+            InsertAfterToolbarIcons="True"
+            IsPresented="{Binding IsBackdropPresented, Mode=TwoWay}">
+            <VerticalStackLayout Spacing="8">
+                <material:MultiplePickerField
+                    Title="Food Type"
+                    Margin="0,8,0,0"
+                    BorderColor="{StaticResource Primary400}"
+                    Icon="{FontImageSource FontFamily=MaterialSharp,
+                                           Glyph={x:Static m:MaterialSharp.Stacks},
+                                           Color={StaticResource Primary400}}"
+                    ItemsSource="{Binding FoodTypeNameFilter}"
+                    TitleColor="{StaticResource Primary400}" />
 
-</ContentPage>
+                <Button
+                    Margin="0,0,0,8"
+                    BackgroundColor="{StaticResource Primary400}"
+                    BorderColor="{StaticResource Primary400}"
+                    HorizontalOptions="End"
+                    Text="Show All"
+                    TextColor="{StaticResource WhiteText}" />
+
+
+            </VerticalStackLayout>
+        </material:BackdropView>
+    </uranium:UraniumContentPage.Attachments>
+</uranium:UraniumContentPage>

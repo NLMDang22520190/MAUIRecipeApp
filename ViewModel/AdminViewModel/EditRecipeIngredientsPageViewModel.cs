@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using MAUIRecipeApp.DTO;
 using MAUIRecipeApp.Models;
 using MAUIRecipeApp.Service;
+using CommunityToolkit.Mvvm.Input;
 
 namespace MAUIRecipeApp.ViewModel.AdminViewModel
 {
@@ -20,6 +21,14 @@ namespace MAUIRecipeApp.ViewModel.AdminViewModel
 
         [ObservableProperty] private ObservableCollection<RecipeIngredientDetailDto> recipeIngredientDetailDtos =
             new ObservableCollection<RecipeIngredientDetailDto>();
+
+        [ObservableProperty]
+        private ObservableCollection<string> ingredientNameFilter = new ObservableCollection<string>();
+
+        [ObservableProperty]
+        private bool isBackdropPresented;
+
+        [ObservableProperty] private double maxQuantity;
 
         private readonly FirestoreDb _db;
 
@@ -53,6 +62,8 @@ namespace MAUIRecipeApp.ViewModel.AdminViewModel
                 Query query = ingredientsRef.WhereEqualTo("IsDeleted", false);
                 QuerySnapshot Snapshot = await query.GetSnapshotAsync();
 
+                List<double?> quantities = new List<double?>();
+
                 foreach (DocumentSnapshot ingredientDoc in Snapshot.Documents)
                 {
                     if (ingredientDoc.Exists)
@@ -82,14 +93,34 @@ namespace MAUIRecipeApp.ViewModel.AdminViewModel
                             IsDeleted = ingredient.IsDeleted
                         };
 
+                        AddIngredientNameToFilter(detailDto);
+
+                        quantities.Add(detailDto.Quantity);
+
                         recipeIngredientDetailDtos.Add(detailDto);
                     }
                 }
+                maxQuantity = quantities.Max() ?? 0;
             }
             catch (Exception ex)
             {
                 Debug.WriteLine("Error: " + ex.Message);
             }
+        }
+
+        private void AddIngredientNameToFilter(RecipeIngredientDetailDto dto)
+        {
+            if (!string.IsNullOrEmpty(dto.IngredientName) &&
+                !IngredientNameFilter.Contains(dto.IngredientName))
+            {
+                IngredientNameFilter.Add(dto.IngredientName);
+            }
+        }
+
+        [RelayCommand]
+        public async void ToggleBackdrop()
+        {
+            IsBackdropPresented = !IsBackdropPresented;
         }
 
     }

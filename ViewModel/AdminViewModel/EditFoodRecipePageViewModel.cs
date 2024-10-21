@@ -18,6 +18,9 @@ namespace MAUIRecipeApp.ViewModel.AdminViewModel
         [ObservableProperty]
         ObservableCollection<FoodRecipe> foodRecipes = new ObservableCollection<FoodRecipe>();
 
+        [ObservableProperty] 
+        ObservableCollection<string> foodDifficulty = new ObservableCollection<string>();
+
         [ObservableProperty]
         private bool isBackdropPresented;
 
@@ -81,6 +84,15 @@ namespace MAUIRecipeApp.ViewModel.AdminViewModel
 
                         if (recipe.Portion.HasValue)
                             portions.Add(recipe.Portion);
+
+                        // Thêm DifficultLevel vào danh sách nếu chưa có
+                        if (!string.IsNullOrEmpty(recipe.DifficultyLevel) &&
+                            !FoodDifficulty.Contains(recipe.DifficultyLevel))
+                        {
+                            FoodDifficulty.Add(recipe.DifficultyLevel);
+                        }
+
+
                     }
                 }
 
@@ -99,7 +111,6 @@ namespace MAUIRecipeApp.ViewModel.AdminViewModel
         public async void ToggleBackdrop()
         {
             IsBackdropPresented = !IsBackdropPresented;
-            Debug.Write(isBackdropPresented);
         }
     }
 }
