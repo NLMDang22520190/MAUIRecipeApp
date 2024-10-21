@@ -72,6 +72,8 @@
 	  <None Remove="recipeapp-3c612-firebase-adminsdk-blmv2-aabcd1703d.json" />
 	  <None Remove="Resources\Images\admin_home_image.png" />
 	  <None Remove="Resources\Images\cartoon_food4.png" />
+	  <None Remove="Resources\Images\food_background_img.png" />
+	  <None Remove="Resources\Images\logo.png" />
 	</ItemGroup>
 
 	<ItemGroup>
