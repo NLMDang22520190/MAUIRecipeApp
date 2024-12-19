@@ -29,7 +29,7 @@ namespace MAUIRecipeApp.Service
                     Username = username,
                     Email = email,
                     Provider = provider,
-                    UserType = "Regular",  // Hoặc loại khác nếu cần
+                    UserType = false,  // Hoặc loại khác nếu cần
                     Password = null  // OAuth không cần mật khẩu
                 };
 

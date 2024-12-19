@@ -1,21 +1,37 @@
-﻿using System;
+﻿using Google.Cloud.Firestore;
+using System;
 using System.Collections.Generic;
 
 namespace MAUIRecipeApp.Models;
 
+[FirestoreData] // Đánh dấu lớp này là dữ liệu Firestore
+
 public partial class User
 {
+    [FirestoreProperty] // Ánh xạ thuộc tính với trường 'Frid' trong Firestore
+
     public int Uid { get; set; }
+    [FirestoreProperty] // Ánh xạ thuộc tính với trường 'Frid' trong Firestore
+
 
     public string Username { get; set; } = null!;
 
+    [FirestoreProperty] // Ánh xạ thuộc tính với trường 'Frid' trong Firestore
+
     public string Password { get; set; } = null!;
+    [FirestoreProperty] // Ánh xạ thuộc tính với trường 'Frid' trong Firestore
 
     public string Email { get; set; } = null!;
+    [FirestoreProperty] // Ánh xạ thuộc tính với trường 'Frid' trong Firestore
 
     public string? Provider { get; set; }
+    [FirestoreProperty] // Ánh xạ thuộc tính với trường 'Frid' trong Firestore
 
-    public string? UserType { get; set; }
+    public bool? UserType { get; set; }
+    [FirestoreProperty] // Ánh xạ thuộc tính với trường 'Frid' trong Firestore
+
+    public bool? isAdmin { get; set; }
+    [FirestoreProperty] // Ánh xạ thuộc tính với trường 'Frid' trong Firestore
 
     public bool? IsDeleted { get; set; }
 
