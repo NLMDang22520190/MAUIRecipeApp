@@ -48,12 +48,23 @@ namespace MAUIRecipeApp.ViewModel.Auth
         [RelayCommand]
         private async Task Login()
         {
-            if (email == "admin" && password == "admin")
+            var user = AuthService.Instance.Login(email, password);
+            if (user != null)
             {
-                await Shell.Current.GoToAsync("//adminhome");
-                return;
+                UserService.Instance.SetCurrentUser(user);  
+                if (user.isAdmin == true)
+                {
+                    await Shell.Current.GoToAsync("//adminhome");
+                    return;
+                }
+                else
+                    await Shell.Current.GoToAsync("//home");
             }
-            await Shell.Current.GoToAsync("//home");
+            else
+            {
+                Debug.WriteLine("Incorrect email or password");
+            }
+           
         }
 
 

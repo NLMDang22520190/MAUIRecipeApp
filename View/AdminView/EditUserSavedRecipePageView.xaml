@@ -77,7 +77,7 @@
 
 
 
-            <material:DataGrid Margin="16,0,16,0" ItemsSource="{Binding UserSavedRecipesqr}">
+            <material:DataGrid Margin="16,0,16,0" ItemsSource="{Binding UserSavedRecipes}">
 
 
                 <material:DataGrid.Columns>
