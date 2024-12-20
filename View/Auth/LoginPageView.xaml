@@ -77,6 +77,12 @@
                     <TapGestureRecognizer Command="{Binding ForgotPasswordCommand}" />
                 </Label.GestureRecognizers>
             </Label>
+
+            <Label
+                FontSize="14"
+                HorizontalOptions="Center"
+                Text="{Binding ErrorMSG}"
+                TextColor="Red" />
             <Button
                 Margin="0,24,0,0"
                 BackgroundColor="{StaticResource Primary}"

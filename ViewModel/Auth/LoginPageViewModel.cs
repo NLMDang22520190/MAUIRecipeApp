@@ -27,6 +27,9 @@ namespace MAUIRecipeApp.ViewModel.Auth
         [ObservableProperty]
         private string password;
 
+        [ObservableProperty]
+        private string _errorMSG;
+
 
         public LoginPageViewModel(IConfiguration configuration)
         {
@@ -62,6 +65,7 @@ namespace MAUIRecipeApp.ViewModel.Auth
             }
             else
             {
+                ErrorMSG = "Incorrect email or password";
                 Debug.WriteLine("Incorrect email or password");
             }
            

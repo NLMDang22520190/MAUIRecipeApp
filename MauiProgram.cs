@@ -61,6 +61,7 @@ namespace MAUIRecipeApp
 
             // Đăng ký FirestoreService là Singleton
             builder.Services.AddSingleton(FirestoreService.Instance);
+            builder.Services.AddMemoryCache();
 
             builder.Services.AddTransient<StartUpPageView>();
             builder.Services.AddTransient<StartUpPageViewModel>();

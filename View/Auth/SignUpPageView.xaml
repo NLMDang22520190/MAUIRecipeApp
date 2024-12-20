@@ -3,9 +3,11 @@
     x:Class="MAUIRecipeApp.View.Auth.SignUpPageView"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:input="clr-namespace:InputKit.Shared.Controls;assembly=InputKit.Maui"
     xmlns:m="clr-namespace:UraniumUI.Icons.MaterialSymbols;assembly=UraniumUI.Icons.MaterialSymbols"
     xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:validations="clr-namespace:InputKit.Shared.Validations;assembly=InputKit.Maui"
     xmlns:viewmodel="clr-namespace:MAUIRecipeApp.ViewModel.Auth"
     Title=""
     x:DataType="viewmodel:SignUpPageViewModel"
@@ -14,7 +16,7 @@
         <VerticalStackLayout
             Margin="16,0,16,0"
             HorizontalOptions="Fill"
-            Spacing="12"
+            Spacing="10"
             VerticalOptions="Center">
             <Label
                 FontAttributes="Bold"
@@ -28,47 +30,85 @@
                 Text="Please enter your account here"
                 TextColor="{StaticResource PrimaryDarkText}" />
 
-            <material:TextField
-                Title="Email"
-                Margin="0,16,0,0"
-                AllowClear="True"
-                BorderColor="{StaticResource PrimaryDarkText}"
-                CornerRadius="16"
-                FontSize="16"
-                TextColor="{StaticResource PrimaryDarkText}">
-                <material:TextField.Icon>
-                    <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Mail}" />
-                </material:TextField.Icon>
-            </material:TextField>
-
-            <material:TextField
-                Title="Username"
-                AllowClear="True"
-                BorderColor="{StaticResource PrimaryDarkText}"
-                CornerRadius="16"
-                FontSize="16"
-                TextColor="{StaticResource PrimaryDarkText}">
-                <material:TextField.Icon>
-                    <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Person}" />
-                </material:TextField.Icon>
-            </material:TextField>
-
-            <material:TextField
-                Title="Password"
-                BorderColor="{StaticResource PrimaryDarkText}"
-                CornerRadius="16"
-                FontSize="16"
-                IsPassword="True"
-                TextColor="{StaticResource PrimaryDarkText}">
-                <material:TextField.Icon>
-                    <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Lock}" />
-                </material:TextField.Icon>
-                <material:TextField.Attachments>
-                    <material:TextFieldPasswordShowHideAttachment />
-                </material:TextField.Attachments>
-            </material:TextField>
-
             <Label
+                FontSize="14"
+                HorizontalOptions="Center"
+                Text="{Binding ErrorMSG}"
+                TextColor="Red" />
+
+            <input:FormView Spacing="16" SubmitCommand="{Binding SignUpCommand}">
+
+                <material:TextField
+                    Title="Email"
+                    Margin="0,16,0,0"
+                    AllowClear="True"
+                    BorderColor="{StaticResource PrimaryDarkText}"
+                    CornerRadius="16"
+                    FontSize="16"
+                    Text="{Binding Email}"
+                    TextColor="{StaticResource PrimaryDarkText}">
+                    <validations:RequiredValidation />
+                    <validations:RegexValidation Message="Please type a valid e-mail address." Pattern="{x:Static input:AdvancedEntry.REGEX_EMAIL}" />
+                    <material:TextField.Icon>
+                        <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Mail}" />
+                    </material:TextField.Icon>
+                </material:TextField>
+
+                <material:TextField
+                    Title="Username"
+                    AllowClear="True"
+                    BorderColor="{StaticResource PrimaryDarkText}"
+                    CornerRadius="16"
+                    FontSize="16"
+                    Text="{Binding Username}"
+                    TextColor="{StaticResource PrimaryDarkText}">
+                    <validations:RequiredValidation />
+                    <material:TextField.Icon>
+                        <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Person}" />
+                    </material:TextField.Icon>
+                </material:TextField>
+
+                <material:TextField
+                    Title="Password"
+                    BorderColor="{StaticResource PrimaryDarkText}"
+                    CornerRadius="16"
+                    FontSize="16"
+                    IsPassword="True"
+                    Text="{Binding Password}"
+                    TextColor="{StaticResource PrimaryDarkText}">
+                    <validations:RequiredValidation />
+                    <validations:RegexValidation Message="Password must be at least 6 characters long and include at least two of the following: a lowercase letter, an uppercase letter, or a number. " Pattern="{x:Static input:AdvancedEntry.REGEX_PASSWORD}" />
+                    <material:TextField.Icon>
+                        <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Lock}" />
+                    </material:TextField.Icon>
+                    <material:TextField.Attachments>
+                        <material:TextFieldPasswordShowHideAttachment />
+                    </material:TextField.Attachments>
+                </material:TextField>
+
+
+
+                <Button
+                    Margin="0,16,0,0"
+                    input:FormView.IsSubmitButton="True"
+                    BackgroundColor="{StaticResource Primary}"
+                    FontSize="18"
+                    Text="Sign Up"
+                    TextColor="{StaticResource WhiteText}" />
+
+            </input:FormView>
+
+            <Button
+                Margin="0,16,0,0"
+                BackgroundColor="Transparent"
+                BorderColor="{StaticResource Primary}"
+                Command="{Binding LoginCommand}"
+                FontSize="18"
+                Text="Back to login"
+                TextColor="{StaticResource Primary}" />
+
+
+            <!--<Label
                 FontSize="16"
                 Text="Your Password must contain:"
                 TextColor="{StaticResource PrimaryDarkText}" />
@@ -96,15 +136,9 @@
                     </Image.Source>
                 </Image>
                 <Label Text="Contains a number" />
-            </HorizontalStackLayout>
+            </HorizontalStackLayout>-->
 
-            <Button
-                Margin="0,16,0,0"
-                BackgroundColor="{StaticResource Primary}"
-                Command="{Binding SignUpCommand}"
-                FontSize="18"
-                Text="Sign Up"
-                TextColor="{StaticResource WhiteText}" />
+
         </VerticalStackLayout>
 
     </ScrollView>

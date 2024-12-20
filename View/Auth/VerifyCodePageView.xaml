@@ -6,6 +6,7 @@
     xmlns:m="clr-namespace:UraniumUI.Icons.MaterialSymbols;assembly=UraniumUI.Icons.MaterialSymbols"
     xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:validations="clr-namespace:InputKit.Shared.Validations;assembly=InputKit.Maui"
     xmlns:viewmodel="clr-namespace:MAUIRecipeApp.ViewModel.Auth"
     Title=""
     x:DataType="viewmodel:VerifyCodePageViewModel"
@@ -28,13 +29,24 @@
                 HorizontalOptions="Center"
                 Text="We've sent the code to your email"
                 TextColor="{StaticResource PrimaryDarkText}" />
+
+            <Label
+                FontSize="14"
+                HorizontalOptions="Center"
+                Text="{Binding ErrorMSG}"
+                TextColor="Red" />
             <material:TextField
                 Title="Code"
                 Margin="0,12,0,0"
                 AllowClear="True"
                 FontSize="20"
                 Keyboard="Numeric"
+                Text="{Binding Code}"
                 TextColor="{StaticResource PrimaryDarkText}">
+                <validations:RequiredValidation />
+                <validations:DigitsOnlyValidation />
+                <validations:MaxLengthValidation MaxLength="6" />
+                <validations:MinLengthValidation MinLength="6" />
                 <material:TextField.Icon>
                     <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Pin}" />
                 </material:TextField.Icon>
@@ -45,8 +57,10 @@
                 HorizontalOptions="Center"
                 Spacing="8">
                 <Label Text="code expires in: " TextColor="{StaticResource PrimaryDarkText}" />
-                <Label Text="3:12" TextColor="Red" />
+                <Label Text="{Binding TimerString}" TextColor="Red" />
             </HorizontalStackLayout>
+
+
 
             <Button
                 Margin="0,12,0,0"
@@ -58,7 +72,9 @@
             <Button
                 BackgroundColor="Transparent"
                 BorderColor="{StaticResource Primary}"
+                Command="{Binding ResendCodeCommand}"
                 FontSize="18"
+                IsEnabled="{Binding TimerString, Converter={StaticResource TimerEnabledConverter}}"
                 Text="Send again"
                 TextColor="{StaticResource Primary}" />
         </VerticalStackLayout>

@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MAUIRecipeApp.DTO;
 
 
 namespace MAUIRecipeApp.Service
@@ -57,6 +58,74 @@ namespace MAUIRecipeApp.Service
             }
         }
 
+        public User SignUp(string email, string password, string username)
+        {
+            // Lấy dữ liệu người dùng từ Firestore theo email
+            var userCollection = _db.Collection("User");
+            var query = userCollection.WhereEqualTo("Email", email);
+
+            var snapshot = query.GetSnapshotAsync().Result;
+
+            // Kiểm tra nếu email đã tồn tại
+            if (snapshot.Documents.Count > 0)
+            {
+                return null;
+            }
+
+            // Tạo người dùng mới
+            var newUser = new User
+            {
+                Email = email,
+                Username = username,
+                Password = PasswordHasherService.HashPassword(password) // Hash mật khẩu
+            };
+
+            //userCollection.Document().SetAsync(newUser).Wait(); // Lưu người dùng mới vào Firestore
+            //Debug.WriteLine("User registered successfully");
+            return newUser;
+        }
+
+        public async Task<bool> AddNewUser(User user, bool isAdmin)
+        {
+            try
+            {
+                var userCollection = _db.Collection("User");
+
+                // 1. Lấy số lượng user hiện có
+                var snapshot = await userCollection.GetSnapshotAsync();
+                int userCount = snapshot.Count;
+
+                // 2. Tạo ID dạng "UUID + số thứ tự 3 chữ số"
+                string customId = $"UUID{(userCount + 1):D3}";
+
+                // 3. Chuẩn bị dữ liệu người dùng
+                var newUser = new FirestoreUserDto
+                {
+                    Email = user.Email,
+                    Username = user.Username,
+                    Password = user.Password,
+                    isAdmin = isAdmin
+                };
+
+                // 4. Lưu người dùng với Document ID tuỳ chỉnh
+                await userCollection.Document(customId).SetAsync(newUser);
+
+                // 5. Trả về true nếu lưu thành công
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Error adding user: {ex.Message}");
+                // 6. Trả về false nếu có lỗi xảy ra
+                return false;
+            }
+        }
+
+
+
+
+
+
         // Property để truy cập instance duy nhất của AuthService
         public static AuthService Instance
         {
@@ -73,6 +142,7 @@ namespace MAUIRecipeApp.Service
                 }
             }
         }
+
 
         //public async Task<User> AddOrUpdateUserAsync(string email, string username, string provider)
         //{

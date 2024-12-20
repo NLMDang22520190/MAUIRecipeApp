@@ -14,6 +14,8 @@ namespace MAUIRecipeApp.Service
 
         public User CurrentUser { get; private set; }  // Thông tin người dùng hiện tại
 
+        public User CurrentSignUpUser { get; private set; }  // Thông tin người dùng đang đăng ký
+
         // Private constructor để đảm bảo chỉ có thể tạo 1 instance
         private UserService()
         {
@@ -45,6 +47,16 @@ namespace MAUIRecipeApp.Service
         public void ClearCurrentUser()
         {
             CurrentUser = null;
+        }
+
+        public void SetCurrentSignUpUser(User user)
+        {
+            CurrentSignUpUser = user;
+        }
+
+        public void ClearCurrentSignUpUser()
+        {
+            CurrentSignUpUser = null;
         }
     }
 
