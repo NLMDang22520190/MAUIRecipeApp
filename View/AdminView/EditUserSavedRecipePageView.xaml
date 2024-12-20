@@ -1,19 +1,125 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage
+<uranium:UraniumContentPage
     x:Class="MAUIRecipeApp.View.AdminView.EditUserSavedRecipePageView"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:m="clr-namespace:UraniumUI.Icons.MaterialSymbols;assembly=UraniumUI.Icons.MaterialSymbols"
     xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:uranium="http://schemas.enisn-projects.io/dotnet/maui/uraniumui"
     xmlns:viewmodel="clr-namespace:MAUIRecipeApp.ViewModel.AdminViewModel"
-    Title=""
+    x:Name="PageRef"
+    Title="Edit User Saved Recipe"
     x:DataType="viewmodel:EditUserSavedRecipePageViewModel"
     Background="{StaticResource WhiteText}">
-    <VerticalStackLayout>
-        <Label
-            HorizontalOptions="Center"
-            Text="Welcome to .NET User Saved Recipe!"
-            VerticalOptions="Center" />
-    </VerticalStackLayout>
-</ContentPage>
+    <ScrollView>
+        <VerticalStackLayout Spacing="8">
+            <Grid Margin="16,8,16,0" VerticalOptions="Start">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <HorizontalStackLayout Grid.Column="0" Spacing="8">
+                    <Label
+                        Grid.ColumnSpan="2"
+                        FontAttributes="Bold"
+                        FontSize="24"
+                        HorizontalOptions="Center"
+                        Text="{Binding Source={x:Reference PageRef}, Path=Title}"
+                        TextColor="{StaticResource Primary}"
+                        VerticalOptions="Center" />
+
+                </HorizontalStackLayout>
+                <HorizontalStackLayout
+                    Grid.Column="1"
+                    HorizontalOptions="End"
+                    Spacing="8"
+                    VerticalOptions="Center">
+                    <Button
+                        Background="Aqua"
+                        FontAttributes="Bold"
+                        TextColor="{StaticResource WhiteText}"
+                        ToolTipProperties.Text="Edit">
+                        <Button.ImageSource>
+                            <FontImageSource
+                                FontFamily="MaterialSharp"
+                                Glyph="{x:Static m:MaterialSharp.Edit}"
+                                Size="20" />
+                        </Button.ImageSource>
+                    </Button>
+                    <Button
+                        Background="Lime"
+                        FontAttributes="Bold"
+                        TextColor="{StaticResource WhiteText}"
+                        ToolTipProperties.Text="Save">
+                        <Button.ImageSource>
+                            <FontImageSource
+                                FontFamily="MaterialSharp"
+                                Glyph="{x:Static m:MaterialSharp.Save}"
+                                Size="20" />
+                        </Button.ImageSource>
+                    </Button>
+                </HorizontalStackLayout>
+                <material:TextField
+                    Title="Search..."
+                    Grid.Row="1"
+                    AllowClear="True"
+                    TextColor="{StaticResource Primary}">
+                    <material:TextField.Icon>
+                        <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Search}" />
+                    </material:TextField.Icon>
+                </material:TextField>
+            </Grid>
+
+
+
+            <material:DataGrid Margin="16,0,16,0" ItemsSource="{Binding UserSavedRecipes}">
+
+
+                <material:DataGrid.Columns>
+
+                    <material:DataGridColumn
+                        Title="UUID"
+                        Width="*"
+                        ValueBinding="{Binding UUIDString}" />
+
+                    <material:DataGridColumn
+                        Title="FRID"
+                        Width="*"
+                        ValueBinding="{Binding FRIDString}" />
+
+
+                    <material:DataGridColumn Title="Actions" Width="*">
+                        <material:DataGridColumn.CellItemTemplate>
+                            <DataTemplate>
+                                <Button
+                                    Background="PaleVioletRed"
+                                    HorizontalOptions="Center"
+                                    Text="Remove" />
+                            </DataTemplate>
+                        </material:DataGridColumn.CellItemTemplate>
+                    </material:DataGridColumn>
+                    <!--<material:DataGridColumn Title="IsAdmin" Width="*">
+                     <material:DataGridColumn.CellItemTemplate>
+                         <DataTemplate x:DataType="models:UserDetail">
+                             <material:CheckBox
+                                 HorizontalOptions="Center"
+                                 IsChecked="{Binding isAdmin}"
+                                 IsEnabled="False" />
+                         </DataTemplate>
+                     </material:DataGridColumn.CellItemTemplate>
+                 </material:DataGridColumn>-->
+
+                </material:DataGrid.Columns>
+            </material:DataGrid>
+
+
+
+
+        </VerticalStackLayout>
+    </ScrollView>
+</uranium:UraniumContentPage>
