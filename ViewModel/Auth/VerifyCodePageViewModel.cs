@@ -94,7 +94,7 @@ namespace MAUIRecipeApp.ViewModel.Auth
 
         private async void SendCode()
         {
-            StartTimer(1); 
+            StartTimer(3); 
             var code = await MailService.Instance.SendVerificationCodeAsync(UserService.Instance.CurrentSignUpUser.Email);
             _cache.Set("verify_code", code, TimeSpan.FromMinutes(3)); // Lưu mã xác thực vào cache
 

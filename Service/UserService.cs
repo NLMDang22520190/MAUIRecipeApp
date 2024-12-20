@@ -16,6 +16,8 @@ namespace MAUIRecipeApp.Service
 
         public User CurrentSignUpUser { get; private set; }  // Thông tin người dùng đang đăng ký
 
+        public string CurrentRecoveryEmail { get; set; }
+
         // Private constructor để đảm bảo chỉ có thể tạo 1 instance
         private UserService()
         {

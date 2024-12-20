@@ -67,7 +67,7 @@ namespace MAUIRecipeApp.Service
             var snapshot = query.GetSnapshotAsync().Result;
 
             // Kiểm tra nếu email đã tồn tại
-            if (snapshot.Documents.Count > 0)
+            if (CheckEmailExist(email))
             {
                 return null;
             }
@@ -121,10 +121,52 @@ namespace MAUIRecipeApp.Service
             }
         }
 
+        public async Task<bool> UpdateUserPassword(string email, string newPassword)
+        {
+            try
+            {
+                var userCollection = _db.Collection("User");
+                var query = userCollection.WhereEqualTo("Email", email);
+                var snapshot = await query.GetSnapshotAsync();
+
+                // Lấy tài liệu đầu tiên
+                var userDoc = snapshot.Documents.First();
+
+                // Hash mật khẩu mới
+                var hashedPassword = PasswordHasherService.HashPassword(newPassword);
+
+                // Chỉ cập nhật trường Password
+                await userDoc.Reference.UpdateAsync("Password", hashedPassword);
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Error updating user password: {ex.Message}");
+                return false;
+            }
+        }
 
 
 
+        public bool CheckEmailExist(string email)
+        {
+            if (CountUserWithEmail(email) > 0)
+                return true;
+            return false;
+        }
 
+        private int CountUserWithEmail(string email)
+        {
+            // Lấy dữ liệu người dùng từ Firestore theo email
+            var userCollection = _db.Collection("User");
+            var query = userCollection.WhereEqualTo("Email", email);
+
+            var snapshot = query.GetSnapshotAsync().Result;
+
+            return snapshot.Documents.Count;
+            
+        }
 
         // Property để truy cập instance duy nhất của AuthService
         public static AuthService Instance
@@ -143,27 +185,5 @@ namespace MAUIRecipeApp.Service
             }
         }
 
-
-        //public async Task<User> AddOrUpdateUserAsync(string email, string username, string provider)
-        //{
-        //    var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Email == email && u.Provider == provider);
-
-        //    if (user == null)
-        //    {
-        //        user = new User
-        //        {
-        //            Username = username,
-        //            Email = email,
-        //            Provider = provider,
-        //            UserType = false,  // Hoặc loại khác nếu cần
-        //            Password = null  // OAuth không cần mật khẩu
-        //        };
-
-        //        _dbContext.Users.Add(user);
-        //        await _dbContext.SaveChangesAsync();
-        //    }
-
-        //    return user;
-        //}
     }
 }
