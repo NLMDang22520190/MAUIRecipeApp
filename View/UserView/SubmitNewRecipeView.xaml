@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="MAUIRecipeApp.View.UserView.SubmitNewRecipeView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:MAUIRecipeApp.View.UserView"
+    Title="Submit New Recipe">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <local:AmountUnitConverter x:Key="AmountUnitConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="15">
+            <!-- Header -->
+            <Label Text="Recipe Information Form"
+                   FontSize="24"
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center" />
+            <Label Text="Share your recipe details with us"
+                   FontSize="14"
+                   TextColor="Gray"
+                   HorizontalOptions="Center" />
+
+            <!-- Recipe Name -->
+            <Label Text="Name" />
+            <Entry x:Name="NameEntry" Placeholder="Enter the name of the dish" />
+
+            <!-- Calories -->
+            <Label Text="Calories" />
+            <Entry x:Name="CaloriesEntry" Placeholder="Enter calorie count" Keyboard="Numeric" />
+
+            <!-- Cooking Time -->
+            <Label Text="Cooking Time (minutes)" />
+            <Entry x:Name="CookingTimeEntry" Placeholder="Enter cooking time" Keyboard="Numeric" />
+
+            <!-- Difficulty Slider -->
+            <Label Text="Difficulty" />
+            <Slider 
+    x:Name="DifficultySlider" 
+    Minimum="0" 
+    Maximum="2" 
+    Value="1" 
+    ValueChanged="DifficultySlider_ValueChanged" />
+            <Grid ColumnSpacing="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <!-- Labels for Difficulty -->
+                <Label Text="Easy" Grid.Column="0" HorizontalOptions="Start" VerticalOptions="Center" />
+                <Label Text="Medium" Grid.Column="1" HorizontalOptions="Center" VerticalOptions="Center" />
+                <Label Text="Hard" Grid.Column="2" HorizontalOptions="End" VerticalOptions="Center" />
+            </Grid>
+
+
+
+            <!-- Ingredients Section -->
+            <Label Text="Ingredients" />
+            <Grid Padding="5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Entry x:Name="IngredientNameEntry" Placeholder="Ingredient name" Grid.Column="0" />
+                <Entry x:Name="IngredientAmountEntry" Placeholder="Amount" Grid.Column="1" WidthRequest="100" />
+                <Button Text="Add" Grid.Column="2" Clicked="OnAddIngredient" />
+            </Grid>
+            <CollectionView x:Name="IngredientsList" ItemsSource="{Binding Ingredients}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Padding="5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <Label Text="{Binding Name}" Grid.Column="0" />
+                            <Label Text="{Binding Amount}" Grid.Column="1" />
+                            <Button Text="Remove" Grid.Column="3" Clicked="OnRemoveIngredient" />
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <!-- Health Benefits -->
+            <Label Text="Health Benefits" />
+            <Editor x:Name="HealthBenefitsEditor" Placeholder="Describe the health benefits" />
+
+            <!-- Food Type -->
+            <Label Text="Food Type" />
+            <Picker x:Name="FoodTypePicker">
+                <Picker.ItemsSource>
+                    <x:Array Type="{x:Type x:String}">
+                        <x:String>Breakfast</x:String>
+                        <x:String>Lunch</x:String>
+                        <x:String>Dinner</x:String>
+                        <x:String>Snack</x:String>
+                    </x:Array>
+                </Picker.ItemsSource>
+            </Picker>
+
+            <!-- Submit Button -->
+            <Button Text="Submit Recipe" BackgroundColor="Orange" TextColor="White" Clicked="OnSubmitRecipe" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

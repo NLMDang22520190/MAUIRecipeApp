@@ -59,6 +59,11 @@
         ContentTemplate="{DataTemplate AdminView:AdminHomePageView}"
         Route="adminhome"
         Shell.FlyoutItemIsVisible="False" />
+    <ShellContent
+        ContentTemplate="{DataTemplate UserView:SubmitNewRecipeView}"
+        Route="submitnewrecipe"
+        Shell.FlyoutBehavior="Disabled"
+        Shell.FlyoutItemIsVisible="False" />
 
 
     <!--  chinh flyoutbehavior cho cac screen tren, su dung extender cho flyoutitem, tao cac screen can thiet, sai datagrid de hien data  -->
