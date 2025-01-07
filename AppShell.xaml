@@ -9,6 +9,7 @@
     xmlns:View="clr-namespace:MAUIRecipeApp.View"
     xmlns:local="clr-namespace:MAUIRecipeApp"
     xmlns:m="clr-namespace:UraniumUI.Icons.MaterialSymbols;assembly=UraniumUI.Icons.MaterialSymbols"
+    xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
     xmlns:sys="clr-namespace:System;assembly=netstandard"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     Title="MAUIRecipeApp"
@@ -50,11 +51,7 @@
         Route="newpassword"
         Shell.FlyoutBehavior="Disabled"
         Shell.FlyoutItemIsVisible="False" />
-    <ShellContent
-        ContentTemplate="{DataTemplate UserView:HomePageView}"
-        Route="home"
-        Shell.FlyoutBehavior="Disabled"
-        Shell.FlyoutItemIsVisible="False" />
+
     <ShellContent
         ContentTemplate="{DataTemplate AdminView:AdminHomePageView}"
         Route="adminhome"
@@ -64,6 +61,66 @@
         Route="submitnewrecipe"
         Shell.FlyoutBehavior="Disabled"
         Shell.FlyoutItemIsVisible="False" />
+    <!--<ShellContent
+        ContentTemplate="{DataTemplate UserView:HomePageView}"
+        Route="home"
+        Shell.FlyoutBehavior="Disabled"
+        Shell.FlyoutItemIsVisible="False" />-->
+
+
+    <TabBar>
+
+        <ShellContent
+            Title="Home"
+            ContentTemplate="{DataTemplate UserView:HomePageView}"
+            Route="home">
+            <ShellContent.Icon>
+                <FontImageSource
+                    FontFamily="MaterialSharp"
+                    Glyph="{x:Static m:MaterialSharp.Home}"
+                    Color="{StaticResource WhiteText}" />
+            </ShellContent.Icon>
+        </ShellContent>
+
+
+        <Tab Title="Saved">
+            <Tab.Icon>
+                <FontImageSource
+                    FontFamily="MaterialSharp"
+                    Glyph="{x:Static m:MaterialSharp.Bookmark}"
+                    Color="{StaticResource WhiteText}" />
+            </Tab.Icon>
+            <ShellContent Title="Saved Recipe" ContentTemplate="{DataTemplate UserView:UserSavedRecipePageView}">
+                <ShellContent.Icon>
+                    <FontImageSource
+                        FontFamily="MaterialSharp"
+                        Glyph="{x:Static m:MaterialSharp.Lunch_dining}"
+                        Color="{StaticResource WhiteText}" />
+                </ShellContent.Icon>
+            </ShellContent>
+            <ShellContent Title="Saved Collection" ContentTemplate="{DataTemplate UserView:UserSavedCollectionPageView}">
+                <ShellContent.Icon>
+                    <FontImageSource
+                        FontFamily="MaterialSharp"
+                        Glyph="{x:Static m:MaterialSharp.Menu_book}"
+                        Color="{StaticResource WhiteText}" />
+                </ShellContent.Icon>
+            </ShellContent>
+        </Tab>
+
+        <ShellContent Title="User" ContentTemplate="{DataTemplate UserView:UserInfoPageView}">
+            <ShellContent.Icon>
+                <FontImageSource
+                    FontFamily="MaterialSharp"
+                    Glyph="{x:Static m:MaterialSharp.Person}"
+                    Color="{StaticResource WhiteText}" />
+            </ShellContent.Icon>
+        </ShellContent>
+
+
+
+
+    </TabBar>
 
 
     <!--  chinh flyoutbehavior cho cac screen tren, su dung extender cho flyoutitem, tao cac screen can thiet, sai datagrid de hien data  -->

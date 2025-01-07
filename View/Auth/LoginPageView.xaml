@@ -88,6 +88,7 @@
                 BackgroundColor="{StaticResource Primary}"
                 Command="{Binding LoginCommand}"
                 FontSize="18"
+                
                 Text="Login"
                 TextColor="#FDFEFB" />
             <Label

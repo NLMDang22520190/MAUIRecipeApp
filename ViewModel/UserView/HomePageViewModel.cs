@@ -46,6 +46,12 @@ namespace MAUIRecipeApp.ViewModel.UserView
             await Shell.Current.GoToAsync($"fooddetail?FRID={Frid}");
         }
 
+        [RelayCommand]
+        public async Task SubmitNewRecipe()
+        {
+            await Shell.Current.GoToAsync("///submitnewrecipe");
+        }
+
         private void LoadItem()
         {
             //// Lọc các phần tử không bị xóa trong FoodRecipeTypes
