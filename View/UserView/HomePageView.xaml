@@ -24,12 +24,12 @@
             <VerticalStackLayout HorizontalOptions="Start" Spacing="4">
                 <Label
                     FontSize="18"
-                    Text="Good Morning!"
+                    Text="{Binding TimeString}"
                     TextColor="{StaticResource PrimaryDarkText}" />
                 <Label
                     FontAttributes="Bold"
                     FontSize="22"
-                    Text="TEKATOJI"
+                    Text="{Binding UserName}"
                     TextColor="{StaticResource Primary}" />
             </VerticalStackLayout>
 

@@ -83,6 +83,7 @@
 		<PackageReference Include="CommunityToolkit.Maui.MediaElement" Version="4.1.1" />
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
 		<PackageReference Include="Google.Cloud.Firestore" Version="3.8.0" />
+		<PackageReference Include="Google_GenerativeAI" Version="1.0.2" />
 		<PackageReference Include="IdentityModel.OidcClient" Version="6.0.0" />
 		<PackageReference Include="InputKit.Maui" Version="4.4.7" />
 		<PackageReference Include="MailKit" Version="4.9.0" />
@@ -95,12 +96,14 @@
 		  <PrivateAssets>all</PrivateAssets>
 		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="Microsoft.Extensions.Configuration" Version="8.0.0" />
-		<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="8.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Configuration" Version="9.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="9.0.0" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.0" />
 		<PackageReference Include="Microsoft.Maui.Controls" Version="8.0.82" />
 		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="8.0.82" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0" />
 		<PackageReference Include="MimeKit" Version="4.9.0" />
+		<PackageReference Include="OpenAI" Version="2.1.0" />
 		<PackageReference Include="UraniumUI" Version="2.10.1" />
 		<PackageReference Include="UraniumUI.Icons.FontAwesome" Version="2.9.1" />
 		<PackageReference Include="UraniumUI.Icons.MaterialSymbols" Version="2.10.1" />
@@ -179,6 +182,9 @@
 		</MauiXaml>
 		<MauiXaml Update="View\StartUpPageView.xaml">
 			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="View\UserView\ChatPageView.xaml">
+		  <Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
 		<MauiXaml Update="View\UserView\FoodRecipePageView.xaml">
 			<Generator>MSBuild:Compile</Generator>

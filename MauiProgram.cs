@@ -23,6 +23,14 @@ namespace MAUIRecipeApp
         {
             var builder = MauiApp.CreateBuilder();
 
+            // Load appsettings.json
+            var configuration = new ConfigurationBuilder()
+                .SetBasePath(FileSystem.Current.AppDataDirectory)
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                .Build();
+
+            builder.Configuration.AddConfiguration(configuration);
+
             // Đọc tệp appsettings.json
             var a = Assembly.GetExecutingAssembly();
             using var stream = a.GetManifestResourceStream("MAUIRecipeApp.appsettings.json");
@@ -57,6 +65,7 @@ namespace MAUIRecipeApp
 
 #if DEBUG
             builder.Logging.AddDebug();
+            builder.Services.AddSingleton<GeminiService>();
 #endif
 
             // Đăng ký FirestoreService là Singleton
@@ -92,6 +101,9 @@ namespace MAUIRecipeApp
 
             builder.Services.AddTransient<FoodRecipePageView>();
             builder.Services.AddTransient<FoodRecipePageViewModel>();
+
+            builder.Services.AddTransient<ChatPageView>();
+            builder.Services.AddTransient<ChatPageViewModel>();
 
             builder.Services.AddTransient<UserSavedRecipePageView>();
             builder.Services.AddTransient<UserSavedRecipePageViewModel>();

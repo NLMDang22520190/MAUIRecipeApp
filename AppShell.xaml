@@ -82,6 +82,15 @@
             </ShellContent.Icon>
         </ShellContent>
 
+        <ShellContent Title="Chat" ContentTemplate="{DataTemplate UserView:ChatPageView}">
+            <ShellContent.Icon>
+                <FontImageSource
+                    FontFamily="MaterialSharp"
+                    Glyph="{x:Static m:MaterialSharp.Chat}"
+                    Color="{StaticResource WhiteText}" />
+            </ShellContent.Icon>
+        </ShellContent>
+
 
         <Tab Title="Saved">
             <Tab.Icon>

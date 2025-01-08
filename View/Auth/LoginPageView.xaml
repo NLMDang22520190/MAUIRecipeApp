@@ -13,11 +13,12 @@
     x:DataType="viewmodel:LoginPageViewModel"
     Background="{StaticResource WhiteText}">
 
-    <ScrollView HorizontalOptions="Center" VerticalOptions="Center">
+    <ScrollView>
 
         <VerticalStackLayout
+            Margin="64,0,64,0"
             Background="Transparent"
-            HorizontalOptions="Center"
+            HorizontalOptions="Fill"
             Spacing="12"
             VerticalOptions="Center">
 
@@ -88,7 +89,6 @@
                 BackgroundColor="{StaticResource Primary}"
                 Command="{Binding LoginCommand}"
                 FontSize="18"
-                
                 Text="Login"
                 TextColor="#FDFEFB" />
             <Label

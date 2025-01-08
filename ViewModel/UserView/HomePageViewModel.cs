@@ -22,6 +22,9 @@ namespace MAUIRecipeApp.ViewModel.UserView
         [ObservableProperty]
         ObservableCollection<FoodRecipe> foodRecipes = new ObservableCollection<FoodRecipe>();
 
+        [ObservableProperty] private string timeString;
+        [ObservableProperty] private string userName;
+
         private readonly FirestoreService _firestoreService;
         private readonly FirestoreDb db;
 
@@ -35,10 +38,9 @@ namespace MAUIRecipeApp.ViewModel.UserView
                 return;
             }
             LoadItem();
+            UpdateTimeString();
+            userName = UserService.Instance.CurrentUser.Username;
         }
-
-
-
 
         [RelayCommand]
         public async Task FoodDetail(string Frid)
@@ -54,18 +56,12 @@ namespace MAUIRecipeApp.ViewModel.UserView
 
         private void LoadItem()
         {
-            //// Lọc các phần tử không bị xóa trong FoodRecipeTypes
-            //FoodRecipeTypes = new ObservableCollection<FoodRecipeType>(
-            //    DataProvider.Ins.DB.FoodRecipeTypes.AsNoTracking()
-            //    .Where(item => (bool)!item.IsDeleted).ToList());
-
             LoadFoodRecipes();
             LoadFoodRecipeTypes();
         }
 
         private async void LoadFoodRecipes()
         {
-            // Truy vấn để lấy các mục có IsDeleted = false
             CollectionReference recipesRef = db.Collection("FoodRecipes");
             Query query = recipesRef.WhereEqualTo("IsDeleted", false);
             QuerySnapshot snapshot = await query.GetSnapshotAsync();
@@ -75,26 +71,27 @@ namespace MAUIRecipeApp.ViewModel.UserView
                 if (document.Exists)
                 {
                     FoodRecipe recipe = document.ConvertTo<FoodRecipe>();
-                    recipe.Frid = document.Id; // Lấy FRID từ Document ID
-                    FoodRecipes.Add(recipe); // Thêm vào ObservableCollection
+                    recipe.Frid = document.Id;
+                    FoodRecipes.Add(recipe);
                 }
             }
         }
 
         private async void LoadFoodRecipeTypes()
         {
-            try {
-               
+            try
+            {
                 CollectionReference recipeTypesRef = db.Collection("FoodRecipeTypes");
                 Query query = recipeTypesRef.WhereEqualTo("IsDeleted", false);
                 QuerySnapshot snapshot = await query.GetSnapshotAsync();
+
                 foreach (DocumentSnapshot document in snapshot.Documents)
                 {
                     if (document.Exists)
                     {
                         FoodRecipeType recipeType = document.ConvertTo<FoodRecipeType>();
-                        recipeType.Tofid = document.Id; // Lấy FRTID từ Document ID
-                        FoodRecipeTypes.Add(recipeType); // Thêm vào ObservableCollection
+                        recipeType.Tofid = document.Id;
+                        FoodRecipeTypes.Add(recipeType);
                     }
                 }
             }
@@ -102,10 +99,28 @@ namespace MAUIRecipeApp.ViewModel.UserView
             {
                 Debug.WriteLine("error: " + ex.Message);
             }
-
         }
 
+        private void UpdateTimeString()
+        {
+            var currentHour = DateTime.Now.Hour;
 
-
-	}
+            if (currentHour >= 5 && currentHour < 12)
+            {
+                TimeString = "Good Morning!";
+            }
+            else if (currentHour >= 12 && currentHour < 17)
+            {
+                TimeString = "Good Afternoon!";
+            }
+            else if (currentHour >= 17 && currentHour < 21)
+            {
+                TimeString = "Good Evening!";
+            }
+            else
+            {
+                TimeString = "Good Night!";
+            }
+        }
+    }
 }
