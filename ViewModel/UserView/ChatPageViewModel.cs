@@ -27,7 +27,8 @@ namespace MAUIRecipeApp.ViewModel.UserView
 
         [ObservableProperty] ObservableCollection<ChatMessage> chatHistory = new ObservableCollection<ChatMessage>();
 
-      
+        [ObservableProperty] bool canSendMsg = true;
+
 
         private readonly GeminiService _geminiService;
 
@@ -35,7 +36,10 @@ namespace MAUIRecipeApp.ViewModel.UserView
         public ChatPageViewModel(GeminiService gemini)
         {
            this._geminiService = gemini;
+           LoadData();
         }
+
+        
 
         [RelayCommand]
         public async Task GetRecommendationAsync()
@@ -46,26 +50,24 @@ namespace MAUIRecipeApp.ViewModel.UserView
                 {
                     return;
                 }
+                CanSendMsg = false;
                 AddToChatHistory(message, true);
-                Answer = "Waiting";
+                Answer = "Waiting...";
                 AddToChatHistory(answer, false);
                 var result = await _geminiService.SendMessage(message);
                 Answer = "Chat response: ";
                 Answer += result.ToString();
                 ChangeChatHistory(result);
 
-                //var client = _chatGptClient.GetChatClient("gpt-3.5-turbo");
-                //string prompt = $"{message}";
-
-                //var response = await client.CompleteChatAsync(prompt);
-                //System.Diagnostics.Debug.WriteLine(response);
-                //var returnMessage = response.Value.Content.ToString();
-
-                //answer = returnMessage ?? "No recommendation available.";
             }
             catch (Exception ex)
             {
                 answer = "Error: " + ex.Message;
+            }
+            finally
+            {
+                CanSendMsg = true;
+                message = string.Empty;
             }
 
         }
@@ -99,7 +101,10 @@ namespace MAUIRecipeApp.ViewModel.UserView
            AddToChatHistory(msg, false);
         }
 
-
+        private async void LoadData()
+        {
+            await _geminiService.LoadDataToChat();
+        }
     }
 
 

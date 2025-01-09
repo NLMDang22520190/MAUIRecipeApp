@@ -32,6 +32,9 @@ namespace MAUIRecipeApp.ViewModel.UserView
         [ObservableProperty]
         ObservableCollection<FoodRecipe> filteredFoodRecipes = new ObservableCollection<FoodRecipe>();
 
+        [ObservableProperty]
+        ObservableCollection<FoodRecipe> suggestedFoodRecipes = new ObservableCollection<FoodRecipe>();
+
         [ObservableProperty] private string timeString = string.Empty;
         [ObservableProperty] private string userName = string.Empty;
         
@@ -48,11 +51,13 @@ namespace MAUIRecipeApp.ViewModel.UserView
 
         private readonly FirestoreService _firestoreService;
         private readonly FirestoreDb db;
+        private readonly GeminiService _geminiService;
 
 
 
-        public HomePageViewModel()
+        public HomePageViewModel(GeminiService gemini)
         {
+            this._geminiService = gemini;
             _firestoreService = FirestoreService.Instance;
             db = _firestoreService.Db;
             if (db == null)
@@ -143,9 +148,33 @@ namespace MAUIRecipeApp.ViewModel.UserView
             filteredFoodRecipes = foodRecipes;
             TotalPages = (int)Math.Ceiling((double)filteredFoodRecipes.Count / itemsPerPage);
             await SetPage();
+            LoadSuggestedFood();
         }
 
-       
+
+        private async void LoadSuggestedFood()
+        {
+            var currentUser = UserService.Instance.CurrentUser;
+            var healthInfo = "Tôi có tình trạng sức khoẻ là " + currentUser.HealthCondition + " và bị dị ứng với " + currentUser.Allergies +
+                             ", cân nặng " + currentUser.Weight.ToString() + ", chiều cao " + currentUser.Height.ToString();
+            var recommendedFoodIds = await _geminiService.GetRecommendedFoodForHealth(healthInfo);
+
+            // In ra danh sách các FoodId phù hợp
+            foreach (var foodId in recommendedFoodIds)
+            {
+                Debug.WriteLine(foodId);
+            }
+
+            // Lấy ra các món ăn phù hợp từ danh sách FoodId
+            foreach (var foodId in recommendedFoodIds)
+            {
+                var food = foodRecipes.FirstOrDefault(x => x.Frid == foodId);
+                if (food != null)
+                {
+                    SuggestedFoodRecipes.Add(food);
+                }
+            }
+        }
 
         private async Task LoadFoodRecipes()
         {

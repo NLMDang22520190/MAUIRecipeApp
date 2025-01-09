@@ -12,27 +12,35 @@
     Title=""
     x:DataType="viewmodel:ChatPageViewModel"
     Background="{StaticResource WhiteText}">
-    <VerticalStackLayout Margin="8,16,16,0" Spacing="4">
-        <Label
-            FontSize="35"
-            HorizontalOptions="Center"
-            Text="Chat bot"
-            TextColor="{StaticResource Primary}"
-            VerticalOptions="Center" />
-        <Label
-            FontSize="18"
-            HorizontalTextAlignment="Center"
-            Text="Enter your question and our chatbot will answer"
-            TextColor="{StaticResource PrimaryDarkText}" />
-        <Border HeightRequest="450" StrokeShape="RoundRectangle 20">
+    <Grid Margin="16,16,16,0" RowSpacing="4">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="100" />
+            <RowDefinition />
+            <RowDefinition Height="75" />
+        </Grid.RowDefinitions>
+        <VerticalStackLayout Grid.Row="0" Spacing="4">
+            <Label
+                FontSize="35"
+                HorizontalOptions="Center"
+                Text="Chat bot"
+                TextColor="{StaticResource Primary}"
+                VerticalOptions="Center" />
+            <Label
+                FontSize="18"
+                HorizontalTextAlignment="Center"
+                Text="Enter your question and our chatbot will answer"
+                TextColor="{StaticResource PrimaryDarkText}" />
+        </VerticalStackLayout>
+        <Border
+            Grid.Row="1"
+            BackgroundColor="Beige"
+            StrokeShape="RoundRectangle 20">
             <ScrollView>
                 <CollectionView ItemsSource="{Binding ChatHistory}">
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
-                            <VerticalStackLayout
-                                Padding="5"
-                                BackgroundColor="Beige"
-                                Opacity="1">
+                            <VerticalStackLayout Padding="5">
+
                                 <Border
                                     Padding="10"
                                     x:DataType="dto:ChatMessage"
@@ -43,7 +51,7 @@
                                     <Label
                                         x:DataType="dto:ChatMessage"
                                         Text="{Binding Text}"
-                                        TextColor="White"
+                                        TextColor="{StaticResource WhiteText}"
                                         VerticalOptions="Center" />
                                 </Border>
 
@@ -54,19 +62,35 @@
 
             </ScrollView>
         </Border>
-        <material:EditorField
-            Title="Chat"
-            FontSize="18"
-            Text="{Binding Message}"
-            TextColor="{StaticResource PrimaryDarkText}" />
-        <!--<Label
-            FontSize="18"
-            Text="{Binding Answer}"
-            TextColor="{StaticResource PrimaryDarkText}" />-->
-        <Button
-            BackgroundColor="AntiqueWhite"
-            Command="{Binding GetRecommendationCommand}"
-            FontSize="18"
-            Text="press" />
-    </VerticalStackLayout>
+        <Grid Grid.Row="2" ColumnSpacing="4">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="50" />
+            </Grid.ColumnDefinitions>
+            <material:EditorField
+                Title="Chat"
+                Grid.Column="0"
+                FontSize="18"
+                Text="{Binding Message}"
+                TextColor="{StaticResource PrimaryDarkText}"
+                VerticalOptions="Center" />
+
+            <Button
+                Grid.Column="1"
+                Padding="0"
+                BackgroundColor="{StaticResource Primary}"
+                Command="{Binding GetRecommendationCommand}"
+                FontSize="18"
+                HeightRequest="50"
+                IsEnabled="{Binding CanSendMsg}">
+                <Button.ImageSource>
+                    <FontImageSource
+                        FontFamily="MaterialSharp"
+                        Glyph="{x:Static m:MaterialSharp.Arrow_upward}"
+                        Color="{StaticResource WhiteText}" />
+                </Button.ImageSource>
+            </Button>
+        </Grid>
+    </Grid>
+
 </ContentPage>

@@ -11,7 +11,7 @@ namespace MAUIRecipeApp.Converter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return (bool)value ? Colors.LightBlue : Colors.Gray; // Màu khác nhau cho user và bot
+            return (bool)value ? Colors.LightGreen : Colors.Gray; // Màu khác nhau cho user và bot
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

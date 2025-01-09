@@ -35,6 +35,22 @@ public partial class User
 
     public bool? IsDeleted { get; set; }
 
+    [FirestoreProperty] // Ánh xạ thuộc tính với trường 'Frid' trong Firestore
+
+    public float? Height { get; set; }
+    [FirestoreProperty] // Ánh xạ thuộc tính với trường 'Frid' trong Firestore
+
+    public float? Weight { get; set; }
+    [FirestoreProperty] // Ánh xạ thuộc tính với trường 'Frid' trong Firestore
+
+    public string? HealthCondition { get; set; }
+    [FirestoreProperty] // Ánh xạ thuộc tính với trường 'Frid' trong Firestore
+
+    public string? Allergies { get; set; }
+    [FirestoreProperty] // Ánh xạ thuộc tính với trường 'Frid' trong Firestore
+
+
+
     public virtual ICollection<FoodRating> FoodRatings { get; set; } = new List<FoodRating>();
 
     public virtual ICollection<FoodRecipe> FoodRecipes { get; set; } = new List<FoodRecipe>();

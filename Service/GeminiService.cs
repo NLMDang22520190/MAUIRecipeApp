@@ -42,11 +42,11 @@ namespace MAUIRecipeApp.Service
         private async void LoadData()
         {
             await LoadRecipe();
-            await LoadDataToChat();
+            //await LoadDataToChat();
 
         }
 
-        private async Task LoadDataToChat()
+        public async Task LoadDataToChat()
         {
             var prompt = "Dưới đây là danh sách các món ăn và thông tin chi tiết về chúng. Dựa vào thông tin này, bạn sẽ trả lời các câu hỏi tiếp theo của tôi. Hãy chỉ trả lời khi tôi đặt câu hỏi, không cần tự tạo câu hỏi hoặc trả lời thêm bất cứ điều gì ngoài câu hỏi của tôi:\n\n";
 
@@ -79,15 +79,19 @@ namespace MAUIRecipeApp.Service
 
         public async Task<List<string>> GetRecommendedFoodForHealth(string healthInfo)
         {
-            // Tạo prompt yêu cầu AI trả lời dựa trên thông tin sức khỏe và dữ liệu món ăn
-            var prompt = $"Dưới đây là danh sách các món ăn và thông tin chi tiết về chúng. Dựa trên thông tin sức khỏe sau của tôi, hãy lấy ra các món ăn phù hợp và trả về danh sách các FoodId phù hợp:\n\n";
+            // Tạo prompt yêu cầu AI trả lời theo định dạng danh sách ID món ăn
+            var prompt = $"Dưới đây là danh sách các món ăn và thông tin chi tiết về chúng. Dựa trên thông tin sức khỏe sau của tôi, hãy lấy ra các món ăn phù hợp và trả về danh sách các FoodId phù hợp dưới dạng mảng: [idfood1, idfood2, idfood3,...]\n\n";
             prompt += $"Thông tin sức khỏe của tôi: {healthInfo}\n\n";
 
             foreach (var recipe in foodRecipes)
             {
-                prompt += $"- Tên món: {recipe.RecipeName}, Lượng calo: {recipe.Calories}, Lợi ích sức khỏe: {recipe.HealthBenefits}, Khẩu phần: {recipe.Portion}\n";
+                prompt += $" - Tên món: {recipe.RecipeName}, Lượng calo: {recipe.Calories}, Lợi ích sức khỏe: {recipe.HealthBenefits}, Khẩu phần: {recipe.Portion}\n";
             }
 
+            // Yêu cầu chatbot trả về mảng ID món ăn theo định dạng: [idfood1, idfood2, idfood3,...]
+            prompt += "\nXin vui lòng chỉ trả về danh sách các FoodId dưới dạng: [idfood1, idfood2, idfood3,...]. Không thêm bất kỳ thông tin gì khác.";
+
+            Debug.WriteLine(prompt);
             // Gửi prompt tới AI và nhận phản hồi
             var result = await chatSession.SendMessageAsync(prompt);
             Debug.WriteLine(result);
@@ -100,25 +104,41 @@ namespace MAUIRecipeApp.Service
 
         private List<string> ParseFoodIds(string response)
         {
-            var foodIds = new List<string>();
-
-            // Giả sử response trả về dạng: "[idfood1, idfood2, idfood3,...]"
-            // Cắt bỏ dấu ngoặc và chia thành các phần tử
-            if (string.IsNullOrEmpty(response))
+            try
             {
+                var foodIds = new List<string>();
+
+                // Giả sử response trả về dạng: "[idfood1, idfood2, idfood3,...]"
+                // Cắt bỏ dấu ngoặc và chia thành các phần tử
+                if (string.IsNullOrEmpty(response))
+                {
+                    return foodIds;
+                }
+
+                // Loại bỏ dấu ngoặc vuông ở hai đầu chuỗi
+                var foodIdString = response.Trim('[', ']');
+                // Tách chuỗi thành các phần tử (các FoodId)
+                var foodIdList = foodIdString.Split(',');
+
+                foreach (var foodId in foodIdList)
+                {
+                    if ((int.Parse(foodId.Trim())) - 1 <= foodRecipes.Count)
+                    {
+                        foodIds.Add(foodRecipes[int.Parse(foodId.Trim()) - 1].Frid);
+                    }
+                }
+
                 return foodIds;
             }
-
-            var foodIdString = response.Trim('[', ']');
-            var foodIdList = foodIdString.Split(',');
-
-            foreach (var foodId in foodIdList)
+            catch (Exception e)
             {
-                foodIds.Add(foodId.Trim());
+                Debug.WriteLine("Error: " + e.Message);
+            return new List<string>();
+
             }
 
-            return foodIds;
         }
+
 
     }
 }
