@@ -18,6 +18,8 @@
             </ResourceDictionary.MergedDictionaries>
 
             <converter:TimerEnabledConverter x:Key="TimerEnabledConverter" />
+            <converter:BoolToColorConverter x:Key="BoolToColorConverter" />
+            <converter:BoolToAlignmentConverter x:Key="BoolToAlignmentConverter" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>

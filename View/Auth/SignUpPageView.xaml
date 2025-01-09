@@ -14,7 +14,7 @@
     Background="{StaticResource WhiteText}">
     <ScrollView>
         <VerticalStackLayout
-            Margin="64,0,64,0"
+            Margin="32,0,32,0"
             HorizontalOptions="Fill"
             Spacing="10"
             VerticalOptions="Center">

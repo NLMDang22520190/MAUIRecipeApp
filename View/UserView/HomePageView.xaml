@@ -111,7 +111,7 @@
                         Text="Category"
                         TextColor="{StaticResource PrimaryDarkText}"
                         VerticalTextAlignment="Center" />
-                    <Button
+                    <!--<Button
                         Grid.Column="1"
                         BackgroundColor="Transparent"
                         CornerRadius="0"
@@ -120,7 +120,7 @@
                                               WinUI=14}"
                         HorizontalOptions="End"
                         Text="See All"
-                        TextColor="{StaticResource Primary}" />
+                        TextColor="{StaticResource Primary}" />-->
                 </Grid>
 
                 <ScrollView Orientation="Horizontal">
@@ -131,6 +131,8 @@
                                     Margin="0,0,8,0"
                                     BackgroundColor="Transparent"
                                     BorderColor="{StaticResource Primary}"
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:HomePageViewModel}}, Path=FilterByTypeCommand}"
+                                    CommandParameter="{Binding Tofid}"
                                     HeightRequest="50"
                                     Text="{Binding FoodTypeName}"
                                     TextColor="{StaticResource PrimaryDarkText}"
@@ -160,6 +162,8 @@
                     <Button
                         Grid.Column="1"
                         BackgroundColor="Transparent"
+                        Command="{Binding FilterByTypeCommand}"
+                        CommandParameter=""
                         CornerRadius="0"
                         FontAttributes="Bold"
                         FontSize="{OnPlatform Android=18,
@@ -169,7 +173,7 @@
                         TextColor="{StaticResource Primary}" />
                 </Grid>
 
-                <CollectionView ItemsLayout="VerticalGrid,2 " ItemsSource="{Binding FoodRecipes}">
+                <CollectionView ItemsLayout="VerticalGrid,2 " ItemsSource="{Binding PaginatedFoodRecipes}">
                     <CollectionView.ItemTemplate>
                         <DataTemplate x:DataType="models:FoodRecipe">
                             <Grid Padding="8">
@@ -186,13 +190,6 @@
                                     CommandParameter="{Binding Frid}"
                                     CornerRadius="20"
                                     Source="{Binding ImgUrl}" />
-
-                                <!--<Border Stroke="Transparent" StrokeShape="RoundRectangle 15">
-                                    <Image
-                                        Grid.Row="0"
-                                        Aspect="Fill"
-                                        Source="https://superfoods.vn/wp-content/uploads/2023/07/banh-mi-hamburger-truyen-thong.jpeg" />
-                                </Border>-->
 
 
                                 <VerticalStackLayout
@@ -222,6 +219,11 @@
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>
+                <material:Paginator
+                    ChangePageCommand="{Binding SetPageCommand}"
+                    CurrentPage="{Binding CurrentPage, Mode=TwoWay}"
+                    HorizontalOptions="Center"
+                    TotalPageCount="{Binding TotalPages}" />
 
 
 

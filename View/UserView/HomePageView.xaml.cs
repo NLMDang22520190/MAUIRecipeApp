@@ -10,8 +10,8 @@ public partial class HomePageView : ContentPage
         BindingContext = vm;
     }
 
-	private async void OnSubmitNewRecipeClicked(object sender, EventArgs e)
-	{
-		await Shell.Current.GoToAsync("///submitnewrecipe");
-	}
+	//private async void OnSubmitNewRecipeClicked(object sender, EventArgs e)
+	//{
+	//	await Shell.Current.GoToAsync("///submitnewrecipe");
+	//}
 }
