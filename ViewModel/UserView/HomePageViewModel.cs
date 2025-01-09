@@ -67,7 +67,7 @@ namespace MAUIRecipeApp.ViewModel.UserView
             }
             LoadItem();
             UpdateTimeString();
-            userName = UserService.Instance.CurrentUser.Username;
+            
         }
 
         [RelayCommand]
@@ -139,9 +139,16 @@ namespace MAUIRecipeApp.ViewModel.UserView
             }
         }
 
+        [RelayCommand]
+        public async Task RefreshFoodRecipe()
+        {
+            await LoadFoodRecipes();
+        }
+        
 
         private async void LoadItem()
         {
+            userName = UserService.Instance.CurrentUser.Username;
             await LoadFoodRecipes();
             LoadFoodRecipeTypes();
             LoadFoodRecipeTypeMappings();
@@ -262,5 +269,7 @@ namespace MAUIRecipeApp.ViewModel.UserView
                 TimeString = "Good Night!";
             }
         }
+
+
     }
 }

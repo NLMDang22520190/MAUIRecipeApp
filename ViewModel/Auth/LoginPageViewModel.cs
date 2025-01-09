@@ -61,7 +61,7 @@ namespace MAUIRecipeApp.ViewModel.Auth
                         return;
                     }
                     else
-                        await Shell.Current.GoToAsync("//home");
+                        await Shell.Current.GoToAsync("//home", true);
                 }
                 else
                 {

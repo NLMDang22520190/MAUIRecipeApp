@@ -45,6 +45,7 @@ namespace MAUIRecipeApp.Service
 
             var userDoc = snapshot.Documents.First();
             var user = userDoc.ConvertTo<User>();  // Chuyển đổi từ Firestore document sang đối tượng User
+            user.Uid = userDoc.Id;  // Lưu ID của người dùng
 
             // Kiểm tra mật khẩu
             if (PasswordHasherService.VerifyPassword(password, user.Password))

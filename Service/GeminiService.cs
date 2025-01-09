@@ -122,8 +122,10 @@ namespace MAUIRecipeApp.Service
 
                 foreach (var foodId in foodIdList)
                 {
-                    if ((int.Parse(foodId.Trim())) - 1 <= foodRecipes.Count)
+                    var Id = (int.Parse(foodId.Trim()));
+                    if (Id - 1 <= foodRecipes.Count)
                     {
+                        Debug.WriteLine(Id.ToString());
                         foodIds.Add(foodRecipes[int.Parse(foodId.Trim()) - 1].Frid);
                     }
                 }

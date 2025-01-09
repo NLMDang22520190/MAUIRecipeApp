@@ -79,6 +79,25 @@ namespace MAUIRecipeApp.Service
         }
 
         // Phương thức để lấy instance duy nhất của FirestoreService
+
+        public async Task<bool> UpdateDocumentAsync(string collectionName, string documentId, Dictionary<string, object> updatedData)
+        {
+            FirestoreDb db = FirestoreService.Instance.Db;
+
+            try
+            {
+                DocumentReference docRef = db.Collection(collectionName).Document(documentId);
+                await docRef.UpdateAsync(updatedData);
+                Debug.WriteLine("Document updated successfully!");
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Error updating document: {ex.Message}");
+                return false;
+            }
+        }
+
         public static FirestoreService Instance
         {
             get

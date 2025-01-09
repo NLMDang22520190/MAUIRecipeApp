@@ -10,7 +10,7 @@ public partial class User
 {
     [FirestoreProperty] // Ánh xạ thuộc tính với trường 'Frid' trong Firestore
 
-    public int Uid { get; set; }
+    public string Uid { get; set; }
     [FirestoreProperty] // Ánh xạ thuộc tính với trường 'Frid' trong Firestore
 
 

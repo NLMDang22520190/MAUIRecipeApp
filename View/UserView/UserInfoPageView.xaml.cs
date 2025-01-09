@@ -4,9 +4,14 @@ namespace MAUIRecipeApp.View.UserView;
 
 public partial class UserInfoPageView : ContentPage
 {
-	public UserInfoPageView(UserInfoPageViewModel vm)
+	public UserInfoPageView()
 	{
 		InitializeComponent();
-        BindingContext = vm;
+    }
+
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+       BindingContext = new UserInfoPageViewModel();
     }
 }

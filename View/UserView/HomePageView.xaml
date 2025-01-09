@@ -74,39 +74,41 @@
                     FontSize="20"
                     Text="Food Base On Your Health"
                     TextColor="{StaticResource PrimaryDarkText}" />
-                <CollectionView
-                    HeightRequest="150"
-                    ItemsLayout="HorizontalGrid,1 "
-                    ItemsSource="{Binding SuggestedFoodRecipes}">
-                    <CollectionView.ItemTemplate>
-                        <DataTemplate x:DataType="models:FoodRecipe">
-                            <Grid Padding="8" Background="{StaticResource Primary}">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="125" />
-                                </Grid.RowDefinitions>
+
+                <Border Background="{StaticResource Primary}" StrokeShape="RoundRectangle 20">
+                    <CollectionView HeightRequest="150" ItemsSource="{Binding SuggestedFoodRecipes}">
+                        <CollectionView.ItemsLayout>
+                            <LinearItemsLayout Orientation="Horizontal" />
+                        </CollectionView.ItemsLayout>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="models:FoodRecipe">
+                                <Grid Padding="8">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="125" />
+                                    </Grid.RowDefinitions>
+                                    <ImageButton
+                                        Grid.Row="0"
+                                        Aspect="Fill"
+                                        Command="{Binding Path=FoodDetailCommand, Source={RelativeSource AncestorType={x:Type viewmodel:HomePageViewModel}}}"
+                                        CommandParameter="{Binding Frid}"
+                                        CornerRadius="20"
+                                        Source="{Binding ImgUrl}"
+                                        WidthRequest="150" />
+                                    <Label
+                                        FontSize="18"
+                                        Text="{Binding RecipeName}"
+                                        TextColor="{StaticResource WhiteText}"
+                                        VerticalTextAlignment="End" />
+
+                                </Grid>
+
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </Border>
 
 
-                                <ImageButton
-                                    Grid.Row="0"
-                                    Aspect="Fill"
-                                    Command="{Binding Path=FoodDetailCommand, Source={RelativeSource AncestorType={x:Type viewmodel:HomePageViewModel}}}"
-                                    CommandParameter="{Binding Frid}"
-                                    CornerRadius="20"
-                                    Source="{Binding ImgUrl}" />
 
-
-
-                                <Label
-                                    FontSize="18"
-                                    Text="{Binding RecipeName}"
-                                    TextColor="{StaticResource WhiteText}"
-                                    VerticalTextAlignment="End" />
-
-                            </Grid>
-
-                        </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
 
             </VerticalStackLayout>
 
@@ -186,52 +188,55 @@
                         TextColor="{StaticResource Primary}" />
                 </Grid>
 
-                <CollectionView ItemsLayout="VerticalGrid,2 " ItemsSource="{Binding PaginatedFoodRecipes}">
-                    <CollectionView.ItemTemplate>
-                        <DataTemplate x:DataType="models:FoodRecipe">
-                            <Grid Padding="8">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="100" />
-                                    <RowDefinition Height="75" />
-                                </Grid.RowDefinitions>
+                <RefreshView Command="{Binding RefreshFoodRecipeCommand}">
+                    <CollectionView ItemsLayout="VerticalGrid,2 " ItemsSource="{Binding PaginatedFoodRecipes}">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="models:FoodRecipe">
+                                <Grid Padding="8">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="100" />
+                                        <RowDefinition Height="75" />
+                                    </Grid.RowDefinitions>
 
 
-                                <ImageButton
-                                    Grid.Row="0"
-                                    Aspect="Fill"
-                                    Command="{Binding Path=FoodDetailCommand, Source={RelativeSource AncestorType={x:Type viewmodel:HomePageViewModel}}}"
-                                    CommandParameter="{Binding Frid}"
-                                    CornerRadius="20"
-                                    Source="{Binding ImgUrl}" />
+                                    <ImageButton
+                                        Grid.Row="0"
+                                        Aspect="Fill"
+                                        Command="{Binding Path=FoodDetailCommand, Source={RelativeSource AncestorType={x:Type viewmodel:HomePageViewModel}}}"
+                                        CommandParameter="{Binding Frid}"
+                                        CornerRadius="20"
+                                        Source="{Binding ImgUrl}" />
 
 
-                                <VerticalStackLayout
-                                    Grid.Row="1"
-                                    Margin="8,8,0,0"
-                                    Spacing="8">
-                                    <Label
-                                        FontSize="18"
-                                        Text="{Binding RecipeName}"
-                                        TextColor="{StaticResource PrimaryDarkText}" />
-                                    <HorizontalStackLayout Spacing="8">
-                                        <Label Text="{Binding Calories, StringFormat='{0} cals'}" TextColor="{StaticResource Gray300}" />
-                                        <Image>
-                                            <Image.Source>
-                                                <FontImageSource
-                                                    FontFamily="MaterialSharp"
-                                                    Glyph="{x:Static m:MaterialSharp.Circle}"
-                                                    Size="15"
-                                                    Color="{StaticResource Gray300}" />
-                                            </Image.Source>
-                                        </Image>
-                                        <Label Text="{Binding CookingTime, StringFormat='{0} mins'}" TextColor="{StaticResource Gray300}" />
-                                    </HorizontalStackLayout>
-                                </VerticalStackLayout>
-                            </Grid>
+                                    <VerticalStackLayout
+                                        Grid.Row="1"
+                                        Margin="8,8,0,0"
+                                        Spacing="8">
+                                        <Label
+                                            FontSize="18"
+                                            Text="{Binding RecipeName}"
+                                            TextColor="{StaticResource PrimaryDarkText}" />
+                                        <HorizontalStackLayout Spacing="8">
+                                            <Label Text="{Binding Calories, StringFormat='{0} cals'}" TextColor="{StaticResource Gray300}" />
+                                            <Image>
+                                                <Image.Source>
+                                                    <FontImageSource
+                                                        FontFamily="MaterialSharp"
+                                                        Glyph="{x:Static m:MaterialSharp.Circle}"
+                                                        Size="15"
+                                                        Color="{StaticResource Gray300}" />
+                                                </Image.Source>
+                                            </Image>
+                                            <Label Text="{Binding CookingTime, StringFormat='{0} mins'}" TextColor="{StaticResource Gray300}" />
+                                        </HorizontalStackLayout>
+                                    </VerticalStackLayout>
+                                </Grid>
 
-                        </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </RefreshView>
+
                 <material:Paginator
                     ChangePageCommand="{Binding SetPageCommand}"
                     CurrentPage="{Binding CurrentPage, Mode=TwoWay}"

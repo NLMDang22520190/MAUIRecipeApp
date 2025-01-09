@@ -52,6 +52,7 @@ namespace MAUIRecipeApp.ViewModel.UserView
                 }
                 CanSendMsg = false;
                 AddToChatHistory(message, true);
+                Message = string.Empty;
                 Answer = "Waiting...";
                 AddToChatHistory(answer, false);
                 var result = await _geminiService.SendMessage(message);
@@ -67,7 +68,6 @@ namespace MAUIRecipeApp.ViewModel.UserView
             finally
             {
                 CanSendMsg = true;
-                message = string.Empty;
             }
 
         }
