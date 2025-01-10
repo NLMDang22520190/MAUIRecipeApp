@@ -1,0 +1,48 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MAUIRecipeApp.View.UserView.UserRecipesView"
+             Title="User Recipes"
+             xmlns:local="clr-namespace:MAUIRecipeApp.ViewModel.UserView">
+
+    <ContentPage.BindingContext>
+        <local:UserRecipesViewModel />
+    </ContentPage.BindingContext>
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20">
+            <!-- Header -->
+            <Label Text="User Recipes" FontSize="24" FontAttributes="Bold" HorizontalOptions="Center" />
+
+            <!-- Toggle Button to Show All or User Recipes -->
+            <Button Text="{Binding ShowAllRecipesButtonText}" 
+                    Command="{Binding ToggleRecipesView}" 
+                    BackgroundColor="Orange" TextColor="White" />
+
+            <!-- Empty State Message -->
+            <Label Text="No recipes available."
+                   IsVisible="{Binding FoodRecipes.Count, ConverterParameter=0}"
+                   FontSize="18" TextColor="Gray" 
+                   HorizontalOptions="Center" 
+                   VerticalOptions="CenterAndExpand" /> 
+
+            <!-- Recipe List -->
+            <CollectionView ItemsSource="{Binding FoodRecipes}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <StackLayout Padding="10">
+                            <Label Text="{Binding RecipeName}" FontSize="18" FontAttributes="Bold" />
+                            <Button Text="Edit Recipe" 
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type local:UserRecipesViewModel}}, Path=FoodDetail}" 
+                                    CommandParameter="{Binding Frid}" />
+                        </StackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <!-- Back to Test Screen -->
+            <Button Text="Back to Testing"
+                    Command="{Binding NavigateToTesting}" 
+                    BackgroundColor="Gray" TextColor="White" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

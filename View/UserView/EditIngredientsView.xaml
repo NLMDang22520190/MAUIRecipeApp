@@ -1,0 +1,40 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MAUIRecipeApp.View.UserView.EditIngredientsView"
+             Title="Edit Ingredients">
+
+    <VerticalStackLayout Padding="20">
+        <!-- Header -->
+        <Label 
+            Text="Edit Ingredients"
+            FontSize="24"
+            FontAttributes="Bold"
+            HorizontalOptions="Center" />
+
+        <!-- Ingredients Picker -->
+        <Label Text="Select an Ingredient" />
+        <Picker 
+            x:Name="IngredientsPicker"
+            ItemsSource="{Binding Ingredients}"
+            ItemDisplayBinding="{Binding IngredientName}"
+            SelectedItem="{Binding SelectedIngredient}" />
+
+        <!-- Display Selected Ingredient Info -->
+        <Label Text="Selected Ingredient Info:" FontSize="16" FontAttributes="Bold" />
+
+        <!-- Ingredient Name -->
+        <Label Text="{Binding SelectedIngredient.IngredientName}" FontSize="14" />
+
+        <!-- Ingredient Measurement Unit -->
+        <Label Text="{Binding SelectedIngredient.MeasurementUnit}" FontSize="14" />
+
+        <!-- Ingredient ID -->
+        <Label Text="{Binding SelectedIngredient.Iid}" FontSize="14" />
+
+        <!-- Navigate to Submit New Recipe -->
+        <Button Text="To Submit New Recipe" Command="{Binding NavigateToSubmitNewRecipe}" />
+        
+        <!-- Navigate to Test Screen -->
+        <Button Text="To Test Screens" Command="{Binding NavigateToTestScreens}" />
+    </VerticalStackLayout>
+</ContentPage>

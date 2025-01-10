@@ -64,6 +64,31 @@
         Route="submitnewrecipe"
         Shell.FlyoutBehavior="Disabled"
         Shell.FlyoutItemIsVisible="False" />
+    <ShellContent
+        ContentTemplate="{DataTemplate UserView:EditIngredientsView}"
+        Route="editingredients"
+        Shell.FlyoutBehavior="Disabled"
+        Shell.FlyoutItemIsVisible="False" />
+    <ShellContent
+        ContentTemplate="{DataTemplate UserView:UserRecipesView}"
+        Route="userrecipes"
+        Shell.FlyoutBehavior="Disabled"
+        Shell.FlyoutItemIsVisible="False" />
+
+    <ShellContent
+        ContentTemplate="{DataTemplate UserView:TestScreensView}"
+        Route="testing"
+        Shell.FlyoutItemIsVisible="False" />
+
+    <ShellContent
+        ContentTemplate="{DataTemplate UserView:UserSavedRecipesView}"
+        Route="usersavedrecipes"
+        Shell.FlyoutItemIsVisible="False" />
+
+    <ShellContent
+        ContentTemplate="{DataTemplate UserView:EditFoodRecipeView}"
+        Route="editfoodrecipe"
+        Shell.FlyoutItemIsVisible="False" />
 
 
     <!--  chinh flyoutbehavior cho cac screen tren, su dung extender cho flyoutitem, tao cac screen can thiet, sai datagrid de hien data  -->

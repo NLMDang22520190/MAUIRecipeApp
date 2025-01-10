@@ -14,4 +14,9 @@ public partial class HomePageView : ContentPage
 	{
 		await Shell.Current.GoToAsync("///submitnewrecipe");
 	}
+
+	private async void OnTestScreensClicked(object sender, EventArgs e)
+	{
+		await Shell.Current.GoToAsync("///testing");
+	}
 }

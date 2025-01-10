@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MAUIRecipeApp.View.UserView.TestScreensView"
+             xmlns:local="clr-namespace:MAUIRecipeApp.ViewModel.UserView"
+             Title="TestScreensView">
+
+    <ContentPage.BindingContext>
+        <local:TestScreensViewModel />
+    </ContentPage.BindingContext>
+
+    <VerticalStackLayout>
+        <Label 
+            Text="Test Screens"
+            FontSize="24"
+            FontAttributes="Bold"
+            HorizontalOptions="Center" />
+
+        <Label Text="{Binding CurrentUser}" />  
+
+        <Button 
+            Text="To Submit New Recipe" 
+            Command="{Binding NavigateToSubmitNewRecipe}" />
+
+        <Button 
+            Text="To Edit Ingredients" 
+            Command="{Binding NavigateToEditIngredients}" />
+
+        <Button
+            Text="To User Recipes"
+            Command="{Binding NavigateToUserRecipes}" />
+
+        <Button
+            Text="To User Saved Recipes"
+            Command="{Binding NavigateToUserSavedRecipes}" />
+
+    </VerticalStackLayout>
+</ContentPage>
