@@ -86,6 +86,7 @@
                 Orientation="Horizontal">
 
                 <!--  DataGrid hiển thị trên cả Android và WinUI  -->
+
                 <material:DataGrid Margin="16,0,16,0" ItemsSource="{Binding Ingredients}">
                     <material:DataGrid.Columns>
                         <material:DataGridColumn

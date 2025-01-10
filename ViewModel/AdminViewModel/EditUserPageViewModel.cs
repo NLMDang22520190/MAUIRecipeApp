@@ -10,6 +10,7 @@ using Google.Cloud.Firestore;
 using System.Diagnostics;
 using MAUIRecipeApp.Service;
 using MAUIRecipeApp.DTO;
+using CommunityToolkit.Mvvm.Input;
 
 namespace MAUIRecipeApp.ViewModel.AdminViewModel
 {
@@ -18,9 +19,42 @@ namespace MAUIRecipeApp.ViewModel.AdminViewModel
         [ObservableProperty]
         ObservableCollection<User> users = new ObservableCollection<User>();
 
-        private readonly FirestoreDb _db;
+        private FirestoreDb _db;
 
         public EditUserPageViewModel()
+        {
+            
+        }
+
+        [RelayCommand]
+        public async Task EditUser(string uuid)
+        {
+            await Shell.Current.GoToAsync($"editcurrentuser?UUID={uuid}");
+        }
+
+
+        public void SearchUser(string searchKey)
+        {
+            if (string.IsNullOrEmpty(searchKey))
+            {
+                Users.Clear();
+                LoadItem();
+                return;
+            }
+
+            var tempUsers = new List<User>(Users);
+            tempUsers = Users.ToList();
+            Users.Clear();
+            foreach (var user in tempUsers)
+            {
+                if (user.Username.ToLower().Contains(searchKey.ToLower()))
+                {
+                    Users.Add(user);
+                }
+            }
+        }
+
+        public void OnAppearing()
         {
             _db = FirestoreService.Instance.Db;
             if (_db == null)
@@ -28,6 +62,7 @@ namespace MAUIRecipeApp.ViewModel.AdminViewModel
                 Debug.WriteLine("Firestore DB is null");
                 return;
             }
+            Users.Clear();
             LoadItem();
         }
 
@@ -48,6 +83,7 @@ namespace MAUIRecipeApp.ViewModel.AdminViewModel
                     if (document.Exists)
                     {
                         User user = document.ConvertTo<User>();
+                        user.Uid = document.Id;
                         Users.Add(user); // Thêm vào ObservableCollection
                     }
                 }

@@ -55,6 +55,7 @@ namespace MAUIRecipeApp.ViewModel.Auth
                 if (user != null)
                 {
                     UserService.Instance.SetCurrentUser(user);
+                    ErrorMSG = string.Empty;
                     if (user.isAdmin == true)
                     {
                         await Shell.Current.GoToAsync("//adminhome");

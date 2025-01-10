@@ -3,10 +3,12 @@
     x:Class="MAUIRecipeApp.View.UserView.UserInfoPageView"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:input="clr-namespace:InputKit.Shared.Controls;assembly=InputKit.Maui"
     xmlns:m="http://schemas.enisn-projects.io/dotnet/maui/uraniumui"
     xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
     xmlns:models="clr-namespace:MAUIRecipeApp.Models"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:validations="clr-namespace:InputKit.Shared.Validations;assembly=InputKit.Maui"
     xmlns:viewmodel="clr-namespace:MAUIRecipeApp.ViewModel.UserView"
     Title=""
     x:DataType="viewmodel:UserInfoPageViewModel"
@@ -112,11 +114,12 @@
                 TextColor="{StaticResource Primary}" />
 
             <material:TextField
-                Title="Password"
+                Title="Current Password"
                 BorderColor="{StaticResource PrimaryDarkText}"
                 CornerRadius="16"
                 FontSize="16"
                 IsPassword="True"
+                Text="{Binding CurrentPassword}"
                 TextColor="{StaticResource PrimaryDarkText}">
                 <material:TextField.Icon>
                     <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Lock}" />
@@ -126,12 +129,15 @@
                 </material:TextField.Attachments>
             </material:TextField>
             <material:TextField
-                Title="Password"
+                Title="New Password"
                 BorderColor="{StaticResource PrimaryDarkText}"
                 CornerRadius="16"
                 FontSize="16"
                 IsPassword="True"
+                Text="{Binding NewPassword}"
                 TextColor="{StaticResource PrimaryDarkText}">
+                <validations:RequiredValidation />
+                <validations:RegexValidation Message="Password must be at least 6 characters long and include at least two of the following: a lowercase letter, an uppercase letter, or a number. " Pattern="{x:Static input:AdvancedEntry.REGEX_PASSWORD}" />
                 <material:TextField.Icon>
                     <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Lock}" />
                 </material:TextField.Icon>
@@ -140,12 +146,15 @@
                 </material:TextField.Attachments>
             </material:TextField>
             <material:TextField
-                Title="Password"
+                Title="Confirm New Password"
                 BorderColor="{StaticResource PrimaryDarkText}"
                 CornerRadius="16"
                 FontSize="16"
                 IsPassword="True"
+                Text="{Binding ConfirmPassword}"
                 TextColor="{StaticResource PrimaryDarkText}">
+                <validations:RequiredValidation />
+                <validations:RegexValidation Message="Password must be at least 6 characters long and include at least two of the following: a lowercase letter, an uppercase letter, or a number. " Pattern="{x:Static input:AdvancedEntry.REGEX_PASSWORD}" />
                 <material:TextField.Icon>
                     <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Lock}" />
                 </material:TextField.Icon>
@@ -153,8 +162,14 @@
                     <material:TextFieldPasswordShowHideAttachment />
                 </material:TextField.Attachments>
             </material:TextField>
+            <Label
+                FontSize="18"
+                HorizontalOptions="Center"
+                Text="{Binding UpdatePasswordMsg}"
+                TextColor="{StaticResource PrimaryDarkText}" />
             <Button
                 BackgroundColor="{StaticResource Primary}"
+                Command="{Binding UpdatePasswordCommand}"
                 FontSize="20"
                 Text="Update Password" />
 

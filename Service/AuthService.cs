@@ -50,7 +50,10 @@ namespace MAUIRecipeApp.Service
             // Kiểm tra mật khẩu
             if (PasswordHasherService.VerifyPassword(password, user.Password))
             {
-                return user;  // Trả về người dùng nếu mật khẩu đúng
+                if (!(bool)user.isDeactivated)
+                    return user; // Trả về người dùng nếu mật khẩu đúng
+                else
+                    return null;
             }
             else
             {
@@ -78,7 +81,14 @@ namespace MAUIRecipeApp.Service
             {
                 Email = email,
                 Username = username,
-                Password = PasswordHasherService.HashPassword(password) // Hash mật khẩu
+                Password = PasswordHasherService.HashPassword(password), // Hash mật khẩu
+                isAdmin = false,
+                isDeactivated = false,
+                HealthCondition = string.Empty,
+                Allergies = string.Empty,
+                Height = null,
+                Weight = null
+
             };
 
             //userCollection.Document().SetAsync(newUser).Wait(); // Lưu người dùng mới vào Firestore

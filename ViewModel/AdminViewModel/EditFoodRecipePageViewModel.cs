@@ -18,21 +18,20 @@ namespace MAUIRecipeApp.ViewModel.AdminViewModel
         [ObservableProperty]
         ObservableCollection<FoodRecipe> foodRecipes = new ObservableCollection<FoodRecipe>();
 
-        [ObservableProperty] 
-        ObservableCollection<string> foodDifficulty = new ObservableCollection<string>();
-
-        [ObservableProperty]
-        private bool isBackdropPresented;
-
-        [ObservableProperty] private int maxCookingTime;
-
-        [ObservableProperty] private int maxCalorie;
-
-        [ObservableProperty] private int maxPortion;
-
-        private readonly FirestoreDb _db;
+        private FirestoreDb _db;
 
         public EditFoodRecipePageViewModel()
+        {
+           
+        }
+
+        [RelayCommand]
+        public async Task EditFood(string frid)
+        {
+            await Shell.Current.GoToAsync($"editcurrentfoodrecipe?FRID={frid}");
+        }
+
+        public void OnAppearing()
         {
             _db = FirestoreService.Instance.Db;
             if (_db == null)
@@ -43,13 +42,30 @@ namespace MAUIRecipeApp.ViewModel.AdminViewModel
             LoadItem();
         }
 
+        public void SearchFood(string searchKey)
+        {
+            if (string.IsNullOrEmpty(searchKey))
+            {
+                FoodRecipes.Clear();
+                LoadItem();
+                return;
+            }
+
+            var tempFoods = new List<FoodRecipe>(foodRecipes);
+            tempFoods = foodRecipes.ToList();
+            FoodRecipes.Clear();
+            foreach (var food in tempFoods)
+            {
+                if (food.RecipeName.ToLower().Contains(searchKey.ToLower()))
+                {
+                    FoodRecipes.Add(food);
+                }
+            }
+        }
+
         private void LoadItem()
         {
-            //// Lọc các phần tử không bị xóa trong FoodRecipeTypes
-            //FoodRecipeTypes = new ObservableCollection<FoodRecipeType>(
-            //    DataProvider.Ins.DB.FoodRecipeTypes.AsNoTracking()
-            //    .Where(item => (bool)!item.IsDeleted).ToList());
-
+            FoodRecipes.Clear();
             LoadFoodRecipes();
         }
 
@@ -59,13 +75,7 @@ namespace MAUIRecipeApp.ViewModel.AdminViewModel
             try
             {
                 CollectionReference recipesRef = _db.Collection("FoodRecipes");
-                Query query = recipesRef.WhereEqualTo("IsDeleted", false);
-                QuerySnapshot snapshot = await query.GetSnapshotAsync();
-
-                // Tạo các danh sách tạm để lưu trữ dữ liệu
-                List<int?> cookingTimes = new List<int?>();
-                List<int?> calories = new List<int?>();
-                List<int?> portions = new List<int?>();
+                QuerySnapshot snapshot = await recipesRef.GetSnapshotAsync();
 
                 foreach (DocumentSnapshot document in snapshot.Documents)
                 {
@@ -74,32 +84,9 @@ namespace MAUIRecipeApp.ViewModel.AdminViewModel
                         FoodRecipe recipe = document.ConvertTo<FoodRecipe>();
                         recipe.Frid = document.Id; // Lấy FRID từ Document ID
                         FoodRecipes.Add(recipe); // Thêm vào ObservableCollection
-
-                        // Thêm các giá trị vào danh sách nếu không null
-                        if (recipe.CookingTime.HasValue)
-                            cookingTimes.Add(recipe.CookingTime);
-
-                        if (recipe.Calories.HasValue)
-                            calories.Add(recipe.Calories);
-
-                        if (recipe.Portion.HasValue)
-                            portions.Add(recipe.Portion);
-
-                        // Thêm DifficultLevel vào danh sách nếu chưa có
-                        if (!string.IsNullOrEmpty(recipe.DifficultyLevel) &&
-                            !FoodDifficulty.Contains(recipe.DifficultyLevel))
-                        {
-                            FoodDifficulty.Add(recipe.DifficultyLevel);
-                        }
-
-
                     }
                 }
 
-                // Tính toán các giá trị lớn nhất
-                MaxCookingTime = cookingTimes.Max() ?? 0;
-                MaxCalorie = calories.Max() ?? 0;
-                MaxPortion = portions.Max() ?? 0;
             }
             catch (Exception ex)
             {
@@ -107,10 +94,6 @@ namespace MAUIRecipeApp.ViewModel.AdminViewModel
             }
         }
 
-        [RelayCommand]
-        public async void ToggleBackdrop()
-        {
-            IsBackdropPresented = !IsBackdropPresented;
-        }
+       
     }
 }

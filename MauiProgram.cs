@@ -12,8 +12,11 @@ using System.Reflection;
 using InputKit.Handlers;
 using MAUIRecipeApp.Service;
 using MAUIRecipeApp.View.AdminView;
+using MAUIRecipeApp.View.AdminView.EditPage;
 using MAUIRecipeApp.ViewModel.AdminViewModel;
+using MAUIRecipeApp.ViewModel.AdminViewModel.EditPage;
 using Microsoft.Maui.LifecycleEvents;
+using Mopups.Hosting;
 
 namespace MAUIRecipeApp
 {
@@ -49,6 +52,7 @@ namespace MAUIRecipeApp
                 .UseMauiCommunityToolkitMediaElement()
                 .UseUraniumUI()
                 .UseUraniumUIMaterial()
+                .ConfigureMopups()
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
@@ -66,6 +70,7 @@ namespace MAUIRecipeApp
 #if DEBUG
             builder.Logging.AddDebug();
             builder.Services.AddSingleton<GeminiService>();
+            builder.Services.AddMopupsDialogs();
 #endif
 
             // Đăng ký FirestoreService là Singleton
@@ -116,8 +121,6 @@ namespace MAUIRecipeApp
             #endregion
 
             #region AdminView
-            builder.Services.AddTransient<BackDropMainPageView>();
-            builder.Services.AddTransient<BackDropMainPageViewModel>();
 
             builder.Services.AddTransient<AdminHomePageView>();
             builder.Services.AddTransient<AdminHomePageViewModel>();
@@ -125,20 +128,22 @@ namespace MAUIRecipeApp
             builder.Services.AddTransient<EditUserPageView>();
             builder.Services.AddTransient<EditUserPageViewModel>();
 
-            builder.Services.AddTransient<EditUserInfoPageView>();
-            builder.Services.AddTransient<EditUserInfoPageViewModel>();
-
-            builder.Services.AddTransient<EditUserSavedRecipePageView>();
-            builder.Services.AddTransient<EditUserSavedRecipePageViewModel>();
+            builder.Services.AddTransient<EditCurrentUserPageView>();
+            builder.Services.AddTransient<EditCurrentUserPageViewModal>();
 
             builder.Services.AddTransient<EditFoodRecipePageView>();
             builder.Services.AddTransient<EditFoodRecipePageViewModel>();
 
+            builder.Services.AddTransient<EditCurrentFoodRecipePageView>();
+            builder.Services.AddTransient<EditCurrentFoodRecipePageViewModal>();
+
             builder.Services.AddTransient<EditFoodRecipeTypePageView>();
             builder.Services.AddTransient<EditFoodRecipeTypePageViewModel>();
 
-            builder.Services.AddTransient<EditFoodRecipeMappingPageView>();
-            builder.Services.AddTransient<EditFoodRecipeMappingPageViewModel>();
+            builder.Services.AddTransient<EditCurrentFoodTypePageView>();
+            builder.Services.AddTransient<EditCurrentFoodTypePageViewModal>();
+
+          
 
             builder.Services.AddTransient<EditIngredientsPageView>();
             builder.Services.AddTransient<EditIngredientsPageViewModel>();
@@ -146,11 +151,8 @@ namespace MAUIRecipeApp
             builder.Services.AddTransient<EditRecipeIngredientsPageView>();
             builder.Services.AddTransient<EditRecipeIngredientsPageViewModel>();
 
-            builder.Services.AddTransient<EditFoodRatingPageView>();
-            builder.Services.AddTransient<EditFoodRatingPageViewModel>();
+         
 
-            builder.Services.AddTransient<EditTempTablePageView>();
-            builder.Services.AddTransient<EditTempTablePageViewModel>();
             #endregion
 
             return builder.Build();

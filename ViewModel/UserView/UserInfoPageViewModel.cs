@@ -33,6 +33,14 @@ namespace MAUIRecipeApp.ViewModel.UserView
 
         [ObservableProperty] private string updateMsg = string.Empty;
 
+        [ObservableProperty] private string currentPassword;
+
+        [ObservableProperty] private string newPassword;
+
+        [ObservableProperty] private string confirmPassword;
+
+        [ObservableProperty] private string updatePasswordMsg = string.Empty;
+
         private readonly FirestoreDb db = FirestoreService.Instance.Db;
 
         public UserInfoPageViewModel()
@@ -87,6 +95,28 @@ namespace MAUIRecipeApp.ViewModel.UserView
             canLogout = true;
         }
 
+        [RelayCommand]
+        public async void UpdatePassword()
+        {
+            var loginResult = AuthService.Instance.Login(UserService.Instance.CurrentUser.Email, CurrentPassword);
+            if (loginResult == null)
+            {
+                UpdatePasswordMsg = "Invalid current password!";
+                return;
+            }
+            
+            var updatePassResult = await AuthService.Instance.UpdateUserPassword(UserService.Instance.CurrentUser.Email, NewPassword);
+
+            if (updatePassResult)
+            {
+                UpdatePasswordMsg = "Update password successfully!";
+            }
+            else
+            {
+                UpdatePasswordMsg = "Update password failed!";
+            }
+        }
+
 
         private void LoadUserData()
         {
@@ -99,8 +129,8 @@ namespace MAUIRecipeApp.ViewModel.UserView
             Email = currentUser.Email;
             HealthCondition = currentUser.HealthCondition;
             Allergies = currentUser.Allergies;
-            Height = (float)currentUser.Height;
-            Weight = (float)currentUser.Weight;
+            Height = currentUser.Height != null? (float)currentUser.Height : 0;
+            Weight = currentUser.Weight != null ? (float)currentUser.Weight : 0;
         }
 
 

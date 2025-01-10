@@ -142,9 +142,11 @@
                     Glyph="{x:Static m:MaterialSharp.Person}"
                     Color="{StaticResource WhiteText}" />
             </Tab.Icon>
-            <ShellContent Title="User" ContentTemplate="{DataTemplate AdminView:EditUserPageView}" />
-            <ShellContent Title="UserInfo" ContentTemplate="{DataTemplate AdminView:EditUserInfoPageView}" />
-            <ShellContent Title="UserSavedRecipe" ContentTemplate="{DataTemplate AdminView:EditUserSavedRecipePageView}" />
+            <ShellContent
+                Title="User"
+                ContentTemplate="{DataTemplate AdminView:EditUserPageView}"
+                Route="edituser" />
+
         </Tab>
     </FlyoutItem>
 
@@ -156,9 +158,15 @@
                     Glyph="{x:Static m:MaterialSharp.Lunch_dining}"
                     Color="{StaticResource WhiteText}" />
             </Tab.Icon>
-            <ShellContent Title="FoodRecipe" ContentTemplate="{DataTemplate AdminView:EditFoodRecipePageView}" />
-            <ShellContent Title="FoodRecipeType" ContentTemplate="{DataTemplate AdminView:EditFoodRecipeTypePageView}" />
-            <ShellContent Title="FoodRecipeMapping" ContentTemplate="{DataTemplate AdminView:EditFoodRecipeMappingPageView}" />
+            <ShellContent
+                Title="FoodRecipe"
+                ContentTemplate="{DataTemplate AdminView:EditFoodRecipePageView}"
+                Route="editfoodrecipe" />
+            <ShellContent
+                Title="FoodRecipeType"
+                ContentTemplate="{DataTemplate AdminView:EditFoodRecipeTypePageView}"
+                Route="editfoodtype" />
+
         </Tab>
 
     </FlyoutItem>
@@ -178,19 +186,7 @@
 
     </FlyoutItem>
 
-    <FlyoutItem FlyoutDisplayOptions="AsMultipleItems">
-        <Tab Title="Other">
-            <Tab.Icon>
-                <FontImageSource
-                    FontFamily="MaterialSharp"
-                    Glyph="{x:Static m:MaterialSharp.Other_admission}"
-                    Color="{StaticResource WhiteText}" />
-            </Tab.Icon>
-            <ShellContent Title="FoodRating" ContentTemplate="{DataTemplate AdminView:EditFoodRatingPageView}" />
-            <ShellContent Title="Temptable" ContentTemplate="{DataTemplate AdminView:EditTempTablePageView}" />
-        </Tab>
 
-    </FlyoutItem>
 
     <MenuItem
         Command="{Binding HelpCommand}"

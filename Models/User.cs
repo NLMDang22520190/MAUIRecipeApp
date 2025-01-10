@@ -31,6 +31,9 @@ public partial class User
     [FirestoreProperty] // Ánh xạ thuộc tính với trường 'Frid' trong Firestore
 
     public bool? isAdmin { get; set; }
+
+    [FirestoreProperty] public bool? isDeactivated { get; set; } = false;
+
     [FirestoreProperty] // Ánh xạ thuộc tính với trường 'Frid' trong Firestore
 
     public bool? IsDeleted { get; set; }

@@ -39,4 +39,6 @@ public class FoodRecipe
 
     [FirestoreProperty]
     public bool? IsDeleted { get; set; } = false;
+
+    [FirestoreProperty] public bool? IsApproved { get; set; } = false;
 }
