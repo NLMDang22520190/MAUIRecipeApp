@@ -19,6 +19,9 @@ namespace MAUIRecipeApp.Models
         public string Description { get; set; }
 
         [FirestoreProperty]
+        public bool IsDeleted { get; set; }
+
+        [FirestoreProperty]
         public DocumentReference UploaderId { get; set; }
 
         public string? UUIDString // UUID dưới dạng string để xử lý trong code

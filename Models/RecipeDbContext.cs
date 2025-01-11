@@ -78,7 +78,7 @@ public partial class RecipeDbContext : DbContext
                 .HasDefaultValue(false)
                 .HasColumnName("isDeleted");
             entity.Property(e => e.RecipeName).HasMaxLength(255);
-            entity.Property(e => e.UploaderUid).HasColumnName("UploaderUID");
+            //entity.Property(e => e.UploaderUid).HasColumnName("UploaderUID");
 
             //entity.HasOne(d => d.UploaderU).WithMany(p => p.FoodRecipes)
             //    .HasForeignKey(d => d.UploaderUid)

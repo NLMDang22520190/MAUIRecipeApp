@@ -12,6 +12,11 @@ namespace MAUIRecipeApp.Models
     {
         [FirestoreProperty]
         public string UserSavedCollectionId { get; set; }
+
+        [FirestoreProperty]
+
+        public string AlternateName { get; set; }
+
         [FirestoreProperty]
         public DocumentReference UserSavedId { get; set; }
         [FirestoreProperty]
@@ -26,5 +31,7 @@ namespace MAUIRecipeApp.Models
             get => FCID?.Id;
             set => FCID = string.IsNullOrEmpty(value) ? null : FirestoreDb.Create(null).Collection("FoodCollection").Document(value);
         }
+
+
     }
 }

@@ -3,6 +3,7 @@
     x:Class="MAUIRecipeApp.View.UserView.UserSavedCollectionPageView"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:m="http://schemas.enisn-projects.io/dotnet/maui/uraniumui"
     xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
     xmlns:models="clr-namespace:MAUIRecipeApp.Models"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
@@ -10,10 +11,59 @@
     Title=""
     x:DataType="viewmodel:UserSavedCollectionPageViewModel"
     Background="{StaticResource WhiteText}">
-    <VerticalStackLayout>
-        <Label
-            HorizontalOptions="Center"
-            Text="Welcome to saved collection"
-            VerticalOptions="Center" />
-    </VerticalStackLayout>
+    <ScrollView Orientation="Vertical">
+        <VerticalStackLayout Margin="16" Spacing="8">
+            <Label
+                FontSize="30"
+                HorizontalOptions="Center"
+                Text="Saved Collection"
+                TextColor="{StaticResource Primary}"
+                VerticalOptions="Center" />
+            <Label
+                FontSize="18"
+                HorizontalTextAlignment="Center"
+                Text="Your saved collection will appear here"
+                TextColor="{StaticResource PrimaryDarkText}" />
+
+            <Border HeightRequest="150" StrokeShape="RoundRectangle 10">
+                <Grid>
+                    <ImageButton
+                        Aspect="Fill"
+                        Opacity=".75"
+                        Source="https://i.imgur.com/XAuFwOZ.jpeg" />
+                    <HorizontalStackLayout
+                        Margin="8,0,0,0"
+                        Spacing="8"
+                        VerticalOptions="End">
+                        <Label
+                            FontSize="25"
+                            Text="Collection Name"
+                            TextColor="{StaticResource WhiteText}" />
+                        <Label
+                            FontSize="20"
+                            Text="By User"
+                            VerticalTextAlignment="End" />
+                    </HorizontalStackLayout>
+                    <Button
+                        Margin="4"
+                        Padding="8"
+                        BackgroundColor="LightCoral"
+                        FontSize="18"
+                        HorizontalOptions="End"
+                        Clicked="Button_OnClicked"
+                        CommandParameter="bruh"
+                        Opacity="0.8"
+                        VerticalOptions="Start">
+                        <Button.ImageSource>
+                            <FontImageSource
+                                FontFamily="MaterialSharp"
+                                Glyph="{x:Static m:MaterialSharp.Delete}"
+                                Color="{StaticResource WhiteText}" />
+                        </Button.ImageSource>
+                    </Button>
+                </Grid>
+            </Border>
+        </VerticalStackLayout>
+    </ScrollView>
+
 </ContentPage>

@@ -29,7 +29,7 @@
         public int? Portion { get; set; }
 
         [FirestoreProperty]
-        public int? UploaderUid { get; set; }
+        public DocumentReference UploaderUid { get; set; }
 
         [FirestoreProperty]
         public string? ImgUrl { get; set; }
@@ -41,4 +41,10 @@
     public bool? IsDeleted { get; set; } = false;
 
     [FirestoreProperty] public bool? IsApproved { get; set; } = false;
+
+    public string? UploaderUidString
+    {
+        get => UploaderUid?.Id;
+        set => UploaderUid = string.IsNullOrEmpty(value) ? null : FirestoreDb.Create(null).Collection("User").Document(value);
+    }
 }
