@@ -80,6 +80,7 @@ namespace MAUIRecipeApp
             builder.Services.AddTransient<StartUpPageView>();
             builder.Services.AddTransient<StartUpPageViewModel>();
 
+
             #region Auth
             builder.Services.AddTransient<LoginPageView>();
             builder.Services.AddTransient<LoginPageViewModel>();
@@ -106,6 +107,24 @@ namespace MAUIRecipeApp
 
             builder.Services.AddTransient<FoodRecipePageView>();
             builder.Services.AddTransient<FoodRecipePageViewModel>();
+
+            builder.Services.AddTransient<SubmitNewRecipeView>();
+            builder.Services.AddTransient<SubmitNewRecipeViewModel>();
+
+            builder.Services.AddTransient<EditIngredientsView>();
+            builder.Services.AddTransient<EditIngredientsViewModel>();
+
+            builder.Services.AddTransient<UserRecipesView>();
+            builder.Services.AddTransient<UserRecipesViewModel>();
+
+            builder.Services.AddTransient<TestScreensView>();
+            builder.Services.AddTransient<TestScreensViewModel>();
+
+            builder.Services.AddTransient<UserSavedRecipesView>();
+            builder.Services.AddTransient<UserSavedRecipesViewModel>();
+
+            builder.Services.AddTransient<EditFoodRecipeView>();
+            builder.Services.AddTransient<EditFoodRecipeViewModel>();
 
             builder.Services.AddTransient<ChatPageView>();
             builder.Services.AddTransient<ChatPageViewModel>();

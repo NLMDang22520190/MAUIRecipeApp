@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="MAUIRecipeApp.View.UserView.UserSavedRecipesView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:models="clr-namespace:MAUIRecipeApp.Models"
+    xmlns:viewmodel="clr-namespace:MAUIRecipeApp.ViewModel.UserView"
+    xmlns:m="clr-namespace:UraniumUI.Icons.MaterialSymbols;assembly=UraniumUI.Icons.MaterialSymbols"
+    Title="Saved Recipes"
+    x:DataType="viewmodel:UserSavedRecipesViewModel"
+    Background="{StaticResource WhiteText}">
+
+    <ScrollView>
+        <VerticalStackLayout
+            Margin="16"
+            Spacing="20">
+
+
+            <Grid
+                Grid.Row="0"
+                Margin="16,32,16,0"
+                VerticalOptions="Start">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="2*" />
+                </Grid.ColumnDefinitions>
+                <Button
+                    Grid.Column="0"
+                    Background="{StaticResource WhiteText}"
+                    BorderColor="{StaticResource PrimaryDarkText}"
+                    BorderWidth="0.1"
+                    Command="{Binding BackCommand}"
+                    HorizontalOptions="Start">
+                    <Button.ImageSource>
+                        <FontImageSource
+                            FontFamily="MaterialSharp"
+                            Glyph="{x:Static m:MaterialSharp.Arrow_back}"
+                            Color="{StaticResource PrimaryDarkText}" />
+                    </Button.ImageSource>
+                </Button>
+
+
+                <Label
+                    Grid.Column="1"
+                    HorizontalOptions="End"
+                    FontAttributes="Bold"
+                    FontSize="28"
+                    Text="Your Saved Recipes"
+                    TextColor="{StaticResource PrimaryDarkText}" />
+            </Grid>
+
+            <CollectionView
+                ItemsSource="{Binding SavedRecipes}"
+                ItemsLayout="VerticalList">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:FoodRecipe">
+                        <Frame
+                            Margin="0,8"
+                            CornerRadius="12"
+                            BorderColor="{StaticResource Gray200}"
+                            HasShadow="True"
+                            Padding="12"
+                            BackgroundColor="{StaticResource White}">
+                            <Frame.Shadow>
+                                <Shadow Brush="Black" Opacity="0.5" Offset="5,5" Radius="10" />
+                            </Frame.Shadow>
+                            <Grid ColumnSpacing="12">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="100" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="50" />
+                                </Grid.ColumnDefinitions>
+
+                                <ImageButton
+                                    Grid.Row="0"
+                                    Aspect="AspectFill"
+                                    Command="{Binding Path=RecipeDetailCommand, Source={RelativeSource AncestorType={x:Type viewmodel:UserSavedRecipesViewModel}}}"
+                                    CommandParameter="{Binding Frid}"
+                                    CornerRadius="20"
+                                    MaximumHeightRequest="100"
+                                    BackgroundColor="Transparent"
+                                    Source="{Binding ImgUrl}" />
+
+                                <VerticalStackLayout
+                                    Grid.Column="1"
+                                    Spacing="8">
+                                    <Label
+                                        FontAttributes="Bold"
+                                        FontSize="20"
+                                        Text="{Binding RecipeName}"
+                                        TextColor="{StaticResource PrimaryDarkText}" />
+
+                                    <Label
+                                            FontSize="14"
+                                            Text="{Binding Calories, StringFormat='{0} cals'}"
+                                            TextColor="{StaticResource PrimaryDarkText}" />
+                                    <Label
+                                            FontSize="14"
+                                            Text="{Binding CookingTime, StringFormat='{0} mins'}"
+                                            TextColor="{StaticResource PrimaryDarkText}" />
+                                </VerticalStackLayout>
+
+                                <ImageButton
+                                    Grid.Column="2"
+                                    Source="heart_filled.png"
+                                    Aspect="Center"
+                                    Command="{Binding Path=RemoveFromSavedRecipesCommand, Source={RelativeSource AncestorType={x:Type viewmodel:UserSavedRecipesViewModel}}}"
+                                    CommandParameter="{Binding Frid}"
+                                    BackgroundColor="Transparent" />
+                            </Grid>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

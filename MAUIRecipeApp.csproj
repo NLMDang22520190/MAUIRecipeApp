@@ -175,6 +175,12 @@
 		<MauiXaml Update="View\StartUpPageView.xaml">
 			<Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
+		<MauiXaml Update="View\UserView\EditFoodRecipeView.xaml">
+		  <Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="View\UserView\EditIngredientsView.xaml">
+		  <Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
 		<MauiXaml Update="View\UserView\ChatPageView.xaml">
 		  <Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
@@ -184,7 +190,19 @@
 		<MauiXaml Update="View\UserView\HomePageView.xaml">
 			<Generator>MSBuild:Compile</Generator>
 			  </MauiXaml>
+		<MauiXaml Update="View\UserView\RecipesCollectionView.xaml">
+		  <Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
 		<MauiXaml Update="View\UserView\SubmitNewRecipeView.xaml">
+		  <Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="View\UserView\TestScreensView.xaml">
+		  <Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="View\UserView\UserRecipesView.xaml">
+		  <Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="View\UserView\UserSavedRecipesView.xaml">
 		  <Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
 		<MauiXaml Update="View\UserView\UserInfoPageView.xaml">
@@ -196,6 +214,5 @@
 		<MauiXaml Update="View\UserView\UserSavedRecipePageView.xaml">
 		  <Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
-	</ItemGroup>
-
+</ItemGroup>	
 </Project>

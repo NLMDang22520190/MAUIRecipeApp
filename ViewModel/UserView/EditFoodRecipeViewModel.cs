@@ -9,9 +9,11 @@ using System.Threading.Tasks;
 
 namespace MAUIRecipeApp.ViewModel.UserView
 {
-	public partial class SubmitNewRecipeViewModel : ObservableObject
+	public partial class EditFoodRecipeViewModel : ObservableObject
 	{
 		#region Properties
+
+		[ObservableProperty] private string recipeId;
 
 		[ObservableProperty] private ObservableCollection<FoodRecipeType> foodRecipeTypes = new();
 		[ObservableProperty] private FoodRecipeType selectedFoodType;
@@ -33,10 +35,17 @@ namespace MAUIRecipeApp.ViewModel.UserView
 
 		#endregion
 
-		public SubmitNewRecipeViewModel()
+		public EditFoodRecipeViewModel(string recipeId = null)
 		{
+			RecipeId = "FR20250108091553";
+
 			LoadIngredientsAsync();
 			LoadFoodRecipeTypesAsync();
+
+			if (!string.IsNullOrWhiteSpace(recipeId))
+			{
+				LoadRecipeDataAsync("FR20250108091553");
+			}
 		}
 
 		#region Property Change Handlers
@@ -59,12 +68,6 @@ namespace MAUIRecipeApp.ViewModel.UserView
 		#region Commands
 
 		[RelayCommand]
-		private async Task MoveToEditIngredientAsync()
-		{
-			await Shell.Current.GoToAsync("///editingredients");
-		}
-
-		[RelayCommand]
 		private async Task SubmitRecipeAsync()
 		{
 			if (!ValidateInputs(out string validationError))
@@ -75,10 +78,9 @@ namespace MAUIRecipeApp.ViewModel.UserView
 
 			try
 			{
-				string tempFrid = $"FR{DateTime.UtcNow:yyyyMMddHHmmss}";
-				var newRecipe = new FoodRecipe
+				var updatedRecipe = new FoodRecipe
 				{
-					Frid = tempFrid,
+					Frid = RecipeId,
 					RecipeName = RecipeName,
 					Calories = int.TryParse(Calories, out var caloriesValue) ? caloriesValue : (int?)null,
 					CookingTime = int.TryParse(CookingTime, out var cookingTimeValue) ? cookingTimeValue : (int?)null,
@@ -91,30 +93,18 @@ namespace MAUIRecipeApp.ViewModel.UserView
 					},
 					Portion = Portion,
 					ImgUrl = ImageUrl,
-					UploaderUid = null,
 					VideoUrl = VideoUrl,
 					IsDeleted = false
 				};
 
-				bool isSuccess = await FoodRecipeService.Instance.AddFoodRecipe(newRecipe);
+				bool isSuccess = await FoodRecipeService.Instance.UpdateFoodRecipe(RecipeId, updatedRecipe);
 				if (!isSuccess)
 				{
-					await DisplayWarning("Submission Error", "Failed to submit the recipe.");
+					await DisplayWarning("Update Error", "Failed to update the recipe.");
 					return;
 				}
 
-				if (SelectedFoodType != null)
-				{
-					bool isMappingSuccess = await FoodRecipeTypeMappingService.Instance.AddMapping(tempFrid, SelectedFoodType.Tofid);
-					if (!isMappingSuccess)
-					{
-						await DisplayWarning("Submission Error", "Failed to map recipe to food type.");
-						return;
-					}
-				}
-
-				await DisplayWarning("Success", "Recipe submitted successfully.");
-				await Shell.Current.GoToAsync("///userrecipes");
+				await DisplayWarning("Success", "Recipe updated successfully.");
 			}
 			catch (Exception ex)
 			{
@@ -139,7 +129,7 @@ namespace MAUIRecipeApp.ViewModel.UserView
 
 			var recipeIngredient = new IngredientInfos
 			{
-				Frid = Guid.NewGuid().ToString(),
+				Frid = RecipeId,
 				Iid = SelectedIngredient.Iid,
 				Name = SelectedIngredient.IngredientName,
 				Quantity = ingredientQuantity,
@@ -148,7 +138,6 @@ namespace MAUIRecipeApp.ViewModel.UserView
 
 			IngredientsWithNames.Add(recipeIngredient);
 
-			// Clear the input fields after adding
 			ingredientQuantity = 0;
 			SelectedIngredient = null;
 		}
@@ -169,21 +158,50 @@ namespace MAUIRecipeApp.ViewModel.UserView
 
 		#region Data Loading
 
+		private async Task LoadRecipeDataAsync(string recipeId)
+		{
+			try
+			{
+				var recipe = await FoodRecipeService.Instance.GetFoodRecipeById(recipeId);
+				if (recipe == null)
+				{
+					await DisplayWarning("Error", "Recipe not found.");
+					return;
+				}
+
+				RecipeName = recipe.RecipeName;
+				Calories = recipe.Calories.ToString();
+				CookingTime = recipe.CookingTime.ToString();
+				Difficulty = recipe.DifficultyLevel switch
+				{
+					"Easy" => 0,
+					"Medium" => 1,
+					"Hard" => 2,
+					_ => 0
+				};
+				Portion = (int)recipe.Portion;
+				ImageUrl = recipe.ImgUrl;
+				VideoUrl = recipe.VideoUrl;
+
+				var ingredientInfos = await FoodRecipeService.Instance.GetIngredientsWithNameByRecipeId(recipeId);
+				IngredientsWithNames = new ObservableCollection<IngredientInfos>(ingredientInfos);
+			}
+			catch (Exception ex)
+			{
+				await DisplayWarning("Error", $"Failed to load recipe data: {ex.Message}");
+			}
+		}
+
 		private async Task LoadIngredientsAsync()
 		{
 			try
 			{
 				var ingredientList = await IngredientService.Instance.LoadAllIngredients();
-				Ingredients.Clear();
-
-				foreach (var ingredient in ingredientList.Where(i => i.IsDeleted != true))
-				{
-					Ingredients.Add(ingredient);
-				}
+				Ingredients = new ObservableCollection<Ingredient>(ingredientList.Where(i => i.IsDeleted != true));
 			}
 			catch (Exception ex)
 			{
-				await Application.Current.MainPage.DisplayAlert("Error", $"Failed to load ingredients: {ex.Message}", "OK");
+				await DisplayWarning("Error", $"Failed to load ingredients: {ex.Message}");
 			}
 		}
 
@@ -192,12 +210,7 @@ namespace MAUIRecipeApp.ViewModel.UserView
 			try
 			{
 				var foodRecipeTypesList = await FoodRecipeTypeService.Instance.GetAllFoodRecipeTypesAsync();
-				FoodRecipeTypes.Clear();
-
-				foreach (var foodRecipeType in foodRecipeTypesList.Where(frt => frt.IsDeleted != true))
-				{
-					FoodRecipeTypes.Add(foodRecipeType);
-				}
+				FoodRecipeTypes = new ObservableCollection<FoodRecipeType>(foodRecipeTypesList.Where(frt => frt.IsDeleted != true));
 			}
 			catch (Exception ex)
 			{
@@ -234,6 +247,12 @@ namespace MAUIRecipeApp.ViewModel.UserView
 		private async Task DisplayWarning(string title, string message)
 		{
 			await Application.Current.MainPage.DisplayAlert(title, message, "OK");
+		}
+
+		[RelayCommand]
+		private async Task LoadRecipeInfosAsync(string recipeId)
+		{
+			LoadRecipeDataAsync(recipeId);
 		}
 
 		#endregion

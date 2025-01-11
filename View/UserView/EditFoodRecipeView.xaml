@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MAUIRecipeApp.View.UserView.EditFoodRecipeView"
+                xmlns:models="clr-namespace:MAUIRecipeApp.Models"
+                xmlns:vm="clr-namespace:MAUIRecipeApp.ViewModel.UserView"
+             Title="EditFoodRecipeView">
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="15">
+            
+            <!-- Recipe ID-->
+            <Label Text="Recipe ID" />
+            <Entry Text="{Binding RecipeId}" />
+            <Button Text="Edit Recipe"
+                    Command="{Binding LoadRecipeInfosAsync}"
+                    CommandParameter="{Binding RecipeId}"/>
+
+            <!-- Recipe Name -->
+            <Label Text="Recipe Name" />
+            <Entry Text="{Binding RecipeName}" Placeholder="Enter recipe name" />
+
+            <!-- Calories -->
+            <Label Text="Calories" />
+            <Entry Text="{Binding Calories}" Placeholder="Enter calories" Keyboard="Numeric" />
+
+            <!-- Cooking Time -->
+            <Label Text="Cooking Time (minutes)" />
+            <Entry Text="{Binding CookingTime}" Placeholder="Enter cooking time" Keyboard="Numeric" />
+
+            <!-- Difficulty Level -->
+            <Label Text="Difficulty" />
+            <Picker SelectedIndex="{Binding Difficulty}">
+                <Picker.ItemsSource>
+                    <x:Array Type="{x:Type x:String}">
+                        <x:String>Easy</x:String>
+                        <x:String>Medium</x:String>
+                        <x:String>Hard</x:String>
+                    </x:Array>
+                </Picker.ItemsSource>
+            </Picker>
+
+            <!-- Portion -->
+            <Label Text="Portion" />
+            <Entry Text="{Binding Portion}" Placeholder="Enter portion size" Keyboard="Numeric" />
+
+            <!-- Food Type -->
+            <Label Text="Food Type" />
+            <Picker ItemsSource="{Binding FoodRecipeTypes}" 
+                        SelectedItem="{Binding SelectedFoodType}"
+                        ItemDisplayBinding="{Binding FoodTypeName}" />
+
+            <!-- Image URL -->
+            <Label Text="Image URL" />
+            <Entry Text="{Binding ImageUrl}" Placeholder="Enter image URL" />
+
+            <!-- Video URL -->
+            <Label Text="Video URL" />
+            <Entry Text="{Binding VideoUrl}" Placeholder="Enter video URL" />
+
+            <!-- Ingredients -->
+            <Label Text="Ingredients" />
+            <CollectionView ItemsSource="{Binding IngredientInfosList}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:IngredientInfos">
+                        <HorizontalStackLayout Spacing="10">
+                            <Label Text="{Binding Name}" />
+                            <Label Text="{Binding Quantity}" />
+                            <Button Text="Remove"
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type vm:EditFoodRecipeViewModel}}, Path=RemoveIngredientCommand}"
+                                        CommandParameter="{Binding .}" />
+                        </HorizontalStackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <!-- Add Ingredient -->
+            <HorizontalStackLayout Spacing="10">
+                <Picker 
+                        ItemsSource="{Binding Ingredients}"
+                        SelectedItem="{Binding SelectedIngredient}"
+                        ItemDisplayBinding="{Binding IngredientName}" />
+                <Entry Placeholder="Quantity" Text="{Binding NewIngredientQuantity}" Keyboard="Numeric" />
+            </HorizontalStackLayout>
+            <Button Text="Add" Command="{Binding AddIngredientCommand}" />
+
+            <!-- Submit Button -->
+            <Button Text="Save Changes"
+                        Command="{Binding SubmitCommand}"
+                        IsEnabled="{Binding IsSubmitEnabled}" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

@@ -12,9 +12,13 @@
     x:DataType="viewmodel:FoodRecipePageViewModel"
     Background="{StaticResource WhiteText}"
     Shell.FlyoutBehavior="Disabled">
+	
+		
     <Shell.BackButtonBehavior>
         <BackButtonBehavior IsEnabled="False" IsVisible="False" />
     </Shell.BackButtonBehavior>
+	
+		
     <Grid HorizontalOptions="{OnPlatform Android=Fill, WinUI=Center}">
         <Image
             Aspect="Fill"
@@ -58,13 +62,13 @@
                             Grid.Column="1"
                             Background="Transparent"
                             HorizontalOptions="End"
-                            VerticalOptions="Center">
+                            VerticalOptions="Center"
+                            Command="{Binding AddToSavedRecipesCommand}">
                             <Button.ImageSource>
                                 <FontImageSource
                                     FontFamily="MaterialSharp"
                                     Glyph="{x:Static m:MaterialSharp.Favorite}"
-                                    Size="{OnPlatform Android=50,
-                                                      WinUI=40}"
+                                    Size="{OnPlatform Android=50, WinUI=40}"
                                     Color="{StaticResource PrimaryDarkText}" />
                             </Button.ImageSource>
                         </Button>
@@ -500,209 +504,93 @@
                                         <Label Text="What is Lorem Ipsum?  Lorem Ipsum is simply dummy text of the printing and  typesetting industry. Lorem Ipsum has been the industry's  standard dummy text ever since the 1500s, when an unknown  printer took a galley of type and scrambled it to make a  type specimen book. It has survived not only five centuries,  but also the leap into electronic typesetting,  remaining essentially unchanged.   It was popularised in the 1960s with the release of Letraset  sheets containing Lorem Ipsum passages, and more recently  with desktop publishing software like Aldus PageMaker  including versions of Lorem Ipsum." TextColor="{StaticResource Gray400}" />
                                     </VerticalStackLayout>
 
-                                    <VerticalStackLayout Spacing="8">
+                                    <StackLayout Spacing="15">
+                                        <Label Text="Rate This Recipe"
+                                               FontSize="Large"
+                                               HorizontalOptions="Center" />
 
-
-                                        <HorizontalStackLayout
-                                            Grid.Row="1"
-                                            Grid.Column="0"
-                                            HorizontalOptions="Start"
-                                            VerticalOptions="Center">
-                                            <Label
-                                                Margin="0,0,8,0"
-                                                FontSize="{OnPlatform Android=22,
-                                                                      WinUI=14}"
-                                                Text="User1"
-                                                TextColor="{StaticResource PrimaryDarkText}" />
-                                            <Image HorizontalOptions="Center">
-                                                <Image.Source>
+                                        <!-- Rating Stars -->
+                                        <HorizontalStackLayout Spacing="8">
+                                            <Button HorizontalOptions="Center"
+                                                    BackgroundColor="Transparent"
+                                                    Command="{Binding RateCommand}"
+                                                    CommandParameter="1">
+                                                <Button.ImageSource>
+                                                    <FontImageSource
+                                                        FontFamily="MaterialSharp"
+                                                        Glyph="{x:Static m:MaterialSharp.Star_rate}"
+                                                        Size="25"
+                                                        Color="{StaticResource Primary}" />
+                                                </Button.ImageSource>
+                                            </Button>
+                                            <Button HorizontalOptions="Center"
+                                                    BackgroundColor="Transparent"
+                                                    Command="{Binding RateCommand}"
+                                                    CommandParameter="2">
+                                                <Button.ImageSource>
                                                     <FontImageSource
                                                         FontFamily="MaterialSharp"
                                                         Glyph="{x:Static m:MaterialSharp.Star}"
-                                                        Size="20"
+                                                        Size="25"
                                                         Color="{StaticResource Primary}" />
-                                                </Image.Source>
-                                            </Image>
-                                            <Image HorizontalOptions="Center">
-                                                <Image.Source>
+                                                </Button.ImageSource>
+                                            </Button>
+                                            <Button HorizontalOptions="Center"
+                                                    BackgroundColor="Transparent"
+                                                    Command="{Binding RateCommand}"
+                                                    CommandParameter="3">
+                                                <Button.ImageSource>
                                                     <FontImageSource
                                                         FontFamily="MaterialSharp"
                                                         Glyph="{x:Static m:MaterialSharp.Star}"
-                                                        Size="20"
+                                                        Size="25"
                                                         Color="{StaticResource Primary}" />
-                                                </Image.Source>
-                                            </Image>
-                                            <Image HorizontalOptions="Center">
-                                                <Image.Source>
+                                                </Button.ImageSource>
+                                            </Button>
+                                            <Button HorizontalOptions="Center"
+                                                    BackgroundColor="Transparent"
+                                                    Command="{Binding RateCommand}"
+                                                    CommandParameter="4">
+                                                <Button.ImageSource>
                                                     <FontImageSource
                                                         FontFamily="MaterialSharp"
                                                         Glyph="{x:Static m:MaterialSharp.Star}"
-                                                        Size="20"
+                                                        Size="25"
                                                         Color="{StaticResource Primary}" />
-                                                </Image.Source>
-                                            </Image>
-                                            <Image HorizontalOptions="Center">
-                                                <Image.Source>
+                                                </Button.ImageSource>
+                                            </Button>
+                                            <Button HorizontalOptions="Center"
+                                                    BackgroundColor="Transparent"
+                                                    Command="{Binding RateCommand}"
+                                                    CommandParameter="5">
+                                                <Button.ImageSource>
                                                     <FontImageSource
                                                         FontFamily="MaterialSharp"
                                                         Glyph="{x:Static m:MaterialSharp.Star}"
-                                                        Size="20"
+                                                        Size="25"
                                                         Color="{StaticResource Primary}" />
-                                                </Image.Source>
-                                            </Image>
-                                            <Image HorizontalOptions="Center">
-                                                <Image.Source>
-                                                    <FontImageSource
-                                                        FontFamily="MaterialSharp"
-                                                        Glyph="{x:Static m:MaterialSharp.Star}"
-                                                        Size="20"
-                                                        Color="{StaticResource Primary}" />
-                                                </Image.Source>
-                                            </Image>
-
+                                                </Button.ImageSource>
+                                            </Button>
                                         </HorizontalStackLayout>
-                                        <Label Text="What is Lorem Ipsum?  Lorem Ipsum is simply dummy text of the printing and  typesetting industry. Lorem Ipsum has been the industry's  standard dummy text ever since the 1500s, when an unknown  printer took a galley of type and scrambled it to make a  type specimen book. It has survived not only five centuries,  but also the leap into electronic typesetting,  remaining essentially unchanged.   It was popularised in the 1960s with the release of Letraset  sheets containing Lorem Ipsum passages, and more recently  with desktop publishing software like Aldus PageMaker  including versions of Lorem Ipsum." TextColor="{StaticResource Gray400}" />
-                                    </VerticalStackLayout>
 
-                                    <VerticalStackLayout Spacing="8">
+                                        <Editor Placeholder="Leave a comment"
+                                                HeightRequest="50"
+                                                Text="{Binding Comment}"
+                                                TextColor="{StaticResource PrimaryDarkText}"
+                                                VerticalOptions="FillAndExpand" />
 
+                                        <Button Text="Submit Rating"
+                                                Command="{Binding SubmitRatingCommand}"
+                                                TextColor="{StaticResource White}"
+                                                BackgroundColor="{StaticResource Primary}"
+                                                HorizontalOptions="Center" />
+                                    </StackLayout>
 
-                                        <HorizontalStackLayout
-                                            Grid.Row="1"
-                                            Grid.Column="0"
-                                            HorizontalOptions="Start"
-                                            VerticalOptions="Center">
-                                            <Label
-                                                Margin="0,0,8,0"
-                                                FontSize="{OnPlatform Android=22,
-                                                                      WinUI=14}"
-                                                Text="User1"
-                                                TextColor="{StaticResource PrimaryDarkText}" />
-                                            <Image HorizontalOptions="Center">
-                                                <Image.Source>
-                                                    <FontImageSource
-                                                        FontFamily="MaterialSharp"
-                                                        Glyph="{x:Static m:MaterialSharp.Star}"
-                                                        Size="20"
-                                                        Color="{StaticResource Primary}" />
-                                                </Image.Source>
-                                            </Image>
-                                            <Image HorizontalOptions="Center">
-                                                <Image.Source>
-                                                    <FontImageSource
-                                                        FontFamily="MaterialSharp"
-                                                        Glyph="{x:Static m:MaterialSharp.Star}"
-                                                        Size="20"
-                                                        Color="{StaticResource Primary}" />
-                                                </Image.Source>
-                                            </Image>
-                                            <Image HorizontalOptions="Center">
-                                                <Image.Source>
-                                                    <FontImageSource
-                                                        FontFamily="MaterialSharp"
-                                                        Glyph="{x:Static m:MaterialSharp.Star}"
-                                                        Size="20"
-                                                        Color="{StaticResource Primary}" />
-                                                </Image.Source>
-                                            </Image>
-                                            <Image HorizontalOptions="Center">
-                                                <Image.Source>
-                                                    <FontImageSource
-                                                        FontFamily="MaterialSharp"
-                                                        Glyph="{x:Static m:MaterialSharp.Star}"
-                                                        Size="20"
-                                                        Color="{StaticResource Primary}" />
-                                                </Image.Source>
-                                            </Image>
-                                            <Image HorizontalOptions="Center">
-                                                <Image.Source>
-                                                    <FontImageSource
-                                                        FontFamily="MaterialSharp"
-                                                        Glyph="{x:Static m:MaterialSharp.Star}"
-                                                        Size="20"
-                                                        Color="{StaticResource Primary}" />
-                                                </Image.Source>
-                                            </Image>
-
-                                        </HorizontalStackLayout>
-                                        <Label Text="What is Lorem Ipsum?  Lorem Ipsum is simply dummy text of the printing and  typesetting industry. Lorem Ipsum has been the industry's  standard dummy text ever since the 1500s, when an unknown  printer took a galley of type and scrambled it to make a  type specimen book. It has survived not only five centuries,  but also the leap into electronic typesetting,  remaining essentially unchanged.   It was popularised in the 1960s with the release of Letraset  sheets containing Lorem Ipsum passages, and more recently  with desktop publishing software like Aldus PageMaker  including versions of Lorem Ipsum." TextColor="{StaticResource Gray400}" />
-                                    </VerticalStackLayout>
-
-                                    <VerticalStackLayout Spacing="8">
-
-
-                                        <HorizontalStackLayout
-                                            Grid.Row="1"
-                                            Grid.Column="0"
-                                            HorizontalOptions="Start"
-                                            VerticalOptions="Center">
-                                            <Label
-                                                Margin="0,0,8,0"
-                                                FontSize="{OnPlatform Android=22,
-                                                                      WinUI=14}"
-                                                Text="User1"
-                                                TextColor="{StaticResource PrimaryDarkText}" />
-                                            <Image HorizontalOptions="Center">
-                                                <Image.Source>
-                                                    <FontImageSource
-                                                        FontFamily="MaterialSharp"
-                                                        Glyph="{x:Static m:MaterialSharp.Star}"
-                                                        Size="20"
-                                                        Color="{StaticResource Primary}" />
-                                                </Image.Source>
-                                            </Image>
-                                            <Image HorizontalOptions="Center">
-                                                <Image.Source>
-                                                    <FontImageSource
-                                                        FontFamily="MaterialSharp"
-                                                        Glyph="{x:Static m:MaterialSharp.Star}"
-                                                        Size="20"
-                                                        Color="{StaticResource Primary}" />
-                                                </Image.Source>
-                                            </Image>
-                                            <Image HorizontalOptions="Center">
-                                                <Image.Source>
-                                                    <FontImageSource
-                                                        FontFamily="MaterialSharp"
-                                                        Glyph="{x:Static m:MaterialSharp.Star}"
-                                                        Size="20"
-                                                        Color="{StaticResource Primary}" />
-                                                </Image.Source>
-                                            </Image>
-                                            <Image HorizontalOptions="Center">
-                                                <Image.Source>
-                                                    <FontImageSource
-                                                        FontFamily="MaterialSharp"
-                                                        Glyph="{x:Static m:MaterialSharp.Star}"
-                                                        Size="20"
-                                                        Color="{StaticResource Primary}" />
-                                                </Image.Source>
-                                            </Image>
-                                            <Image HorizontalOptions="Center">
-                                                <Image.Source>
-                                                    <FontImageSource
-                                                        FontFamily="MaterialSharp"
-                                                        Glyph="{x:Static m:MaterialSharp.Star}"
-                                                        Size="20"
-                                                        Color="{StaticResource Primary}" />
-                                                </Image.Source>
-                                            </Image>
-
-                                        </HorizontalStackLayout>
-                                        <Label Text="What is Lorem Ipsum?  Lorem Ipsum is simply dummy text of the printing and  typesetting industry. Lorem Ipsum has been the industry's  standard dummy text ever since the 1500s, when an unknown  printer took a galley of type and scrambled it to make a  type specimen book. It has survived not only five centuries,  but also the leap into electronic typesetting,  remaining essentially unchanged.   It was popularised in the 1960s with the release of Letraset  sheets containing Lorem Ipsum passages, and more recently  with desktop publishing software like Aldus PageMaker  including versions of Lorem Ipsum." TextColor="{StaticResource Gray400}" />
-                                    </VerticalStackLayout>
                                 </VerticalStackLayout>
-
                             </VerticalStackLayout>
-
                         </VerticalStackLayout>
                     </Border>
-
-
                 </Grid>
-
-
-
             </VerticalStackLayout>
         </ScrollView>
     </Grid>
