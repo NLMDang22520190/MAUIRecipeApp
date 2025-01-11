@@ -3,6 +3,7 @@
     x:Class="MAUIRecipeApp.View.UserView.UserSavedCollectionPageView"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:dto="clr-namespace:MAUIRecipeApp.DTO"
     xmlns:m="http://schemas.enisn-projects.io/dotnet/maui/uraniumui"
     xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
     xmlns:models="clr-namespace:MAUIRecipeApp.Models"
@@ -25,44 +26,70 @@
                 Text="Your saved collection will appear here"
                 TextColor="{StaticResource PrimaryDarkText}" />
 
-            <Border HeightRequest="150" StrokeShape="RoundRectangle 10">
-                <Grid>
-                    <ImageButton
-                        Aspect="Fill"
-                        Opacity=".75"
-                        Source="https://i.imgur.com/XAuFwOZ.jpeg" />
-                    <HorizontalStackLayout
-                        Margin="8,0,0,0"
-                        Spacing="8"
-                        VerticalOptions="End">
-                        <Label
-                            FontSize="25"
-                            Text="Collection Name"
-                            TextColor="{StaticResource WhiteText}" />
-                        <Label
-                            FontSize="20"
-                            Text="By User"
-                            VerticalTextAlignment="End" />
-                    </HorizontalStackLayout>
-                    <Button
-                        Margin="4"
-                        Padding="8"
-                        BackgroundColor="LightCoral"
-                        FontSize="18"
-                        HorizontalOptions="End"
-                        Clicked="Button_OnClicked"
-                        CommandParameter="bruh"
-                        Opacity="0.8"
-                        VerticalOptions="Start">
-                        <Button.ImageSource>
-                            <FontImageSource
-                                FontFamily="MaterialSharp"
-                                Glyph="{x:Static m:MaterialSharp.Delete}"
-                                Color="{StaticResource WhiteText}" />
-                        </Button.ImageSource>
-                    </Button>
-                </Grid>
-            </Border>
+            <CollectionView ItemsSource="{Binding UserSavedCollectionList}">
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Vertical" />
+                </CollectionView.ItemsLayout>
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="dto:UserSavedCollectionDTO">
+                        <Border
+                            Margin="12"
+                            HeightRequest="150"
+                            StrokeShape="RoundRectangle 10">
+                            <Grid>
+                                <ImageButton
+                                    Aspect="Fill"
+                                    Command="{Binding Path=CollecionDetailCommand, Source={RelativeSource AncestorType={x:Type viewmodel:UserSavedCollectionPageViewModel}}}"
+                                    CommandParameter="{Binding UserSavedCollectionId}"
+                                    Opacity=".75"
+                                    Source="{Binding ImgUrl}" />
+                                <HorizontalStackLayout
+                                    Margin="8,0,0,0"
+                                    Spacing="8"
+                                    VerticalOptions="End">
+                                    <Label
+                                        FontSize="25"
+                                        Text="{Binding CollectionName}"
+                                        TextColor="{StaticResource WhiteText}" />
+                                    <Label
+                                        FontAttributes="Bold"
+                                        FontSize="20"
+                                        HorizontalOptions="End"
+                                        Text="By "
+                                        TextColor="{StaticResource WhiteText}"
+                                        VerticalTextAlignment="End" />
+                                    <Label
+                                        FontAttributes="Bold"
+                                        FontSize="20"
+                                        Text="{Binding UploadName}"
+                                        TextColor="{StaticResource WhiteText}"
+                                        VerticalTextAlignment="End" />
+                                </HorizontalStackLayout>
+                                <Button
+                                    Margin="4"
+                                    Padding="8"
+                                    BackgroundColor="LightCoral"
+                                    Clicked="Button_OnClicked"
+                                    CommandParameter="{Binding UserSavedCollectionId}"
+                                    FontSize="18"
+                                    HorizontalOptions="End"
+                                    Opacity="0.8"
+                                    VerticalOptions="Start">
+                                    <Button.ImageSource>
+                                        <FontImageSource
+                                            FontFamily="MaterialSharp"
+                                            Glyph="{x:Static m:MaterialSharp.Delete}"
+                                            Color="{StaticResource WhiteText}" />
+                                    </Button.ImageSource>
+                                </Button>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+
         </VerticalStackLayout>
     </ScrollView>
 

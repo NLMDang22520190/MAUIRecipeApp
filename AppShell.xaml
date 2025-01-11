@@ -107,7 +107,10 @@
                         Color="{StaticResource WhiteText}" />
                 </ShellContent.Icon>
             </ShellContent>
-            <ShellContent Title="Saved Collection" ContentTemplate="{DataTemplate UserView:UserSavedCollectionPageView}">
+            <ShellContent
+                Title="Saved Collection"
+                ContentTemplate="{DataTemplate UserView:UserSavedCollectionPageView}"
+                >
                 <ShellContent.Icon>
                     <FontImageSource
                         FontFamily="MaterialSharp"
@@ -116,31 +119,31 @@
                 </ShellContent.Icon>
             </ShellContent>
         </Tab>
-    <ShellContent
-        ContentTemplate="{DataTemplate UserView:EditIngredientsView}"
-        Route="editingredients"
-        Shell.FlyoutBehavior="Disabled"
-        Shell.FlyoutItemIsVisible="False" />
-    <ShellContent
-        ContentTemplate="{DataTemplate UserView:UserRecipesView}"
-        Route="userrecipes"
-        Shell.FlyoutBehavior="Disabled"
-        Shell.FlyoutItemIsVisible="False" />
+        <ShellContent
+            ContentTemplate="{DataTemplate UserView:EditIngredientsView}"
+            Route="editingredients"
+            Shell.FlyoutBehavior="Disabled"
+            Shell.FlyoutItemIsVisible="False" />
+        <ShellContent
+            ContentTemplate="{DataTemplate UserView:UserRecipesView}"
+            Route="userrecipes"
+            Shell.FlyoutBehavior="Disabled"
+            Shell.FlyoutItemIsVisible="False" />
 
-    <ShellContent
-        ContentTemplate="{DataTemplate UserView:TestScreensView}"
-        Route="testing"
-        Shell.FlyoutItemIsVisible="False" />
+        <ShellContent
+            ContentTemplate="{DataTemplate UserView:TestScreensView}"
+            Route="testing"
+            Shell.FlyoutItemIsVisible="False" />
 
-    <ShellContent
-        ContentTemplate="{DataTemplate UserView:UserSavedRecipesView}"
-        Route="usersavedrecipes"
-        Shell.FlyoutItemIsVisible="False" />
+        <ShellContent
+            ContentTemplate="{DataTemplate UserView:UserSavedRecipesView}"
+            Route="usersavedrecipes"
+            Shell.FlyoutItemIsVisible="False" />
 
-    <ShellContent
-        ContentTemplate="{DataTemplate UserView:EditFoodRecipeView}"
-        Route="editfoodrecipe"
-        Shell.FlyoutItemIsVisible="False" />
+        <ShellContent
+            ContentTemplate="{DataTemplate UserView:EditFoodRecipeView}"
+            Route="editfoodrecipe"
+            Shell.FlyoutItemIsVisible="False" />
 
         <ShellContent Title="User" ContentTemplate="{DataTemplate UserView:UserInfoPageView}">
             <ShellContent.Icon>

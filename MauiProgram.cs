@@ -13,8 +13,10 @@ using InputKit.Handlers;
 using MAUIRecipeApp.Service;
 using MAUIRecipeApp.View.AdminView;
 using MAUIRecipeApp.View.AdminView.EditPage;
+using MAUIRecipeApp.View.UserView.Collection;
 using MAUIRecipeApp.ViewModel.AdminViewModel;
 using MAUIRecipeApp.ViewModel.AdminViewModel.EditPage;
+using MAUIRecipeApp.ViewModel.UserView.Collection;
 using Microsoft.Maui.LifecycleEvents;
 using Mopups.Hosting;
 
@@ -134,6 +136,10 @@ namespace MAUIRecipeApp
 
             builder.Services.AddTransient<UserSavedCollectionPageView>();
             builder.Services.AddTransient<UserSavedCollectionPageViewModel>();
+
+            builder.Services.AddTransient<CollectionDetailPageView>();
+            builder.Services.AddTransient<CollectionDetailPageViewModel>();
+
 
             builder.Services.AddTransient<UserInfoPageViewModel>();
             builder.Services.AddTransient<UserInfoPageView>();

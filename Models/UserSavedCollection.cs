@@ -15,7 +15,7 @@ namespace MAUIRecipeApp.Models
 
         [FirestoreProperty]
 
-        public string AlternateName { get; set; }
+        public string? AlternateName { get; set; }
 
         [FirestoreProperty]
         public DocumentReference UserSavedId { get; set; }

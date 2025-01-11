@@ -21,9 +21,9 @@ namespace MAUIRecipeApp.ViewModel.Auth
     {
         private readonly IConfiguration _configuration;
 
-        [ObservableProperty] private string email = "testing@gmail.com";
+        [ObservableProperty] private string email = "user3@gmail.com";
 
-        [ObservableProperty] private string password = "123456";
+        [ObservableProperty] private string password = "Dang123";
 
         [ObservableProperty]
         private string _errorMSG;

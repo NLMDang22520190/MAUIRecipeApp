@@ -48,10 +48,11 @@ namespace MAUIRecipeApp.ViewModel.UserView
 		[RelayCommand]
 		public async Task Back()
 		{
-			await Shell.Current.Navigation.PopAsync();
-		}
+            await Shell.Current.GoToAsync("..");
 
-		private void LoadFoodRecipe()
+        }
+
+        private void LoadFoodRecipe()
 		{
 			LoadSelectedFoodRecipe();
 			LoadIngredientDetails();

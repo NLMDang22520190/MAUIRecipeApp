@@ -10,10 +10,14 @@ namespace MAUIRecipeApp.DTO
     {
         public string UserSavedCollectionId { get; set; }
 
-        public string uploadName { get; set; }
+        public string UploadName { get; set; }
 
-        public string imgUrl { get; set; } = string.Empty;
+        public string ImgUrl { get; set; } = string.Empty;
 
-        public string collectionName { get; set; }
+        public string CollectionName { get; set; }
+
+        public string UIDString { get; set; }
+
+        public string FCIDString { get; set; }
     }
 }
