@@ -17,11 +17,12 @@
     <Shell.BackButtonBehavior>
         <BackButtonBehavior IsEnabled="False" IsVisible="False" />
     </Shell.BackButtonBehavior>
-    <VerticalStackLayout Margin="16,16,16,0" Spacing="16">
+    <VerticalStackLayout Margin="8">
         <Button
+            Margin="8,8,0,0"
             Background="{StaticResource WhiteText}"
             BorderColor="{StaticResource PrimaryDarkText}"
-            BorderWidth="0.1"
+            BorderWidth="1"
             Command="{Binding BackCommand}"
             HorizontalOptions="Start">
 
@@ -33,97 +34,108 @@
             </Button.ImageSource>
         </Button>
         <Label
-            FontSize="30"
-            HorizontalOptions="Center"
-            Text="User Info"
-            TextColor="{StaticResource Primary}" />
-        <Label
             FontSize="18"
             HorizontalOptions="Center"
             Text="{Binding UpdateMsg}"
             TextColor="{StaticResource PrimaryDarkText}" />
-        <material:TextField
-            Title="Username"
-            AllowClear="True"
-            BorderColor="{StaticResource PrimaryDarkText}"
-            CornerRadius="16"
-            FontSize="16"
-            Text="{Binding UserName}"
-            TextColor="{StaticResource PrimaryDarkText}">
-            <material:TextField.Icon>
-                <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Person}" />
-            </material:TextField.Icon>
-        </material:TextField>
-        <material:TextField
-            Title="Email"
-            AllowClear="True"
-            BorderColor="{StaticResource PrimaryDarkText}"
-            CornerRadius="16"
-            FontSize="16"
-            IsReadOnly="True"
-            Text="{Binding Email}"
-            TextColor="{StaticResource PrimaryDarkText}">
-            <material:TextField.Icon>
-                <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Mail}" />
-            </material:TextField.Icon>
-        </material:TextField>
-        <material:TextField
-            Title="Health Condition"
-            AllowClear="True"
-            BorderColor="{StaticResource PrimaryDarkText}"
-            CornerRadius="16"
-            FontSize="16"
-            Text="{Binding HealthCondition}"
-            TextColor="{StaticResource PrimaryDarkText}">
-            <material:TextField.Icon>
-                <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Cardiology}" />
-            </material:TextField.Icon>
-        </material:TextField>
-        <material:TextField
-            Title="Allergies"
-            AllowClear="True"
-            BorderColor="{StaticResource PrimaryDarkText}"
-            CornerRadius="16"
-            FontSize="16"
-            Text="{Binding Allergies}"
-            TextColor="{StaticResource PrimaryDarkText}">
-            <material:TextField.Icon>
-                <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Allergies}" />
-            </material:TextField.Icon>
-        </material:TextField>
-        <material:TextField
-            Title="Height"
-            AllowClear="True"
-            BorderColor="{StaticResource PrimaryDarkText}"
-            CornerRadius="16"
-            FontSize="16"
-            Text="{Binding Height}"
-            TextColor="{StaticResource PrimaryDarkText}">
-            <material:TextField.Icon>
-                <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Height}" />
-            </material:TextField.Icon>
-        </material:TextField>
-        <material:TextField
-            Title="Weight"
-            AllowClear="True"
-            BorderColor="{StaticResource PrimaryDarkText}"
-            CornerRadius="16"
-            FontSize="16"
-            Text="{Binding Weight}"
-            TextColor="{StaticResource PrimaryDarkText}">
-            <material:TextField.Icon>
-                <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Weight}" />
-            </material:TextField.Icon>
-        </material:TextField>
-        <HorizontalStackLayout>
-            <material:CheckBox IsChecked="{Binding IsAdmin}" Text="Is Admin?" />
-            <material:CheckBox IsChecked="{Binding IsDeactivated}" Text="Is Deactivated?" />
-        </HorizontalStackLayout>
-        <Button
-            BackgroundColor="{StaticResource Primary}"
-            Command="{Binding UpdateCommand}"
-            FontSize="20"
-            IsEnabled="{Binding CanUpdate}"
-            Text="Update" />
+        <Border
+            Margin="8"
+            Padding="16"
+            StrokeShape="RoundRectangle 20">
+            <VerticalStackLayout Spacing="16">
+
+                <Label
+                    FontSize="30"
+                    HorizontalOptions="Center"
+                    Text="User Info"
+                    TextColor="{StaticResource Primary}" />
+
+                <material:TextField
+                    Title="Username"
+                    AllowClear="True"
+                    BorderColor="{StaticResource PrimaryDarkText}"
+                    CornerRadius="16"
+                    FontSize="16"
+                    Text="{Binding UserName}"
+                    TextColor="{StaticResource PrimaryDarkText}">
+                    <material:TextField.Icon>
+                        <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Person}" />
+                    </material:TextField.Icon>
+                </material:TextField>
+                <material:TextField
+                    Title="Email"
+                    AllowClear="True"
+                    BorderColor="{StaticResource PrimaryDarkText}"
+                    CornerRadius="16"
+                    FontSize="16"
+                    IsReadOnly="True"
+                    Text="{Binding Email}"
+                    TextColor="{StaticResource PrimaryDarkText}">
+                    <material:TextField.Icon>
+                        <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Mail}" />
+                    </material:TextField.Icon>
+                </material:TextField>
+                <material:TextField
+                    Title="Health Condition"
+                    AllowClear="True"
+                    BorderColor="{StaticResource PrimaryDarkText}"
+                    CornerRadius="16"
+                    FontSize="16"
+                    Text="{Binding HealthCondition}"
+                    TextColor="{StaticResource PrimaryDarkText}">
+                    <material:TextField.Icon>
+                        <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Cardiology}" />
+                    </material:TextField.Icon>
+                </material:TextField>
+                <material:TextField
+                    Title="Allergies"
+                    AllowClear="True"
+                    BorderColor="{StaticResource PrimaryDarkText}"
+                    CornerRadius="16"
+                    FontSize="16"
+                    Text="{Binding Allergies}"
+                    TextColor="{StaticResource PrimaryDarkText}">
+                    <material:TextField.Icon>
+                        <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Allergies}" />
+                    </material:TextField.Icon>
+                </material:TextField>
+                <material:TextField
+                    Title="Height"
+                    AllowClear="True"
+                    BorderColor="{StaticResource PrimaryDarkText}"
+                    CornerRadius="16"
+                    FontSize="16"
+                    Text="{Binding Height}"
+                    TextColor="{StaticResource PrimaryDarkText}">
+                    <material:TextField.Icon>
+                        <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Height}" />
+                    </material:TextField.Icon>
+                </material:TextField>
+                <material:TextField
+                    Title="Weight"
+                    AllowClear="True"
+                    BorderColor="{StaticResource PrimaryDarkText}"
+                    CornerRadius="16"
+                    FontSize="16"
+                    Text="{Binding Weight}"
+                    TextColor="{StaticResource PrimaryDarkText}">
+                    <material:TextField.Icon>
+                        <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Weight}" />
+                    </material:TextField.Icon>
+                </material:TextField>
+                <HorizontalStackLayout>
+                    <material:CheckBox IsChecked="{Binding IsAdmin}" Text="Is Admin?" />
+                    <material:CheckBox IsChecked="{Binding IsDeactivated}" Text="Is Deactivated?" />
+                </HorizontalStackLayout>
+                <Button
+                    BackgroundColor="{StaticResource Primary}"
+                    Command="{Binding UpdateCommand}"
+                    FontSize="20"
+                    IsEnabled="{Binding CanUpdate}"
+                    Text="Update" />
+            </VerticalStackLayout>
+        </Border>
     </VerticalStackLayout>
+
+
 </ContentPage>

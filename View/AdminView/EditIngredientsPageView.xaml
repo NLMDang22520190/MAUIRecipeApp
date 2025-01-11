@@ -42,25 +42,14 @@
                     VerticalOptions="Center">
                     <Button
                         Background="Aqua"
+                        Clicked="Button_OnClicked"
                         FontAttributes="Bold"
                         TextColor="{StaticResource WhiteText}"
-                        ToolTipProperties.Text="Edit">
+                        ToolTipProperties.Text="Add">
                         <Button.ImageSource>
                             <FontImageSource
                                 FontFamily="MaterialSharp"
-                                Glyph="{x:Static m:MaterialSharp.Edit}"
-                                Size="20" />
-                        </Button.ImageSource>
-                    </Button>
-                    <Button
-                        Background="Lime"
-                        FontAttributes="Bold"
-                        TextColor="{StaticResource WhiteText}"
-                        ToolTipProperties.Text="Save">
-                        <Button.ImageSource>
-                            <FontImageSource
-                                FontFamily="MaterialSharp"
-                                Glyph="{x:Static m:MaterialSharp.Save}"
+                                Glyph="{x:Static m:MaterialSharp.Add}"
                                 Size="20" />
                         </Button.ImageSource>
                     </Button>
@@ -68,7 +57,9 @@
                 <material:TextField
                     Title="Search..."
                     Grid.Row="1"
+                    Grid.ColumnSpan="2"
                     AllowClear="True"
+                    TextChanged="TextField_OnTextChanged"
                     TextColor="{StaticResource Primary}">
                     <material:TextField.Icon>
                         <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Search}" />
@@ -77,54 +68,49 @@
             </Grid>
 
             <!--  ScrollView chỉ hiển thị trên Android  -->
+            <!--
             <ScrollView
                 HorizontalScrollBarVisibility="Always"
                 IsEnabled="{OnPlatform Android=True,
                                        WinUI=False}"
                 IsVisible="{OnPlatform Android=True,
                                        WinUI=False}"
-                Orientation="Horizontal">
+                Orientation="Horizontal">-->
 
-                <!--  DataGrid hiển thị trên cả Android và WinUI  -->
+            <!--  DataGrid hiển thị trên cả Android và WinUI  -->
 
-                <material:DataGrid Margin="16,0,16,0" ItemsSource="{Binding Ingredients}">
-                    <material:DataGrid.Columns>
-                        <material:DataGridColumn
-                            Title="Ingredient Name"
-                            Width="*"
-                            ValueBinding="{Binding IngredientName}" />
+            <material:DataGrid Margin="16,0,16,0" ItemsSource="{Binding Ingredients}">
+                <material:DataGrid.Columns>
+                    <material:DataGridColumn
+                        Title="Ingredient Name"
+                        Width="*"
+                        ValueBinding="{Binding IngredientName}" />
 
-                        <material:DataGridColumn
-                            Title="Measurement Unit"
-                            Width="*"
-                            ValueBinding="{Binding MeasurementUnit}" />
+                    <material:DataGridColumn
+                        Title="Measurement Unit"
+                        Width="*"
+                        ValueBinding="{Binding MeasurementUnit}" />
 
-                        <material:DataGridColumn Title="Actions" Width="*">
-                            <material:DataGridColumn.CellItemTemplate>
-                                <DataTemplate>
-                                    <Button
-                                        Background="PaleVioletRed"
-                                        HorizontalOptions="Center"
-                                        Text="Remove" />
-                                </DataTemplate>
-                            </material:DataGridColumn.CellItemTemplate>
-                        </material:DataGridColumn>
+                    <material:DataGridColumn Title="Actions" Width="*">
+                        <material:DataGridColumn.CellItemTemplate>
+                            <DataTemplate>
+                                <Button
+                                    x:DataType="models:Ingredient"
+                                    Background="LightBlue"
+                                    Command="{Binding Path=EditIngredientCommand, Source={RelativeSource AncestorType={x:Type viewmodel:EditIngredientsPageViewModel}}}"
+                                    CommandParameter="{Binding Iid}"
+                                    HorizontalOptions="Center"
+                                    Text="Edit" />
+                            </DataTemplate>
+                        </material:DataGridColumn.CellItemTemplate>
+                    </material:DataGridColumn>
 
-                        <material:DataGridColumn Title="Is Deleted ?" Width="*">
-                            <material:DataGridColumn.CellItemTemplate>
-                                <DataTemplate x:DataType="models:Ingredient">
-                                    <material:CheckBox
-                                        HorizontalOptions="Center"
-                                        IsChecked="{Binding IsDeleted}"
-                                        IsEnabled="False" />
-                                </DataTemplate>
-                            </material:DataGridColumn.CellItemTemplate>
-                        </material:DataGridColumn>
-                    </material:DataGrid.Columns>
-                </material:DataGrid>
-            </ScrollView>
+                </material:DataGrid.Columns>
+            </material:DataGrid>
+            <!--</ScrollView>-->
 
             <!--  DataGrid không nằm trong ScrollView trên WinUI  -->
+            <!--
             <material:DataGrid
                 Margin="16,0,16,0"
                 IsVisible="{OnPlatform Android=False,
@@ -163,7 +149,7 @@
                         </material:DataGridColumn.CellItemTemplate>
                     </material:DataGridColumn>
                 </material:DataGrid.Columns>
-            </material:DataGrid>
+            </material:DataGrid>-->
 
 
 

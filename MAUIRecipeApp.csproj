@@ -145,10 +145,10 @@
 		<MauiXaml Update="View\AdminView\EditPage\EditCurrentFoodTypePageView.xaml">
 		  <Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
-		<MauiXaml Update="View\AdminView\EditPage\EditCurrentUserPageView.xaml">
+		<MauiXaml Update="View\AdminView\EditPage\EditCurrentIngredientPageView.xaml">
 		  <Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
-		<MauiXaml Update="View\AdminView\EditRecipeIngredientsPageView.xaml">
+		<MauiXaml Update="View\AdminView\EditPage\EditCurrentUserPageView.xaml">
 		  <Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
 		<MauiXaml Update="View\AdminView\EditUserPageView.xaml">

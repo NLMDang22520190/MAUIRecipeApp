@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage
-    x:Class="MAUIRecipeApp.View.AdminView.EditPage.EditCurrentFoodTypePageView"
+    x:Class="MAUIRecipeApp.View.AdminView.EditPage.EditCurrentIngredientPageView"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:m="clr-namespace:UraniumUI.Icons.MaterialSymbols;assembly=UraniumUI.Icons.MaterialSymbols"
@@ -11,7 +11,7 @@
     xmlns:viewmodel="clr-namespace:MAUIRecipeApp.ViewModel.AdminViewModel.EditPage"
     x:Name="PageRef"
     Title=""
-    x:DataType="viewmodel:EditCurrentFoodTypePageViewModal"
+    x:DataType="viewmodel:EditCurrentIngredientPageViewModal"
     Background="{StaticResource WhiteText}"
     Shell.FlyoutBehavior="Disabled">
     <Shell.BackButtonBehavior>
@@ -46,18 +46,31 @@
                 <Label
                     FontSize="30"
                     HorizontalOptions="Center"
-                    Text="Food Type Info"
+                    Text="Ingredient Info"
                     TextColor="{StaticResource Primary}" />
                 <material:TextField
-                    Title="Food Type Name"
+                    Title="Ingredient Name"
                     AllowClear="True"
                     BorderColor="{StaticResource PrimaryDarkText}"
                     CornerRadius="16"
                     FontSize="16"
-                    Text="{Binding FoodTypeName}"
+                    Text="{Binding IngredientName}"
                     TextColor="{StaticResource PrimaryDarkText}">
                     <material:TextField.Icon>
-                        <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Kitchen}" />
+                        <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Grocery}" />
+                    </material:TextField.Icon>
+                </material:TextField>
+
+                <material:TextField
+                    Title="Measurement Unit"
+                    AllowClear="True"
+                    BorderColor="{StaticResource PrimaryDarkText}"
+                    CornerRadius="16"
+                    FontSize="16"
+                    Text="{Binding MeasurementUnit}"
+                    TextColor="{StaticResource PrimaryDarkText}">
+                    <material:TextField.Icon>
+                        <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Scale}" />
                     </material:TextField.Icon>
                 </material:TextField>
                 <Button

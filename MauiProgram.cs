@@ -162,15 +162,11 @@ namespace MAUIRecipeApp
             builder.Services.AddTransient<EditCurrentFoodTypePageView>();
             builder.Services.AddTransient<EditCurrentFoodTypePageViewModal>();
 
-          
-
             builder.Services.AddTransient<EditIngredientsPageView>();
             builder.Services.AddTransient<EditIngredientsPageViewModel>();
 
-            builder.Services.AddTransient<EditRecipeIngredientsPageView>();
-            builder.Services.AddTransient<EditRecipeIngredientsPageViewModel>();
-
-         
+            builder.Services.AddTransient<EditCurrentIngredientPageView>();
+            builder.Services.AddTransient<EditCurrentIngredientPageViewModal>();
 
             #endregion
 

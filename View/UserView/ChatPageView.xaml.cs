@@ -9,4 +9,13 @@ public partial class ChatPageView : ContentPage
 		InitializeComponent();
 		BindingContext = vm;
     }
+
+	protected override void OnAppearing()
+    {
+        base.OnAppearing();
+        if (BindingContext is ChatPageViewModel vm)
+        {
+            vm.OnAppearing();
+        }
+    }
 }

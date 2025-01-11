@@ -161,26 +161,8 @@ namespace MAUIRecipeApp.ViewModel.UserView
 
         private async void LoadSuggestedFood()
         {
-            var currentUser = UserService.Instance.CurrentUser;
-            var healthInfo = "Tôi có tình trạng sức khoẻ là " + currentUser.HealthCondition + " và bị dị ứng với " + currentUser.Allergies +
-                             ", cân nặng " + currentUser.Weight.ToString() + ", chiều cao " + currentUser.Height.ToString();
-            var recommendedFoodIds = await _geminiService.GetRecommendedFoodForHealth(healthInfo);
-
-            // In ra danh sách các FoodId phù hợp
-            foreach (var foodId in recommendedFoodIds)
-            {
-                Debug.WriteLine(foodId);
-            }
-
-            // Lấy ra các món ăn phù hợp từ danh sách FoodId
-            foreach (var foodId in recommendedFoodIds)
-            {
-                var food = foodRecipes.FirstOrDefault(x => x.Frid == foodId);
-                if (food != null)
-                {
-                    SuggestedFoodRecipes.Add(food);
-                }
-            }
+            var result = await FeatureFoodService.Instance.LoadSuggestedFood(_geminiService, foodRecipes);
+            SuggestedFoodRecipes = result.ToObservableCollection();
         }
 
         private async Task LoadFoodRecipes()
