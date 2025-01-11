@@ -37,6 +37,10 @@
             <!-- Calories -->
             <Label Text="Calories" />
             <Entry Text="{Binding Calories}" Placeholder="Enter calorie count" Keyboard="Numeric" />
+            
+            <!-- Health Benefit-->
+            <Label Text="Health Benefit" />
+            <Entry Text="{Binding HealthBenefit}" Placeholder="Enter health benefit" />
 
             <!-- Cooking Time -->
             <Label Text="Cooking Time (minutes)" />
@@ -71,16 +75,22 @@
 
             <!-- Ingredients Picker -->
             <Label Text="Select Ingredient" />
-            <HorizontalStackLayout Spacing="10">
-                <Picker ItemsSource="{Binding Ingredients}"
-                        ItemDisplayBinding="{Binding IngredientName}"
+            <Grid ColumnSpacing="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="3*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Picker Grid.Column="0" ItemsSource="{Binding Ingredients}" 
+                        ItemDisplayBinding="{Binding IngredientName}" 
                         SelectedItem="{Binding SelectedIngredient}" />
-                <Entry Text="{Binding IngredientQuantity, Mode=TwoWay}" 
-                       Placeholder="Enter the quantity" 
-                       Keyboard="Numeric" />
-            </HorizontalStackLayout>
-            <Button Text="Add Ingredient"
-                    Command="{Binding AddIngredientToSelectedListCommand}" />
+                <Entry Grid.Column="1" Text="{Binding IngredientQuantity, Mode=TwoWay}" 
+                       Placeholder="Enter the quantity" Keyboard="Numeric" />
+            </Grid>
+
+            <Button Text="Add Ingredient" 
+                    BackgroundColor="Orange" 
+                    TextColor="White" 
+                    Command="{Binding AddIngredientCommand}" />
 
             <!-- Display Selected Ingredients -->
             <Label Text="Selected Ingredients" FontAttributes="Bold" />
