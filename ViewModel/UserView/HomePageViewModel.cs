@@ -11,6 +11,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CommunityToolkit.Maui.Core.Extensions;
 
 namespace MAUIRecipeApp.ViewModel.UserView
 {
@@ -22,12 +23,42 @@ namespace MAUIRecipeApp.ViewModel.UserView
         [ObservableProperty]
         ObservableCollection<FoodRecipe> foodRecipes = new ObservableCollection<FoodRecipe>();
 
+        [ObservableProperty]
+        ObservableCollection<FoodRecipeTypeMapping> foodRecipeTypeMappings = new ObservableCollection<FoodRecipeTypeMapping>();
+
+        [ObservableProperty]
+        ObservableCollection<FoodRecipe> paginatedFoodRecipes = new ObservableCollection<FoodRecipe>();
+
+        [ObservableProperty]
+        ObservableCollection<FoodRecipe> filteredFoodRecipes = new ObservableCollection<FoodRecipe>();
+
+        [ObservableProperty]
+        ObservableCollection<FoodRecipe> suggestedFoodRecipes = new ObservableCollection<FoodRecipe>();
+
+        [ObservableProperty] private string timeString = string.Empty;
+        [ObservableProperty] private string userName = string.Empty;
+        
+        [ObservableProperty] private int totalPages = 1;
+        [ObservableProperty] private int itemsPerPage = 6;
+
+        [ObservableProperty]
+        private int currentPage = 1;
+
+        private bool _firstLoad = false;
+
+        [ObservableProperty]
+        private string selectedFoodTypeId = string.Empty;
+
         private readonly FirestoreService _firestoreService;
         private readonly FirestoreDb db;
+        private readonly GeminiService _geminiService;
 
-        public HomePageViewModel(FirestoreService firestoreService)
+
+
+        public HomePageViewModel(GeminiService gemini)
         {
-            _firestoreService = firestoreService;
+            this._geminiService = gemini;
+            _firestoreService = FirestoreService.Instance;
             db = _firestoreService.Db;
             if (db == null)
             {
@@ -35,10 +66,9 @@ namespace MAUIRecipeApp.ViewModel.UserView
                 return;
             }
             LoadItem();
+            UpdateTimeString();
+            
         }
-
-
-
 
         [RelayCommand]
         public async Task FoodDetail(string Frid)
@@ -46,20 +76,115 @@ namespace MAUIRecipeApp.ViewModel.UserView
             await Shell.Current.GoToAsync($"fooddetail?FRID={Frid}");
         }
 
-        private void LoadItem()
+        [RelayCommand]
+        public async Task SubmitNewRecipe()
         {
-            //// Lọc các phần tử không bị xóa trong FoodRecipeTypes
-            //FoodRecipeTypes = new ObservableCollection<FoodRecipeType>(
-            //    DataProvider.Ins.DB.FoodRecipeTypes.AsNoTracking()
-            //    .Where(item => (bool)!item.IsDeleted).ToList());
-
-            LoadFoodRecipes();
-            LoadFoodRecipeTypes();
+            await Shell.Current.GoToAsync("///submitnewrecipe");
         }
 
-        private async void LoadFoodRecipes()
+        [RelayCommand]
+
+        public async Task SetPage()
         {
-            // Truy vấn để lấy các mục có IsDeleted = false
+            try
+            {
+                if (_firstLoad)
+                {
+                    if (CurrentPage + 1 > TotalPages)
+                    {
+                        CurrentPage = 1;
+                    }
+                    else
+                    {
+                        CurrentPage++;
+                    }
+                }
+                else
+                {
+                    _firstLoad = true;
+                }
+                PaginatedFoodRecipes = FilteredFoodRecipes.Skip((CurrentPage - 1) * itemsPerPage).Take(itemsPerPage).ToObservableCollection();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("error: " + ex.Message);
+            }
+        
+        }
+
+        [RelayCommand]
+        public async Task FilterByType(string typeId)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(typeId))
+                {
+                    FilteredFoodRecipes = foodRecipes;
+                }
+                else
+                {
+                    // Lọc danh sách foodRecipes dựa trên sự kết hợp của foodRecipeTypeMappings
+                    FilteredFoodRecipes = foodRecipes
+                        .Where(x => foodRecipeTypeMappings
+                            .Any(mapping => mapping.Frid == x.Frid && mapping.Tofid == typeId))
+                        .ToObservableCollection();
+                }
+
+                TotalPages = (int)Math.Ceiling((double)filteredFoodRecipes.Count / itemsPerPage);
+                await SetPage();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("error: " + ex.Message);
+            }
+        }
+
+        [RelayCommand]
+        public async Task RefreshFoodRecipe()
+        {
+            await LoadFoodRecipes();
+        }
+        
+
+        private async void LoadItem()
+        {
+            userName = UserService.Instance.CurrentUser.Username;
+            await LoadFoodRecipes();
+            LoadFoodRecipeTypes();
+            LoadFoodRecipeTypeMappings();
+            filteredFoodRecipes = foodRecipes;
+            TotalPages = (int)Math.Ceiling((double)filteredFoodRecipes.Count / itemsPerPage);
+            await SetPage();
+            LoadSuggestedFood();
+        }
+
+
+        private async void LoadSuggestedFood()
+        {
+            var currentUser = UserService.Instance.CurrentUser;
+            var healthInfo = "Tôi có tình trạng sức khoẻ là " + currentUser.HealthCondition + " và bị dị ứng với " + currentUser.Allergies +
+                             ", cân nặng " + currentUser.Weight.ToString() + ", chiều cao " + currentUser.Height.ToString();
+            var recommendedFoodIds = await _geminiService.GetRecommendedFoodForHealth(healthInfo);
+
+            // In ra danh sách các FoodId phù hợp
+            foreach (var foodId in recommendedFoodIds)
+            {
+                Debug.WriteLine(foodId);
+            }
+
+            // Lấy ra các món ăn phù hợp từ danh sách FoodId
+            foreach (var foodId in recommendedFoodIds)
+            {
+                var food = foodRecipes.FirstOrDefault(x => x.Frid == foodId);
+                if (food != null)
+                {
+                    SuggestedFoodRecipes.Add(food);
+                }
+            }
+        }
+
+        private async Task LoadFoodRecipes()
+        {
             CollectionReference recipesRef = db.Collection("FoodRecipes");
             Query query = recipesRef.WhereEqualTo("IsDeleted", false);
             QuerySnapshot snapshot = await query.GetSnapshotAsync();
@@ -69,26 +194,27 @@ namespace MAUIRecipeApp.ViewModel.UserView
                 if (document.Exists)
                 {
                     FoodRecipe recipe = document.ConvertTo<FoodRecipe>();
-                    recipe.Frid = document.Id; // Lấy FRID từ Document ID
-                    FoodRecipes.Add(recipe); // Thêm vào ObservableCollection
+                    recipe.Frid = document.Id;
+                    FoodRecipes.Add(recipe);
                 }
             }
         }
 
         private async void LoadFoodRecipeTypes()
         {
-            try {
-               
+            try
+            {
                 CollectionReference recipeTypesRef = db.Collection("FoodRecipeTypes");
                 Query query = recipeTypesRef.WhereEqualTo("IsDeleted", false);
                 QuerySnapshot snapshot = await query.GetSnapshotAsync();
+
                 foreach (DocumentSnapshot document in snapshot.Documents)
                 {
                     if (document.Exists)
                     {
                         FoodRecipeType recipeType = document.ConvertTo<FoodRecipeType>();
-                        recipeType.Tofid = document.Id; // Lấy FRTID từ Document ID
-                        FoodRecipeTypes.Add(recipeType); // Thêm vào ObservableCollection
+                        recipeType.Tofid = document.Id;
+                        foodRecipeTypes.Add(recipeType);
                     }
                 }
             }
@@ -96,10 +222,54 @@ namespace MAUIRecipeApp.ViewModel.UserView
             {
                 Debug.WriteLine("error: " + ex.Message);
             }
+        }
 
+        private async void LoadFoodRecipeTypeMappings()
+        {
+            try
+            {
+                CollectionReference recipeTypeMappingRef = db.Collection("FoodRecipeTypeMappings");
+                Query query = recipeTypeMappingRef.WhereEqualTo("IsDeleted", false);
+                QuerySnapshot snapshot = await query.GetSnapshotAsync();
+
+                foreach (DocumentSnapshot document in snapshot.Documents)
+                {
+                    if (document.Exists)
+                    {
+                        FoodRecipeTypeMapping recipeType = document.ConvertTo<FoodRecipeTypeMapping>();
+                       // recipeType.Tofid = document.Id;
+                        FoodRecipeTypeMappings.Add(recipeType);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("error: " + ex.Message);
+            }
+        }
+
+        private void UpdateTimeString()
+        {
+            var currentHour = DateTime.Now.Hour;
+
+            if (currentHour >= 5 && currentHour < 12)
+            {
+                TimeString = "Good Morning!";
+            }
+            else if (currentHour >= 12 && currentHour < 17)
+            {
+                TimeString = "Good Afternoon!";
+            }
+            else if (currentHour >= 17 && currentHour < 21)
+            {
+                TimeString = "Good Evening!";
+            }
+            else
+            {
+                TimeString = "Good Night!";
+            }
         }
 
 
-
-	}
+    }
 }

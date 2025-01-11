@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MAUIRecipeApp.Models;
 using MAUIRecipeApp.Service;
+using CommunityToolkit.Mvvm.Input;
 
 namespace MAUIRecipeApp.ViewModel.AdminViewModel
 {
@@ -17,9 +18,61 @@ namespace MAUIRecipeApp.ViewModel.AdminViewModel
         [ObservableProperty]
         ObservableCollection<FoodRecipeType> foodRecipeTypes = new ObservableCollection<FoodRecipeType>();
 
-        private readonly FirestoreDb _db;
+        private FirestoreDb _db;
 
         public EditFoodRecipeTypePageViewModel()
+        {
+            
+        }
+
+        [RelayCommand]
+        public async Task EditFoodType(string tofid)
+        {
+            Debug.WriteLine(tofid);
+            await Shell.Current.GoToAsync($"editcurrentfoodtype?TOFID={tofid}");
+        }
+
+        [RelayCommand]
+        public async Task<bool> AddFoodType(string foodTypeName)
+        {
+            if (string.IsNullOrEmpty(foodTypeName))
+            {
+                return false;
+            }
+            var result = await FirestoreService.Instance.AddDocumentAsync("FoodRecipeTypes", new FoodRecipeType
+            {
+                FoodTypeName = foodTypeName,
+                IsDeleted = false
+            });
+            if (result)
+            {
+                LoadItem();
+            }
+            return result;
+        }
+
+        public void SearchFoodType(string searchKey)
+        {
+            if (string.IsNullOrEmpty(searchKey))
+            {
+                FoodRecipeTypes.Clear();
+                LoadItem();
+                return;
+            }
+
+            var tempFoodTypes = new List<FoodRecipeType>(foodRecipeTypes);
+            tempFoodTypes = foodRecipeTypes.ToList();
+            FoodRecipeTypes.Clear();
+            foreach (var food in tempFoodTypes)
+            {
+                if (food.FoodTypeName.ToLower().Contains(searchKey.ToLower()))
+                {
+                    FoodRecipeTypes.Add(food);
+                }
+            }
+        }
+
+        public void OnAppearing()
         {
             _db = FirestoreService.Instance.Db;
             if (_db == null)
@@ -30,13 +83,12 @@ namespace MAUIRecipeApp.ViewModel.AdminViewModel
             LoadItem();
         }
 
+
+
+
         private void LoadItem()
         {
-            //// Lọc các phần tử không bị xóa trong FoodRecipeTypes
-            //FoodRecipeTypes = new ObservableCollection<FoodRecipeType>(
-            //    DataProvider.Ins.DB.FoodRecipeTypes.AsNoTracking()
-            //    .Where(item => (bool)!item.IsDeleted).ToList());
-
+            FoodRecipeTypes.Clear();
             LoadFoodRecipeTypes();
         }
 
@@ -54,6 +106,7 @@ namespace MAUIRecipeApp.ViewModel.AdminViewModel
                     if (document.Exists)
                     {
                         FoodRecipeType recipe = document.ConvertTo<FoodRecipeType>();
+                        recipe.Tofid = document.Id;
                         FoodRecipeTypes.Add(recipe); // Thêm vào ObservableCollection
                     }
                 }

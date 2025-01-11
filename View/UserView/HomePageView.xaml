@@ -12,7 +12,8 @@
     Title=""
     x:DataType="viewmodel:HomePageViewModel"
     Background="{StaticResource WhiteText}">
-        <ScrollView>
+
+    <ScrollView>
         <VerticalStackLayout
             Margin="16,16,16,0"
             HorizontalOptions="{OnPlatform Android=Fill,
@@ -23,51 +24,91 @@
             <VerticalStackLayout HorizontalOptions="Start" Spacing="4">
                 <Label
                     FontSize="18"
-                    Text="Good Morning!"
+                    Text="{Binding TimeString}"
                     TextColor="{StaticResource PrimaryDarkText}" />
                 <Label
                     FontAttributes="Bold"
                     FontSize="22"
-                    Text="TEKATOJI"
+                    Text="{Binding UserName}"
                     TextColor="{StaticResource Primary}" />
-                <Button
-                        BackgroundColor="{StaticResource Primary}"
-                        CornerRadius="20"
-                        FontAttributes="Bold"
-                        FontSize="16"
-                        Text="Texting"
-                        TextColor="White" 
-                        Clicked="OnTestScreensClicked"/>
-
             </VerticalStackLayout>
+
+            <Border
+                Padding="8"
+                BackgroundColor="WhiteSmoke"
+                Stroke="Transparent"
+                StrokeThickness="1">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="10" />
+                </Border.StrokeShape>
+                <VerticalStackLayout Spacing="4">
+                    <Label
+                        FontSize="18"
+                        Text="Have a new Recipe you want to share ?"
+                        TextColor="{StaticResource PrimaryDarkText}" />
+                    <HorizontalStackLayout Spacing="4">
+                        <Label
+                            FontSize="18"
+                            Text="Click here to add your Recipe now!"
+                            TextColor="{StaticResource PrimaryDarkText}"
+                            VerticalTextAlignment="Center" />
+
+                        <Button Background="{StaticResource Primary}" Command="{Binding SubmitNewRecipeCommand}">
+                            <Button.ImageSource>
+                                <FontImageSource
+                                    FontFamily="MaterialSharp"
+                                    Glyph="{x:Static m:MaterialSharp.Add}"
+                                    Color="{StaticResource WhiteText}" />
+                            </Button.ImageSource>
+                        </Button>
+                    </HorizontalStackLayout>
+
+                </VerticalStackLayout>
+
+            </Border>
 
 
             <VerticalStackLayout Spacing="8">
                 <Label
                     FontAttributes="Bold"
                     FontSize="20"
-                    Text="Featured Food"
+                    Text="Food Base On Your Health"
                     TextColor="{StaticResource PrimaryDarkText}" />
-                <ScrollView Orientation="Horizontal">
-                    <HorizontalStackLayout Spacing="8">
-                        <Button
-                            BackgroundColor="{StaticResource Primary}"
-                            HeightRequest="150"
-                            WidthRequest="200" />
-                        <Button
-                            BackgroundColor="{StaticResource Primary}"
-                            HeightRequest="150"
-                            WidthRequest="200" />
-                        <Button
-                            BackgroundColor="{StaticResource Primary}"
-                            HeightRequest="150"
-                            WidthRequest="200" />
-                        <Button
-                            BackgroundColor="{StaticResource Primary}"
-                            HeightRequest="150"
-                            WidthRequest="200" />
-                    </HorizontalStackLayout>
-                </ScrollView>
+
+                <Border Background="{StaticResource Primary}" StrokeShape="RoundRectangle 20">
+                    <CollectionView HeightRequest="150" ItemsSource="{Binding SuggestedFoodRecipes}">
+                        <CollectionView.ItemsLayout>
+                            <LinearItemsLayout Orientation="Horizontal" />
+                        </CollectionView.ItemsLayout>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="models:FoodRecipe">
+                                <Grid Padding="8">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="125" />
+                                    </Grid.RowDefinitions>
+                                    <ImageButton
+                                        Grid.Row="0"
+                                        Aspect="Fill"
+                                        Command="{Binding Path=FoodDetailCommand, Source={RelativeSource AncestorType={x:Type viewmodel:HomePageViewModel}}}"
+                                        CommandParameter="{Binding Frid}"
+                                        CornerRadius="20"
+                                        Source="{Binding ImgUrl}"
+                                        WidthRequest="150" />
+                                    <Label
+                                        FontSize="18"
+                                        Text="{Binding RecipeName}"
+                                        TextColor="{StaticResource WhiteText}"
+                                        VerticalTextAlignment="End" />
+
+                                </Grid>
+
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </Border>
+
+
+
 
             </VerticalStackLayout>
 
@@ -85,7 +126,7 @@
                         Text="Category"
                         TextColor="{StaticResource PrimaryDarkText}"
                         VerticalTextAlignment="Center" />
-                    <Button
+                    <!--<Button
                         Grid.Column="1"
                         BackgroundColor="Transparent"
                         CornerRadius="0"
@@ -94,7 +135,7 @@
                                               WinUI=14}"
                         HorizontalOptions="End"
                         Text="See All"
-                        TextColor="{StaticResource Primary}" />
+                        TextColor="{StaticResource Primary}" />-->
                 </Grid>
 
                 <ScrollView Orientation="Horizontal">
@@ -105,6 +146,8 @@
                                     Margin="0,0,8,0"
                                     BackgroundColor="Transparent"
                                     BorderColor="{StaticResource Primary}"
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:HomePageViewModel}}, Path=FilterByTypeCommand}"
+                                    CommandParameter="{Binding Tofid}"
                                     HeightRequest="50"
                                     Text="{Binding FoodTypeName}"
                                     TextColor="{StaticResource PrimaryDarkText}"
@@ -134,6 +177,8 @@
                     <Button
                         Grid.Column="1"
                         BackgroundColor="Transparent"
+                        Command="{Binding FilterByTypeCommand}"
+                        CommandParameter=""
                         CornerRadius="0"
                         FontAttributes="Bold"
                         FontSize="{OnPlatform Android=18,
@@ -143,59 +188,60 @@
                         TextColor="{StaticResource Primary}" />
                 </Grid>
 
-                <CollectionView ItemsLayout="VerticalGrid,2 " ItemsSource="{Binding FoodRecipes}">
-                    <CollectionView.ItemTemplate>
-                        <DataTemplate x:DataType="models:FoodRecipe">
-                            <Grid Padding="8">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="100" />
-                                    <RowDefinition Height="75" />
-                                </Grid.RowDefinitions>
+                <RefreshView Command="{Binding RefreshFoodRecipeCommand}">
+                    <CollectionView ItemsLayout="VerticalGrid,2 " ItemsSource="{Binding PaginatedFoodRecipes}">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="models:FoodRecipe">
+                                <Grid Padding="8">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="100" />
+                                        <RowDefinition Height="75" />
+                                    </Grid.RowDefinitions>
 
 
-                                <ImageButton
-                                    Grid.Row="0"
-                                    Aspect="Fill"
-                                    Command="{Binding Path=FoodDetailCommand, Source={RelativeSource AncestorType={x:Type viewmodel:HomePageViewModel}}}"
-                                    CommandParameter="{Binding Frid}"
-                                    CornerRadius="20"
-                                    Source="{Binding ImgUrl}" />
-
-                                <!--<Border Stroke="Transparent" StrokeShape="RoundRectangle 15">
-                                    <Image
+                                    <ImageButton
                                         Grid.Row="0"
                                         Aspect="Fill"
-                                        Source="https://superfoods.vn/wp-content/uploads/2023/07/banh-mi-hamburger-truyen-thong.jpeg" />
-                                </Border>-->
+                                        Command="{Binding Path=FoodDetailCommand, Source={RelativeSource AncestorType={x:Type viewmodel:HomePageViewModel}}}"
+                                        CommandParameter="{Binding Frid}"
+                                        CornerRadius="20"
+                                        Source="{Binding ImgUrl}" />
 
 
-                                <VerticalStackLayout
-                                    Grid.Row="1"
-                                    Margin="8,8,0,0"
-                                    Spacing="8">
-                                    <Label
-                                        FontSize="18"
-                                        Text="{Binding RecipeName}"
-                                        TextColor="{StaticResource PrimaryDarkText}" />
-                                    <HorizontalStackLayout Spacing="8">
-                                        <Label Text="{Binding Calories, StringFormat='{0} cals'}" TextColor="{StaticResource Gray300}" />
-                                        <Image>
-                                            <Image.Source>
-                                                <FontImageSource
-                                                    FontFamily="MaterialSharp"
-                                                    Glyph="{x:Static m:MaterialSharp.Circle}"
-                                                    Size="15"
-                                                    Color="{StaticResource Gray300}" />
-                                            </Image.Source>
-                                        </Image>
-                                        <Label Text="{Binding CookingTime, StringFormat='{0} mins'}" TextColor="{StaticResource Gray300}" />
-                                    </HorizontalStackLayout>
-                                </VerticalStackLayout>
-                            </Grid>
+                                    <VerticalStackLayout
+                                        Grid.Row="1"
+                                        Margin="8,8,0,0"
+                                        Spacing="8">
+                                        <Label
+                                            FontSize="18"
+                                            Text="{Binding RecipeName}"
+                                            TextColor="{StaticResource PrimaryDarkText}" />
+                                        <HorizontalStackLayout Spacing="8">
+                                            <Label Text="{Binding Calories, StringFormat='{0} cals'}" TextColor="{StaticResource Gray300}" />
+                                            <Image>
+                                                <Image.Source>
+                                                    <FontImageSource
+                                                        FontFamily="MaterialSharp"
+                                                        Glyph="{x:Static m:MaterialSharp.Circle}"
+                                                        Size="15"
+                                                        Color="{StaticResource Gray300}" />
+                                                </Image.Source>
+                                            </Image>
+                                            <Label Text="{Binding CookingTime, StringFormat='{0} mins'}" TextColor="{StaticResource Gray300}" />
+                                        </HorizontalStackLayout>
+                                    </VerticalStackLayout>
+                                </Grid>
 
-                        </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </RefreshView>
+
+                <material:Paginator
+                    ChangePageCommand="{Binding SetPageCommand}"
+                    CurrentPage="{Binding CurrentPage, Mode=TwoWay}"
+                    HorizontalOptions="Center"
+                    TotalPageCount="{Binding TotalPages}" />
 
 
 
@@ -208,5 +254,15 @@
         </VerticalStackLayout>
 
     </ScrollView>
-        
+    <!--<Button
+            AbsoluteLayout.LayoutBounds="1,1,AutoSize,AutoSize"
+            AbsoluteLayout.LayoutFlags="PositionProportional"
+            BackgroundColor="{StaticResource Primary}"
+            Clicked="OnSubmitNewRecipeClicked"
+            CornerRadius="30"
+            FontAttributes="Bold"
+            HeightRequest="60"
+            Text="+"
+            TextColor="White"
+            WidthRequest="60" />-->
 </ContentPage>

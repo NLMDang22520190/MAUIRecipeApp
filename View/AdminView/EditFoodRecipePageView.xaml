@@ -36,53 +36,13 @@
                         VerticalOptions="Center" />
 
                 </HorizontalStackLayout>
-                <HorizontalStackLayout
-                    Grid.Column="1"
-                    HorizontalOptions="End"
-                    Spacing="8"
-                    VerticalOptions="Center">
-                    <Button
-                        Background="Aqua"
-                        FontAttributes="Bold"
-                        TextColor="{StaticResource WhiteText}"
-                        ToolTipProperties.Text="Edit">
-                        <Button.ImageSource>
-                            <FontImageSource
-                                FontFamily="MaterialSharp"
-                                Glyph="{x:Static m:MaterialSharp.Edit}"
-                                Size="20" />
-                        </Button.ImageSource>
-                    </Button>
-                    <Button
-                        Background="Lime"
-                        FontAttributes="Bold"
-                        TextColor="{StaticResource WhiteText}"
-                        ToolTipProperties.Text="Save">
-                        <Button.ImageSource>
-                            <FontImageSource
-                                FontFamily="MaterialSharp"
-                                Glyph="{x:Static m:MaterialSharp.Save}"
-                                Size="20" />
-                        </Button.ImageSource>
-                    </Button>
-                    <Button
-                        Background="{StaticResource Primary500}"
-                        Command="{Binding ToggleBackdropCommand}"
-                        FontAttributes="Bold"
-                        TextColor="{StaticResource WhiteText}"
-                        ToolTipProperties.Text="Filter">
-                        <Button.ImageSource>
-                            <FontImageSource
-                                FontFamily="MaterialSharp"
-                                Glyph="{x:Static m:MaterialSharp.Filter_alt}"
-                                Size="20" />
-                        </Button.ImageSource>
-                    </Button>
-                </HorizontalStackLayout>
+
                 <material:TextField
                     Title="Search..."
                     Grid.Row="1"
+                    Grid.ColumnSpan="2"
                     AllowClear="True"
+                    TextChanged="TextField_OnTextChanged"
                     TextColor="{StaticResource Primary}">
                     <material:TextField.Icon>
                         <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Search}" />
@@ -122,14 +82,8 @@
                         <material:DataGridColumn Title="Img Url" ValueBinding="{Binding ImgUrl}" />
                         <material:DataGridColumn Title="Video Url" ValueBinding="{Binding VideoUrl}" />
                         <material:DataGridColumn Title="Uploader Uid" ValueBinding="{Binding UploaderUid}" />
-                        <material:DataGridColumn Title="Actions">
-                            <material:DataGridColumn.CellItemTemplate>
-                                <DataTemplate>
-                                    <Button Background="PaleVioletRed" Text="Remove" />
-                                </DataTemplate>
-                            </material:DataGridColumn.CellItemTemplate>
-                        </material:DataGridColumn>
-                        <material:DataGridColumn Title="Is Deleted ?">
+
+                        <material:DataGridColumn Title="Is Hidden ?">
                             <material:DataGridColumn.CellItemTemplate>
                                 <DataTemplate x:DataType="models:FoodRecipe">
                                     <material:CheckBox
@@ -139,7 +93,28 @@
                                 </DataTemplate>
                             </material:DataGridColumn.CellItemTemplate>
                         </material:DataGridColumn>
-
+                        <material:DataGridColumn Title="Is Approved ?">
+                            <material:DataGridColumn.CellItemTemplate>
+                                <DataTemplate x:DataType="models:FoodRecipe">
+                                    <material:CheckBox
+                                        HorizontalOptions="Center"
+                                        IsChecked="{Binding IsApproved}"
+                                        IsEnabled="False" />
+                                </DataTemplate>
+                            </material:DataGridColumn.CellItemTemplate>
+                        </material:DataGridColumn>
+                        <material:DataGridColumn Title="Actions">
+                            <material:DataGridColumn.CellItemTemplate>
+                                <DataTemplate>
+                                    <Button
+                                        x:DataType="models:FoodRecipe"
+                                        Background="LightBlue"
+                                        Command="{Binding Path=EditFoodCommand, Source={RelativeSource AncestorType={x:Type viewmodel:EditFoodRecipePageViewModel}}}"
+                                        CommandParameter="{Binding Frid}"
+                                        Text="Edit" />
+                                </DataTemplate>
+                            </material:DataGridColumn.CellItemTemplate>
+                        </material:DataGridColumn>
                     </material:DataGrid.Columns>
                 </material:DataGrid>
 
@@ -150,215 +125,5 @@
         </VerticalStackLayout>
     </ScrollView>
 
-    <uranium:UraniumContentPage.Attachments>
-        <material:BackdropView
-            x:Name="backdrop"
-            Title="menu"
-            BackgroundColor="{StaticResource Primary100}"
-            InsertAfterToolbarIcons="True"
-            IsPresented="{Binding IsBackdropPresented, Mode=TwoWay}">
-            <VerticalStackLayout Spacing="8">
-                <material:MultiplePickerField
-                    Title="Difficulty Level"
-                    Margin="0,8,0,0"
-                    BorderColor="{StaticResource Primary400}"
-                    Icon="{FontImageSource FontFamily=MaterialSharp,
-                                           Glyph={x:Static m:MaterialSharp.Stacks},
-                                           Color={StaticResource Primary400}}"
-                    ItemsSource="{Binding FoodDifficulty}"
-                    TitleColor="{StaticResource Primary400}" />
 
-                <!--  CalorieSlider  -->
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="0.1*" />
-                        <ColumnDefinition Width="0.8*" />
-                        <ColumnDefinition Width="0.1*" />
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition />
-                        <RowDefinition />
-                        <RowDefinition />
-                    </Grid.RowDefinitions>
-
-                    <!--  Title Label  -->
-                    <Label
-                        Grid.Row="0"
-                        Grid.Column="1"
-                        FontAttributes="Bold"
-                        FontSize="18"
-                        HorizontalTextAlignment="Center"
-                        Text="Cooking Time"
-                        TextColor="{StaticResource Primary400}" />
-
-                    <!--  Minimum Value Label  -->
-                    <Label
-                        Grid.Row="1"
-                        Grid.Column="0"
-                        FontSize="18"
-                        Text="0"
-                        TextColor="{StaticResource Primary400}" />
-
-                    <!--  Bound Value Label  -->
-                    <Label
-                        Grid.Row="1"
-                        Grid.Column="1"
-                        FontSize="18"
-                        HorizontalTextAlignment="Center"
-                        Text="{Binding Source={x:Reference CookingSlider}, Path=Value, StringFormat='Value: {0:F0}'}"
-                        TextColor="{StaticResource Primary400}" />
-
-                    <!--  Maximum Value Label  -->
-                    <Label
-                        Grid.Row="1"
-                        Grid.Column="2"
-                        FontSize="18"
-                        HorizontalTextAlignment="End"
-                        Text="{Binding MaxCookingTime}"
-                        TextColor="{StaticResource Primary400}" />
-
-                    <!--  Slider  -->
-                    <Slider
-                        x:Name="CookingSlider"
-                        Grid.Row="2"
-                        Grid.ColumnSpan="3"
-                        Maximum="{Binding MaxCookingTime}"
-                        MaximumTrackColor="{StaticResource Primary200}"
-                        Minimum="0"
-                        MinimumTrackColor="{StaticResource Primary400}"
-                        ValueChanged="OnSliderValueChanged" />
-                </Grid>
-                <!--  CalorieSlider  -->
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="0.1*" />
-                        <ColumnDefinition Width="0.8*" />
-                        <ColumnDefinition Width="0.1*" />
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition />
-                        <RowDefinition />
-                        <RowDefinition />
-                    </Grid.RowDefinitions>
-
-                    <!--  Title Label  -->
-                    <Label
-                        Grid.Row="0"
-                        Grid.Column="1"
-                        FontAttributes="Bold"
-                        FontSize="18"
-                        HorizontalTextAlignment="Center"
-                        Text="Calories"
-                        TextColor="{StaticResource Primary400}" />
-
-                    <!--  Minimum Value Label  -->
-                    <Label
-                        Grid.Row="1"
-                        Grid.Column="0"
-                        FontSize="18"
-                        Text="0"
-                        TextColor="{StaticResource Primary400}" />
-
-                    <!--  Bound Value Label  -->
-                    <Label
-                        Grid.Row="1"
-                        Grid.Column="1"
-                        FontSize="18"
-                        HorizontalTextAlignment="Center"
-                        Text="{Binding Source={x:Reference CalorieSlider}, Path=Value, StringFormat='Value: {0:F0}'}"
-                        TextColor="{StaticResource Primary400}" />
-
-                    <!--  Maximum Value Label  -->
-                    <Label
-                        Grid.Row="1"
-                        Grid.Column="2"
-                        FontSize="18"
-                        HorizontalTextAlignment="End"
-                        Text="{Binding MaxCalorie}"
-                        TextColor="{StaticResource Primary400}" />
-
-                    <!--  Slider  -->
-                    <Slider
-                        x:Name="CalorieSlider"
-                        Grid.Row="2"
-                        Grid.ColumnSpan="3"
-                        Maximum="{Binding MaxCalorie}"
-                        MaximumTrackColor="{StaticResource Primary200}"
-                        Minimum="0"
-                        MinimumTrackColor="{StaticResource Primary400}"
-                        ValueChanged="OnSliderValueChanged" />
-                </Grid>
-
-                <!--  PortionSlider  -->
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="0.1*" />
-                        <ColumnDefinition Width="0.8*" />
-                        <ColumnDefinition Width="0.1*" />
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition />
-                        <RowDefinition />
-                        <RowDefinition />
-                    </Grid.RowDefinitions>
-
-                    <!--  Title Label  -->
-                    <Label
-                        Grid.Row="0"
-                        Grid.Column="1"
-                        FontAttributes="Bold"
-                        FontSize="18"
-                        HorizontalTextAlignment="Center"
-                        Text="Portion"
-                        TextColor="{StaticResource Primary400}" />
-
-                    <!--  Minimum Value Label  -->
-                    <Label
-                        Grid.Row="1"
-                        Grid.Column="0"
-                        FontSize="18"
-                        Text="0"
-                        TextColor="{StaticResource Primary400}" />
-
-                    <!--  Bound Value Label  -->
-                    <Label
-                        Grid.Row="1"
-                        Grid.Column="1"
-                        FontSize="18"
-                        HorizontalTextAlignment="Center"
-                        Text="{Binding Source={x:Reference PortionSlider}, Path=Value, StringFormat='Value: {0:F0}'}"
-                        TextColor="{StaticResource Primary400}" />
-
-                    <!--  Maximum Value Label  -->
-                    <Label
-                        Grid.Row="1"
-                        Grid.Column="2"
-                        FontSize="18"
-                        HorizontalTextAlignment="End"
-                        Text="{Binding MaxPortion}"
-                        TextColor="{StaticResource Primary400}" />
-
-                    <!--  Slider  -->
-                    <Slider
-                        x:Name="PortionSlider"
-                        Grid.Row="2"
-                        Grid.ColumnSpan="3"
-                        Maximum="{Binding MaxPortion}"
-                        MaximumTrackColor="{StaticResource Primary200}"
-                        Minimum="0"
-                        MinimumTrackColor="{StaticResource Primary400}"
-                        ValueChanged="OnSliderValueChanged" />
-                </Grid>
-
-                <Button
-                    Margin="0,0,0,8"
-                    BackgroundColor="{StaticResource Primary400}"
-                    BorderColor="{StaticResource Primary400}"
-                    HorizontalOptions="End"
-                    Text="Show All"
-                    TextColor="{StaticResource WhiteText}" />
-
-            </VerticalStackLayout>
-        </material:BackdropView>
-    </uranium:UraniumContentPage.Attachments>
 </uranium:UraniumContentPage>

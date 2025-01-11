@@ -21,11 +21,9 @@ namespace MAUIRecipeApp.ViewModel.Auth
     {
         private readonly IConfiguration _configuration;
 
-        [ObservableProperty]
-        private string email;
+        [ObservableProperty] private string email = "testing@gmail.com";
 
-        [ObservableProperty]
-        private string password;
+        [ObservableProperty] private string password = "123456";
 
         [ObservableProperty]
         private string _errorMSG;
@@ -51,24 +49,34 @@ namespace MAUIRecipeApp.ViewModel.Auth
         [RelayCommand]
         private async Task Login()
         {
-            var user = AuthService.Instance.Login(email, password);
-            if (user != null)
+            try
             {
-                UserService.Instance.SetCurrentUser(user);  
-                if (user.isAdmin == true)
+                var user = AuthService.Instance.Login(email, password);
+                if (user != null)
                 {
-                    await Shell.Current.GoToAsync("//adminhome");
-                    return;
+                    UserService.Instance.SetCurrentUser(user);
+                    ErrorMSG = string.Empty;
+                    if (user.isAdmin == true)
+                    {
+                        await Shell.Current.GoToAsync("//adminhome");
+                        return;
+                    }
+                    else
+                        await Shell.Current.GoToAsync("//home", true);
                 }
                 else
-                    await Shell.Current.GoToAsync("//home");
+                {
+                    ErrorMSG = "Incorrect email or password";
+                    Debug.WriteLine("Incorrect email or password");
+                }
             }
-            else
+            catch (Exception ex)
             {
-                ErrorMSG = "Incorrect email or password";
-                Debug.WriteLine("Incorrect email or password");
+                ErrorMSG = ex.Message;
+                Debug.WriteLine(ex.Message);
             }
-           
+
+
         }
 
 

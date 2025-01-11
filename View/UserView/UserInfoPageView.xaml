@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="MAUIRecipeApp.View.UserView.UserInfoPageView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:input="clr-namespace:InputKit.Shared.Controls;assembly=InputKit.Maui"
+    xmlns:m="http://schemas.enisn-projects.io/dotnet/maui/uraniumui"
+    xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
+    xmlns:models="clr-namespace:MAUIRecipeApp.Models"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:validations="clr-namespace:InputKit.Shared.Validations;assembly=InputKit.Maui"
+    xmlns:viewmodel="clr-namespace:MAUIRecipeApp.ViewModel.UserView"
+    Title=""
+    x:DataType="viewmodel:UserInfoPageViewModel"
+    Background="{StaticResource WhiteText}">
+    <ScrollView>
+        <VerticalStackLayout Margin="16,16,16,16" Spacing="16">
+            <Label
+                FontSize="30"
+                HorizontalOptions="Center"
+                Text="User Info"
+                TextColor="{StaticResource Primary}" />
+            <Label
+                FontSize="18"
+                HorizontalOptions="Center"
+                Text="{Binding UpdateMsg}"
+                TextColor="{StaticResource PrimaryDarkText}" />
+            <material:TextField
+                Title="Username"
+                AllowClear="True"
+                BorderColor="{StaticResource PrimaryDarkText}"
+                CornerRadius="16"
+                FontSize="16"
+                Text="{Binding UserName}"
+                TextColor="{StaticResource PrimaryDarkText}">
+                <material:TextField.Icon>
+                    <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Person}" />
+                </material:TextField.Icon>
+            </material:TextField>
+            <material:TextField
+                Title="Email"
+                AllowClear="True"
+                BorderColor="{StaticResource PrimaryDarkText}"
+                CornerRadius="16"
+                FontSize="16"
+                IsReadOnly="True"
+                Text="{Binding Email}"
+                TextColor="{StaticResource PrimaryDarkText}">
+                <material:TextField.Icon>
+                    <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Mail}" />
+                </material:TextField.Icon>
+            </material:TextField>
+            <material:TextField
+                Title="Health Condition"
+                AllowClear="True"
+                BorderColor="{StaticResource PrimaryDarkText}"
+                CornerRadius="16"
+                FontSize="16"
+                Text="{Binding HealthCondition}"
+                TextColor="{StaticResource PrimaryDarkText}">
+                <material:TextField.Icon>
+                    <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Cardiology}" />
+                </material:TextField.Icon>
+            </material:TextField>
+            <material:TextField
+                Title="Allergies"
+                AllowClear="True"
+                BorderColor="{StaticResource PrimaryDarkText}"
+                CornerRadius="16"
+                FontSize="16"
+                Text="{Binding Allergies}"
+                TextColor="{StaticResource PrimaryDarkText}">
+                <material:TextField.Icon>
+                    <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Allergies}" />
+                </material:TextField.Icon>
+            </material:TextField>
+            <material:TextField
+                Title="Height"
+                AllowClear="True"
+                BorderColor="{StaticResource PrimaryDarkText}"
+                CornerRadius="16"
+                FontSize="16"
+                Text="{Binding Height}"
+                TextColor="{StaticResource PrimaryDarkText}">
+                <material:TextField.Icon>
+                    <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Height}" />
+                </material:TextField.Icon>
+            </material:TextField>
+            <material:TextField
+                Title="Weight"
+                AllowClear="True"
+                BorderColor="{StaticResource PrimaryDarkText}"
+                CornerRadius="16"
+                FontSize="16"
+                Text="{Binding Weight}"
+                TextColor="{StaticResource PrimaryDarkText}">
+                <material:TextField.Icon>
+                    <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Weight}" />
+                </material:TextField.Icon>
+            </material:TextField>
+            <Button
+                BackgroundColor="{StaticResource Primary}"
+                Command="{Binding UpdateCommand}"
+                FontSize="20"
+                IsEnabled="{Binding CanUpdate}"
+                Text="Update" />
+            <Button
+                BackgroundColor="Transparent"
+                BorderColor="{StaticResource Primary}"
+                Command="{Binding LogoutCommand}"
+                FontSize="20"
+                IsEnabled="{Binding CanLogout}"
+                Text="Logout"
+                TextColor="{StaticResource Primary}" />
+
+            <material:TextField
+                Title="Current Password"
+                BorderColor="{StaticResource PrimaryDarkText}"
+                CornerRadius="16"
+                FontSize="16"
+                IsPassword="True"
+                Text="{Binding CurrentPassword}"
+                TextColor="{StaticResource PrimaryDarkText}">
+                <material:TextField.Icon>
+                    <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Lock}" />
+                </material:TextField.Icon>
+                <material:TextField.Attachments>
+                    <material:TextFieldPasswordShowHideAttachment />
+                </material:TextField.Attachments>
+            </material:TextField>
+            <material:TextField
+                Title="New Password"
+                BorderColor="{StaticResource PrimaryDarkText}"
+                CornerRadius="16"
+                FontSize="16"
+                IsPassword="True"
+                Text="{Binding NewPassword}"
+                TextColor="{StaticResource PrimaryDarkText}">
+                <validations:RequiredValidation />
+                <validations:RegexValidation Message="Password must be at least 6 characters long and include at least two of the following: a lowercase letter, an uppercase letter, or a number. " Pattern="{x:Static input:AdvancedEntry.REGEX_PASSWORD}" />
+                <material:TextField.Icon>
+                    <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Lock}" />
+                </material:TextField.Icon>
+                <material:TextField.Attachments>
+                    <material:TextFieldPasswordShowHideAttachment />
+                </material:TextField.Attachments>
+            </material:TextField>
+            <material:TextField
+                Title="Confirm New Password"
+                BorderColor="{StaticResource PrimaryDarkText}"
+                CornerRadius="16"
+                FontSize="16"
+                IsPassword="True"
+                Text="{Binding ConfirmPassword}"
+                TextColor="{StaticResource PrimaryDarkText}">
+                <validations:RequiredValidation />
+                <validations:RegexValidation Message="Password must be at least 6 characters long and include at least two of the following: a lowercase letter, an uppercase letter, or a number. " Pattern="{x:Static input:AdvancedEntry.REGEX_PASSWORD}" />
+                <material:TextField.Icon>
+                    <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Lock}" />
+                </material:TextField.Icon>
+                <material:TextField.Attachments>
+                    <material:TextFieldPasswordShowHideAttachment />
+                </material:TextField.Attachments>
+            </material:TextField>
+            <Label
+                FontSize="18"
+                HorizontalOptions="Center"
+                Text="{Binding UpdatePasswordMsg}"
+                TextColor="{StaticResource PrimaryDarkText}" />
+            <Button
+                BackgroundColor="{StaticResource Primary}"
+                Command="{Binding UpdatePasswordCommand}"
+                FontSize="20"
+                Text="Update Password" />
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

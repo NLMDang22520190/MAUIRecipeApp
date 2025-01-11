@@ -37,6 +37,8 @@
         [FirestoreProperty]
         public string? VideoUrl { get; set; }
 
-        [FirestoreProperty]
-        public bool? IsDeleted { get; set; } = false;
-    }
+    [FirestoreProperty]
+    public bool? IsDeleted { get; set; } = false;
+
+    [FirestoreProperty] public bool? IsApproved { get; set; } = false;
+}

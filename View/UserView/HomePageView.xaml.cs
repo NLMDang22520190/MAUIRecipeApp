@@ -1,22 +1,23 @@
+using MAUIRecipeApp.Service;
 using MAUIRecipeApp.ViewModel.UserView;
+using Microsoft.Extensions.Configuration;
 
 namespace MAUIRecipeApp.View.UserView;
 
 public partial class HomePageView : ContentPage
 {
-	public HomePageView(HomePageViewModel vm)
+    private readonly GeminiService _geminiService;
+    public HomePageView(GeminiService geminiService)
 	{
 		InitializeComponent();
-        BindingContext = vm;
+        _geminiService = geminiService;
     }
 
-	private async void OnSubmitNewRecipeClicked(object sender, EventArgs e)
-	{
-		await Shell.Current.GoToAsync("///submitnewrecipe");
-	}
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
 
-	private async void OnTestScreensClicked(object sender, EventArgs e)
-	{
-		await Shell.Current.GoToAsync("///testing");
-	}
+        // T?o m?i ViewModel và gán l?i BindingContext
+        BindingContext = new HomePageViewModel(_geminiService);
+    }
 }

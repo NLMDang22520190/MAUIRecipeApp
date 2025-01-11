@@ -10,7 +10,7 @@ public partial class User
 {
     [FirestoreProperty] // Ánh xạ thuộc tính với trường 'Frid' trong Firestore
 
-    public int Uid { get; set; }
+    public string Uid { get; set; }
     [FirestoreProperty] // Ánh xạ thuộc tính với trường 'Frid' trong Firestore
 
 
@@ -31,9 +31,28 @@ public partial class User
     [FirestoreProperty] // Ánh xạ thuộc tính với trường 'Frid' trong Firestore
 
     public bool? isAdmin { get; set; }
+
+    [FirestoreProperty] public bool? isDeactivated { get; set; } = false;
+
     [FirestoreProperty] // Ánh xạ thuộc tính với trường 'Frid' trong Firestore
 
     public bool? IsDeleted { get; set; }
+
+    [FirestoreProperty] // Ánh xạ thuộc tính với trường 'Frid' trong Firestore
+
+    public float? Height { get; set; }
+    [FirestoreProperty] // Ánh xạ thuộc tính với trường 'Frid' trong Firestore
+
+    public float? Weight { get; set; }
+    [FirestoreProperty] // Ánh xạ thuộc tính với trường 'Frid' trong Firestore
+
+    public string? HealthCondition { get; set; }
+    [FirestoreProperty] // Ánh xạ thuộc tính với trường 'Frid' trong Firestore
+
+    public string? Allergies { get; set; }
+    [FirestoreProperty] // Ánh xạ thuộc tính với trường 'Frid' trong Firestore
+
+
 
     public virtual ICollection<FoodRating> FoodRatings { get; set; } = new List<FoodRating>();
 
