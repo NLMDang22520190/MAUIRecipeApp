@@ -100,6 +100,7 @@ namespace MAUIRecipeApp.Service
         {
             UserService.Instance.ClearCurrentUser();
             FeatureFoodService.Instance.ClearSuggestedFood();
+            GeminiService.ClearChatHistory();
             await Shell.Current.GoToAsync("//login");
         }
 

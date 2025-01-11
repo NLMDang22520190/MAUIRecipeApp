@@ -5,14 +5,17 @@ using GenerativeAI.Types;
 using MAUIRecipeApp.Models;
 using Google.Cloud.Firestore;
 using System.Diagnostics;
+using MAUIRecipeApp.DTO;
 
 namespace MAUIRecipeApp.Service
 {
     public class GeminiService
     {
         private readonly string _geminiKey;
-        private readonly ChatSession _generalChatSession;   // Chat session để gửi tin nhắn thông thường
+        private readonly ChatSession _generalChatSession; // Chat session để gửi tin nhắn thông thường
         private readonly ChatSession _recommendationChatSession; // Chat session riêng để gợi ý món ăn
+
+        private static List<ChatMessage> chatHistory = new List<ChatMessage>();
 
         private List<FoodRecipe> foodRecipes = new List<FoodRecipe>();
 
@@ -35,7 +38,24 @@ namespace MAUIRecipeApp.Service
             LoadData();
         }
 
-        public async Task<string> SendGeneralMessage(string prompt)
+        public List<ChatMessage> GetChatHistory()
+        {
+            return chatHistory;
+        }
+
+        public void CopyToChatHistory(List<ChatMessage> history)
+        {
+            ClearChatHistory();
+            chatHistory.AddRange(history);
+        }
+
+        public static void ClearChatHistory()
+        {
+            chatHistory.Clear();
+        }
+    
+
+    public async Task<string> SendGeneralMessage(string prompt)
         {
             var message = prompt.Trim();
             var result = await _generalChatSession.SendMessageAsync(message);

@@ -18,6 +18,8 @@ namespace MAUIRecipeApp.ViewModel.AdminViewModel
         [ObservableProperty]
         ObservableCollection<FoodRecipe> foodRecipes = new ObservableCollection<FoodRecipe>();
 
+        private List<FoodRecipe> allFoodRecipes = new List<FoodRecipe>();
+
         private FirestoreDb _db;
 
         public EditFoodRecipePageViewModel()
@@ -29,6 +31,41 @@ namespace MAUIRecipeApp.ViewModel.AdminViewModel
         public async Task EditFood(string frid)
         {
             await Shell.Current.GoToAsync($"editcurrentfoodrecipe?FRID={frid}");
+        }
+
+        [RelayCommand]
+        public async Task ShowAllHidden()
+        {
+            var tempFoods = new List<FoodRecipe>(allFoodRecipes);
+            FoodRecipes.Clear();
+            foreach (var food in tempFoods)
+            {
+                if (food.IsDeleted == true)
+                {
+                    FoodRecipes.Add(food);
+                }
+            }
+        }
+
+        [RelayCommand]
+        public async Task ShowAllNotApproved()
+        {
+            var tempFoods = new List<FoodRecipe>(allFoodRecipes);
+            FoodRecipes.Clear();
+            foreach (var food in tempFoods)
+            {
+                if (food.IsApproved == false)
+                {
+                    FoodRecipes.Add(food);
+                }
+            }
+        }
+
+        [RelayCommand]
+        public async Task ShowAll()
+        {
+            FoodRecipes.Clear();
+            LoadItem();
         }
 
         public void OnAppearing()
@@ -46,13 +83,11 @@ namespace MAUIRecipeApp.ViewModel.AdminViewModel
         {
             if (string.IsNullOrEmpty(searchKey))
             {
-                FoodRecipes.Clear();
                 LoadItem();
                 return;
             }
 
-            var tempFoods = new List<FoodRecipe>(foodRecipes);
-            tempFoods = foodRecipes.ToList();
+            var tempFoods = new List<FoodRecipe>(allFoodRecipes);
             FoodRecipes.Clear();
             foreach (var food in tempFoods)
             {
@@ -66,6 +101,7 @@ namespace MAUIRecipeApp.ViewModel.AdminViewModel
         private void LoadItem()
         {
             FoodRecipes.Clear();
+            allFoodRecipes.Clear();
             LoadFoodRecipes();
         }
 
@@ -83,9 +119,11 @@ namespace MAUIRecipeApp.ViewModel.AdminViewModel
                     {
                         FoodRecipe recipe = document.ConvertTo<FoodRecipe>();
                         recipe.Frid = document.Id; // Lấy FRID từ Document ID
-                        FoodRecipes.Add(recipe); // Thêm vào ObservableCollection
+                        allFoodRecipes.Add(recipe); // Thêm vào ObservableCollection
                     }
                 }
+
+                FoodRecipes = new ObservableCollection<FoodRecipe>(allFoodRecipes);
 
             }
             catch (Exception ex)

@@ -32,6 +32,8 @@ namespace MAUIRecipeApp.ViewModel.AdminViewModel.EditPage
 
         [ObservableProperty] private string imgUrl;
 
+        [ObservableProperty] private string healthBenefits;
+
         [ObservableProperty] private int portion;
 
         [ObservableProperty] private string videoUrl;
@@ -70,6 +72,7 @@ namespace MAUIRecipeApp.ViewModel.AdminViewModel.EditPage
                     { "DifficultyLevel", DifficultyLevel },
                     { "ImgUrl", ImgUrl },
                     { "Portion", Portion },
+                    {"HealthBenefits", HealthBenefits},
                     { "RecipeName", RecipeName },
                     { "VideoUrl", VideoUrl },
                     { "IsApproved", IsApproved },
@@ -123,6 +126,7 @@ namespace MAUIRecipeApp.ViewModel.AdminViewModel.EditPage
                     Calories = SelectedFoodRecipe.Calories != null ? (int)SelectedFoodRecipe.Calories : 0;
                     DifficultyLevel = SelectedFoodRecipe.DifficultyLevel;
                     ImgUrl = SelectedFoodRecipe.ImgUrl;
+                    HealthBenefits = SelectedFoodRecipe.HealthBenefits;
                     Portion = SelectedFoodRecipe.Portion != null ? (int)SelectedFoodRecipe.Portion : 0;
                     VideoUrl = SelectedFoodRecipe.VideoUrl;
                     IsHidden = SelectedFoodRecipe.IsDeleted != null ? (bool)SelectedFoodRecipe.IsDeleted : false;

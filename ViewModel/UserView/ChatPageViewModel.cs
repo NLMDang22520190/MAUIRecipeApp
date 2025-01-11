@@ -60,7 +60,7 @@ namespace MAUIRecipeApp.ViewModel.UserView
                 Answer = "Chat response: ";
                 Answer += result.ToString();
                 ChangeChatHistory(result);
-
+                _geminiService.CopyToChatHistory(ChatHistory.ToList());
             }
             catch (Exception ex)
             {
@@ -110,6 +110,7 @@ namespace MAUIRecipeApp.ViewModel.UserView
         private async void LoadData()
         {
             ChatHistory.Clear();
+            ChatHistory = new ObservableCollection<ChatMessage>(_geminiService.GetChatHistory());
             await _geminiService.LoadDataToChat();
         }
     }

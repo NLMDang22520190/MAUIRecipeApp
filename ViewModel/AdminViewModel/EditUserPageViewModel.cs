@@ -19,6 +19,8 @@ namespace MAUIRecipeApp.ViewModel.AdminViewModel
         [ObservableProperty]
         ObservableCollection<User> users = new ObservableCollection<User>();
 
+        private List<User> allUsers = new List<User>();
+
         private FirestoreDb _db;
 
         public EditUserPageViewModel()
@@ -32,6 +34,43 @@ namespace MAUIRecipeApp.ViewModel.AdminViewModel
             await Shell.Current.GoToAsync($"editcurrentuser?UUID={uuid}");
         }
 
+        [RelayCommand]
+        public async Task ShowAllAdmin()
+        {
+            var tempUsers = new List<User>(allUsers);
+            //tempUsers = Users.ToList();
+            Users.Clear();
+            foreach (var user in tempUsers)
+            {
+                if (user.isAdmin == true)
+                {
+                    Users.Add(user);
+                }
+            }
+        }
+
+        [RelayCommand]
+        public async Task ShowAllDeactivated()
+        {
+            var tempUsers = new List<User>(allUsers);
+            //tempUsers = Users.ToList();
+            Users.Clear();
+            foreach (var user in tempUsers)
+            {
+                if (user.isDeactivated == true)
+                {
+                    Users.Add(user);
+                }
+            }
+        }
+
+        [RelayCommand]
+        public async Task ShowAll()
+        {
+            Users.Clear();
+            Users = new ObservableCollection<User>(allUsers);
+        }
+
 
         public void SearchUser(string searchKey)
         {
@@ -42,8 +81,8 @@ namespace MAUIRecipeApp.ViewModel.AdminViewModel
                 return;
             }
 
-            var tempUsers = new List<User>(Users);
-            tempUsers = Users.ToList();
+            var tempUsers = new List<User>(allUsers);
+            //tempUsers = allUsers.ToList();
             Users.Clear();
             foreach (var user in tempUsers)
             {
@@ -62,12 +101,14 @@ namespace MAUIRecipeApp.ViewModel.AdminViewModel
                 Debug.WriteLine("Firestore DB is null");
                 return;
             }
-            Users.Clear();
+            
             LoadItem();
         }
 
         private void LoadItem()
         {
+            Users.Clear();
+            allUsers.Clear();
             LoadUsers();
         }
 
@@ -84,9 +125,11 @@ namespace MAUIRecipeApp.ViewModel.AdminViewModel
                     {
                         User user = document.ConvertTo<User>();
                         user.Uid = document.Id;
-                        Users.Add(user); // Thêm vào ObservableCollection
+                        allUsers.Add(user); // Thêm vào ObservableCollection
                     }
                 }
+
+                Users = new ObservableCollection<User>(allUsers);
             }
             catch (Exception ex)
             {

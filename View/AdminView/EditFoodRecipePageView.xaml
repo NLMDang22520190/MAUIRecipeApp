@@ -15,8 +15,11 @@
     x:DataType="viewmodel:EditFoodRecipePageViewModel"
     Background="{StaticResource WhiteText}">
     <ScrollView>
-        <VerticalStackLayout Spacing="8">
-            <Grid Margin="16,8,16,0" VerticalOptions="Start">
+        <VerticalStackLayout Spacing="16">
+            <Grid
+                Margin="16,16,16,0"
+                RowSpacing="8"
+                VerticalOptions="Start">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
@@ -35,6 +38,47 @@
                         TextColor="{StaticResource Primary}"
                         VerticalOptions="Center" />
 
+                </HorizontalStackLayout>
+
+                <HorizontalStackLayout
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    HorizontalOptions="End"
+                    Spacing="4"
+                    VerticalOptions="Center">
+                    <Button
+                        BackgroundColor="Aquamarine"
+                        Command="{Binding ShowAllNotApprovedCommand}}"
+                        FontSize="18">
+                        <Button.ImageSource>
+                            <FontImageSource
+                                FontFamily="MaterialSharp"
+                                Glyph="{x:Static m:MaterialSharp.Verified}"
+                                Color="{StaticResource WhiteText}" />
+                        </Button.ImageSource>
+                    </Button>
+                    <Button
+                        BackgroundColor="LightCoral"
+                        Command="{Binding ShowAllHiddenCommand}"
+                        FontSize="18">
+                        <Button.ImageSource>
+                            <FontImageSource
+                                FontFamily="MaterialSharp"
+                                Glyph="{x:Static m:MaterialSharp.Visibility_off}"
+                                Color="{StaticResource WhiteText}" />
+                        </Button.ImageSource>
+                    </Button>
+                    <Button
+                        BackgroundColor="LightGreen"
+                        Command="{Binding ShowAllCommand}"
+                        FontSize="18">
+                        <Button.ImageSource>
+                            <FontImageSource
+                                FontFamily="MaterialSharp"
+                                Glyph="{x:Static m:MaterialSharp.Menu_book}"
+                                Color="{StaticResource WhiteText}" />
+                        </Button.ImageSource>
+                    </Button>
                 </HorizontalStackLayout>
 
                 <material:TextField

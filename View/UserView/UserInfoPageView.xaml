@@ -112,6 +112,11 @@
                 IsEnabled="{Binding CanLogout}"
                 Text="Logout"
                 TextColor="{StaticResource Primary}" />
+            <Label
+                FontSize="18"
+                HorizontalOptions="Center"
+                Text="{Binding UpdatePasswordMsg}"
+                TextColor="{StaticResource PrimaryDarkText}" />
 
             <material:TextField
                 Title="Current Password"
@@ -162,11 +167,7 @@
                     <material:TextFieldPasswordShowHideAttachment />
                 </material:TextField.Attachments>
             </material:TextField>
-            <Label
-                FontSize="18"
-                HorizontalOptions="Center"
-                Text="{Binding UpdatePasswordMsg}"
-                TextColor="{StaticResource PrimaryDarkText}" />
+
             <Button
                 BackgroundColor="{StaticResource Primary}"
                 Command="{Binding UpdatePasswordCommand}"
