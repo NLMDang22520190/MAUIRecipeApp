@@ -7,9 +7,9 @@ public partial class FoodRating
 {
     public int Rid { get; set; }
 
-    public int? Uid { get; set; }
+    public string? Uid { get; set; }
 
-    public int? Frid { get; set; }
+    public string? Frid { get; set; }
 
     public int? Rating { get; set; }
 

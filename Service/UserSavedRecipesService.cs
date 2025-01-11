@@ -50,14 +50,11 @@ namespace MAUIRecipeApp.Service
 			{
 				var savedRecipesCollection = _db.Collection("UserSavedRecipes");
 
-				// Generate custom ID if needed (or use UUID)
-				string savedRecipeId = $"USR{DateTime.UtcNow:yyyyMMddHHmmss}";
+				// Let Firestore generate a new document ID for the saved recipe
+				var savedRecipeDocRef = savedRecipesCollection.Document(); // Automatically generates a new ID
 
-				// Assign the DocumentReference to the UUID field and FRID (for FoodRecipe reference)
-				savedRecipe.UUID = _db.Collection("User").Document(savedRecipeId);  // Correct reference for User document
-				savedRecipe.FRID = _db.Collection("FoodRecipes").Document(savedRecipeId);  // Correct reference for FoodRecipe document
-
-				await savedRecipesCollection.Document(savedRecipeId).SetAsync(savedRecipe);
+				// Save the UserSavedRecipe document with the generated ID
+				await savedRecipeDocRef.SetAsync(savedRecipe);
 
 				Debug.WriteLine("User saved recipe added successfully");
 				return true;
@@ -66,36 +63,6 @@ namespace MAUIRecipeApp.Service
 			{
 				Debug.WriteLine($"Error adding saved recipe: {ex.Message}");
 				return false;
-			}
-		}
-
-		// Retrieve all saved recipes by User ID
-		public async Task<List<UserSavedRecipe>> GetUserSavedRecipesByUserId(int userId)
-		{
-			try
-			{
-				var userSavedRecipesRef = _db.Collection("UserSavedRecipes");
-				var query = userSavedRecipesRef.WhereEqualTo("Uid", userId);
-				var snapshot = await query.GetSnapshotAsync();
-
-				var userSavedRecipes = new List<UserSavedRecipe>();
-
-				foreach (var document in snapshot.Documents)
-				{
-					if (document.Exists)
-					{
-						var savedRecipe = document.ConvertTo<UserSavedRecipe>();
-						savedRecipe.Frid = document.Id; // Assign ID from Firestore document to Frid
-						userSavedRecipes.Add(savedRecipe);
-					}
-				}
-
-				return userSavedRecipes;
-			}
-			catch (Exception ex)
-			{
-				Debug.WriteLine($"Error retrieving saved recipes for user {userId}: {ex.Message}");
-				return new List<UserSavedRecipe>();
 			}
 		}
 
@@ -119,7 +86,46 @@ namespace MAUIRecipeApp.Service
 			}
 		}
 
-		// Retrieve a single saved recipe by its ID
+		public async Task<List<UserSavedRecipe>> GetUserSavedRecipesByUserId(int userId)
+		{
+			try
+			{
+				var userSavedRecipesRef = _db.Collection("UserSavedRecipes");
+				var query = userSavedRecipesRef.WhereEqualTo("Uid", userId);
+				var snapshot = await query.GetSnapshotAsync();
+
+				var userSavedRecipes = new List<UserSavedRecipe>();
+
+				foreach (var document in snapshot.Documents)
+				{
+					if (document.Exists)
+					{
+						var savedRecipe = document.ConvertTo<UserSavedRecipe>();
+
+						// Convert string document ID to an integer
+						if (int.TryParse(document.Id, out int frid))
+						{
+							savedRecipe.Frid = frid;
+						}
+						else
+						{
+							// Handle invalid ID case if necessary
+							Debug.WriteLine($"Invalid Frid for document ID {document.Id}");
+						}
+
+						userSavedRecipes.Add(savedRecipe);
+					}
+				}
+
+				return userSavedRecipes;
+			}
+			catch (Exception ex)
+			{
+				Debug.WriteLine($"Error retrieving saved recipes for user {userId}: {ex.Message}");
+				return new List<UserSavedRecipe>();
+			}
+		}
+
 		public async Task<UserSavedRecipe> GetUserSavedRecipeById(string savedRecipeId)
 		{
 			try
@@ -130,7 +136,18 @@ namespace MAUIRecipeApp.Service
 				if (snapshot.Exists)
 				{
 					var savedRecipe = snapshot.ConvertTo<UserSavedRecipe>();
-					savedRecipe.Frid = snapshot.Id; // Assign ID from Firestore document to Frid
+
+					// Convert string document ID to an integer
+					if (int.TryParse(snapshot.Id, out int frid))
+					{
+						savedRecipe.Frid = frid;
+					}
+					else
+					{
+						// Handle invalid ID case if necessary
+						Debug.WriteLine($"Invalid Frid for document ID {snapshot.Id}");
+					}
+
 					return savedRecipe;
 				}
 

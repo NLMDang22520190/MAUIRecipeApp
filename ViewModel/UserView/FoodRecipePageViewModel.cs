@@ -1,126 +1,197 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Google.Cloud.Firestore;
-using Google.Cloud.Firestore.V1;
 using MAUIRecipeApp.DTO;
 using MAUIRecipeApp.Models;
 using MAUIRecipeApp.Service;
-using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace MAUIRecipeApp.ViewModel.UserView
 {
-    [QueryProperty(nameof(SelectedFoodRecipeID), "FRID")]
-    public partial class FoodRecipePageViewModel : ObservableObject
-    {
-        [ObservableProperty]
-        private string selectedFoodRecipeID;
+	[QueryProperty(nameof(SelectedFoodRecipeID), "FRID")]
+	public partial class FoodRecipePageViewModel : ObservableObject
+	{
+		[ObservableProperty]
+		private string selectedFoodRecipeID;
 
-        [ObservableProperty]
-        private FoodRecipe selectedFoodRecipe;
+		[ObservableProperty]
+		private FoodRecipe selectedFoodRecipe;
 
-        [ObservableProperty]
-        private string uploaderName;
+		[ObservableProperty]
+		private string uploaderName;
 
-        [ObservableProperty]
-        private ObservableCollection<IngredientDetailDto> ingredientDetails;
+		[ObservableProperty]
+		private string comment;
 
-        private FirestoreDb _db;
-        public FoodRecipePageViewModel()
-        {
+		[ObservableProperty]
+		private int selectedRating;
 
-        }
+		[ObservableProperty]
+		private ObservableCollection<IngredientDetailDto> ingredientDetails;
 
-        public void OnAppearing()
-        {
-            _db = FirestoreService.Instance.Db;
-            LoadFoodRecipe();
-        }
+		private FirestoreDb _db;
+		public FoodRecipePageViewModel()
+		{
 
-        [RelayCommand]
-        public async Task Back()
-        {
+		}
 
-            await Shell.Current.Navigation.PopAsync();
-        }
+		public void OnAppearing()
+		{
+			_db = FirestoreService.Instance.Db;
+			LoadFoodRecipe();
+		}
 
-        private void LoadFoodRecipe()
-        {
-            //SelectedFoodRecipe = DataProvider.Ins.DB.FoodRecipes.FirstOrDefault(fr => fr.Frid == selectedFoodRecipeID);
-            LoadSelectedFoodRecipe();
+		[RelayCommand]
+		public async Task Back()
+		{
+			await Shell.Current.Navigation.PopAsync();
+		}
 
-            //    var ingredients = DataProvider.Ins.DB.RecipeIngredients
-            //        .Include("IidNavigation")
-            //        .Where(ri => ri.Frid == selectedFoodRecipeID)
-            //.Select(ri => new IngredientDetailDto
-            //{
-            //    IngredientName = ri.IidNavigation.IngredientName,
-            //    Quantity = (decimal)ri.Quantity,
-            //    MeasurementUnit = ri.IidNavigation.MeasurementUnit
-            //})
-            //.ToList();
+		private void LoadFoodRecipe()
+		{
+			LoadSelectedFoodRecipe();
+			LoadIngredientDetails();
+		}
 
-            //IngredientDetails = new ObservableCollection<IngredientDetailDto>(ingredients);
-            LoadIngredientDetails();
+		private async void LoadSelectedFoodRecipe()
+		{
+			DocumentReference docRef = _db.Collection("FoodRecipes").Document(selectedFoodRecipeID);
+			DocumentSnapshot snapshot = await docRef.GetSnapshotAsync();
 
-            //UploaderName = DataProvider.Ins.DB.Users.FirstOrDefault(u => u.Uid == SelectedFoodRecipe.UploaderUid).Username;
-        }
+			if (snapshot.Exists)
+			{
+				// Convert DocumentSnapshot to FoodRecipe object
+				SelectedFoodRecipe = snapshot.ConvertTo<FoodRecipe>();
+			}
+			else
+			{
+				Debug.WriteLine("Document does not exist!");
+			}
+		}
 
-        private async void LoadSelectedFoodRecipe()
-        {
-            DocumentReference docRef = _db.Collection("FoodRecipes").Document(selectedFoodRecipeID);
-            DocumentSnapshot snapshot = await docRef.GetSnapshotAsync();
+		private async void LoadIngredientDetails()
+		{
+			// Collection "RecipeIngredients"
+			CollectionReference recipeIngredientsCollection = _db.Collection("RecipeIngredients");
 
-            if (snapshot.Exists)
-            {
-                // Chuyển đổi DocumentSnapshot sang đối tượng FoodRecipe
-                SelectedFoodRecipe = snapshot.ConvertTo<FoodRecipe>();
+			// Step 1: Get all RecipeIngredients for selectedFoodRecipeID
+			Query recipeIngredientsQuery = recipeIngredientsCollection.WhereEqualTo("Frid", selectedFoodRecipeID);
+			QuerySnapshot recipeIngredientsSnapshot = await recipeIngredientsQuery.GetSnapshotAsync();
+			List<IngredientDetailDto> ingredientDetailsList = new List<IngredientDetailDto>();
 
-            }
-            else
-            {
-                Debug.WriteLine("Document does not exist!");
-            }
-        }
+			foreach (DocumentSnapshot recipeIngredientDoc in recipeIngredientsSnapshot.Documents)
+			{
+				var recipeIngredient = recipeIngredientDoc.ConvertTo<RecipeIngredient>();
 
-        private async void LoadIngredientDetails()
-        {  // Collection "RecipeIngredients"
-            CollectionReference recipeIngredientsCollection = _db.Collection("RecipeIngredients");
+				// Step 2: Get ingredient details from "Ingredients" collection based on Iid
+				DocumentReference ingredientDocRef = _db.Collection("Ingredients").Document(recipeIngredient.Iid.ToString());
+				DocumentSnapshot ingredientSnapshot = await ingredientDocRef.GetSnapshotAsync();
 
-            // Bước 1: Lấy tất cả RecipeIngredients với Frid = selectedFoodRecipeID
-            Query recipeIngredientsQuery = recipeIngredientsCollection.WhereEqualTo("Frid", selectedFoodRecipeID);
-            QuerySnapshot recipeIngredientsSnapshot = await recipeIngredientsQuery.GetSnapshotAsync();
-            List<IngredientDetailDto> ingredientDetails = new List<IngredientDetailDto>();
+				if (ingredientSnapshot.Exists)
+				{
+					var ingredient = ingredientSnapshot.ConvertTo<Ingredient>();
 
-            foreach (DocumentSnapshot recipeIngredientDoc in recipeIngredientsSnapshot.Documents)
-            {
-                var recipeIngredient = recipeIngredientDoc.ConvertTo<RecipeIngredient>();
+					// Add ingredient details to the list
+					ingredientDetailsList.Add(new IngredientDetailDto
+					{
+						IngredientName = ingredient.IngredientName,
+						Quantity = recipeIngredient.Quantity ?? 0, // Convert Quantity from double to decimal
+						MeasurementUnit = ingredient.MeasurementUnit
+					});
+				}
+			}
 
-                // Bước 2: Lấy chi tiết nguyên liệu từ collection "Ingredients" dựa trên Iid
-                DocumentReference ingredientDocRef = _db.Collection("Ingredients").Document(recipeIngredient.Iid.ToString());
-                DocumentSnapshot ingredientSnapshot = await ingredientDocRef.GetSnapshotAsync();
+			IngredientDetails = new ObservableCollection<IngredientDetailDto>(ingredientDetailsList);
+		}
 
-                if (ingredientSnapshot.Exists)
-                {
-                    var ingredient = ingredientSnapshot.ConvertTo<Ingredient>();
+		[RelayCommand]
+		private async Task AddToSavedRecipes()
+		{
+			try
+			{
+				if (SelectedFoodRecipe != null && UserService.Instance.CurrentUser != null)
+				{
+					// Create a UserSavedRecipe object
+					var userSavedRecipe = new UserSavedRecipe
+					{
+						FRID = _db.Collection("FoodRecipes").Document(SelectedFoodRecipeID), // Reference to FoodRecipe
+						IsDeleted = false,
+						UUID = _db.Collection("User").Document(UserService.Instance.CurrentUser.Uid.ToString()), // Reference to User
+					};
 
-                    // Thêm chi tiết nguyên liệu vào danh sách
-                    ingredientDetails.Add(new IngredientDetailDto
-                    {
-                        IngredientName = ingredient.IngredientName,
-                        Quantity = recipeIngredient.Quantity ?? 0, // Chuyển Quantity từ double về decimal
-                        MeasurementUnit = ingredient.MeasurementUnit
-                    });
-                }
-            }
+					// Call the service to add the saved recipe
+					bool isSaved = await UserSavedRecipesService.Instance.AddUserSavedRecipe(userSavedRecipe);
 
-            IngredientDetails = new ObservableCollection<IngredientDetailDto>(ingredientDetails);   
-        }
-    }
+					if (isSaved)
+					{
+						await DisplayAlert("Success", "Recipe saved successfully.");
+					}
+					else
+					{
+						await DisplayAlert("Error", "Failed to save the recipe.");
+					}
+				}
+			}
+			catch (Exception ex)
+			{
+				Debug.WriteLine($"Error adding saved recipe: {ex.Message}");
+				await DisplayAlert("Error", $"An error occurred while saving the recipe:\n {UserService.Instance.CurrentUser.Uid}\n {SelectedFoodRecipe.Frid}");
+			}
+		}
+
+		[RelayCommand]
+		private void Rate(string rating)
+		{
+			// Convert string to int
+			SelectedRating = int.Parse(rating);
+			Debug.WriteLine($"Selected Rating: {rating}");
+		}
+
+		[RelayCommand]
+		private async Task SubmitRating()
+		{
+			try
+			{
+				if (SelectedFoodRecipe != null && UserService.Instance.CurrentUser != null)
+				{
+					// Create a FoodRating object
+					var foodRating = new FoodRating
+					{
+						Frid = SelectedFoodRecipeID,
+						IsDeleted = false,
+						Rating = SelectedRating,
+						Review = Comment,
+						Uid = UserService.Instance.CurrentUser.Uid.ToString(),
+						DateRated = DateTime.UtcNow
+					};
+
+					// Call the service to add the rating
+					bool isRated = await FoodRatingService.Instance.AddRating(foodRating);
+
+					if (isRated)
+					{
+						await DisplayAlert("Success", "Recipe rated successfully.");
+					}
+					else
+					{
+						await DisplayAlert("Error", "Failed to rate the recipe.");
+					}
+				}
+			}
+			catch (Exception ex)
+			{
+				Debug.WriteLine($"Error adding rating: {ex.Message}");
+				await DisplayAlert("Error", "An error occurred while rating the recipe.");
+			}
+		}
+
+		private async Task DisplayAlert(string title, string message)
+		{
+			await Application.Current.MainPage.DisplayAlert(title, message, "OK");
+		}
+	}
 }

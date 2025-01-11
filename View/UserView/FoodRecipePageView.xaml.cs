@@ -7,7 +7,7 @@ public partial class FoodRecipePageView : ContentPage
 	public FoodRecipePageView(FoodRecipePageViewModel vm)
 	{
 		InitializeComponent();
-		BindingContext = vm;
+        BindingContext = vm;
 		
     }
 

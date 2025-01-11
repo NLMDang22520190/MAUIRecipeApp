@@ -20,7 +20,7 @@ namespace MAUIRecipeApp.ViewModel.UserView
 		public UserSavedRecipesViewModel(FirestoreService firestoreService)
 		{
 
-			string UserID = "/User/UUID001";
+			string UserID = "0";
 			_firestoreService = firestoreService;
 			db = _firestoreService.Db;
 			if (db == null)
@@ -28,7 +28,9 @@ namespace MAUIRecipeApp.ViewModel.UserView
 				Debug.WriteLine("Firestore DB is null");
 				return;
 			}
-			LoadSavedRecipes(UserID);
+			//LoadSavedRecipes(UserID);
+
+			LoadAllRecipes();
 		}
 
 		[RelayCommand]
@@ -36,6 +38,13 @@ namespace MAUIRecipeApp.ViewModel.UserView
 		{
 			await Shell.Current.GoToAsync($"fooddetail?FRID={frid}");
 		}
+
+		[RelayCommand]
+		public async Task Back()
+		{
+			await Shell.Current.Navigation.PopAsync();
+		}
+
 
 		private async void LoadSavedRecipes(string UserID)
 		{
@@ -60,6 +69,35 @@ namespace MAUIRecipeApp.ViewModel.UserView
 			{
 				Debug.WriteLine($"Error loading saved recipes: {ex.Message}");
 			}
+		}
+
+		private async void LoadAllRecipes()
+		{
+			try
+			{
+				CollectionReference recipesRef = db.Collection("FoodRecipes");
+				Query query = recipesRef.WhereEqualTo("IsDeleted", false);
+				QuerySnapshot snapshot = await query.GetSnapshotAsync();
+
+				foreach (DocumentSnapshot document in snapshot.Documents)
+				{
+					if (document.Exists)
+					{
+						FoodRecipe recipe = document.ConvertTo<FoodRecipe>();
+						recipe.Frid = document.Id;
+						SavedRecipes.Add(recipe);
+					}
+				}
+			}
+			catch (Exception ex)
+			{
+				Debug.WriteLine($"Error loading all recipes: {ex.Message}");
+			}
+		}
+
+		private async Task DisplayWarning(string title, string message)
+		{
+			await Application.Current.MainPage.DisplayAlert(title, message, "OK");
 		}
 	}
 }
