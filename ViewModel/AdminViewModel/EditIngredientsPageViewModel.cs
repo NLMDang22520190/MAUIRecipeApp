@@ -9,6 +9,8 @@ using System.Text;
 using System.Threading.Tasks;
 using MAUIRecipeApp.Models;
 using MAUIRecipeApp.Service;
+using CommunityToolkit.Mvvm.Input;
+using MAUIRecipeApp.DTO;
 
 namespace MAUIRecipeApp.ViewModel.AdminViewModel
 {
@@ -17,9 +19,60 @@ namespace MAUIRecipeApp.ViewModel.AdminViewModel
         [ObservableProperty]
         ObservableCollection<Ingredient> ingredients = new ObservableCollection<Ingredient>();
 
-        private readonly FirestoreDb _db;
+        private FirestoreDb _db;
 
         public EditIngredientsPageViewModel()
+        {
+           
+        }
+
+
+        [RelayCommand]
+        public async Task EditIngredient(string iid)
+        {
+            Debug.WriteLine(iid);
+            await Shell.Current.GoToAsync($"editcurrentingredient?IID={iid}");
+        }
+
+        [RelayCommand]
+        public async Task<bool> AddIngredient(AddNewIngredientDTO newIngre)
+        {
+            var result = await FirestoreService.Instance.AddDocumentAsync("Ingredients", new Ingredient
+            {
+                IngredientName = newIngre.IngredientName,
+                MeasurementUnit = newIngre.Unit,
+                IsDeleted = false
+            });
+            if (result)
+            {
+                LoadItem();
+            }
+            return result;
+        }
+
+        public void SearchIngredient(string searchKey)
+        {
+            if (string.IsNullOrEmpty(searchKey))
+            {
+                Ingredients.Clear();
+                LoadItem();
+                return;
+            }
+
+            var tempIngredients = new List<Ingredient>(Ingredients);
+            tempIngredients = Ingredients.ToList();
+            Ingredients.Clear();
+            foreach (var ingre in tempIngredients)
+            {
+                if (ingre.IngredientName.ToLower().Contains(searchKey.ToLower()))
+                {
+                    Ingredients.Add(ingre);
+                }
+            }
+        }
+
+
+        public void OnAppearing()
         {
             _db = FirestoreService.Instance.Db;
             if (_db == null)
@@ -32,11 +85,7 @@ namespace MAUIRecipeApp.ViewModel.AdminViewModel
 
         private void LoadItem()
         {
-            //// Lọc các phần tử không bị xóa trong FoodRecipeTypes
-            //FoodRecipeTypes = new ObservableCollection<FoodRecipeType>(
-            //    DataProvider.Ins.DB.FoodRecipeTypes.AsNoTracking()
-            //    .Where(item => (bool)!item.IsDeleted).ToList());
-
+            Ingredients.Clear();
             LoadIngredients();
         }
 

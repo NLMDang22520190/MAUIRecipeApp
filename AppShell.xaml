@@ -180,18 +180,17 @@
                     Glyph="{x:Static m:MaterialSharp.Grocery}"
                     Color="{StaticResource WhiteText}" />
             </Tab.Icon>
-            <ShellContent Title="Ingredients" ContentTemplate="{DataTemplate AdminView:EditIngredientsPageView}" />
-            <ShellContent Title="RecipeIngredients" ContentTemplate="{DataTemplate AdminView:EditRecipeIngredientsPageView}" />
+            <ShellContent
+                Title="Ingredients"
+                ContentTemplate="{DataTemplate AdminView:EditIngredientsPageView}"
+                Route="editingredient" />
         </Tab>
 
     </FlyoutItem>
 
 
 
-    <MenuItem
-        Command="{Binding HelpCommand}"
-        CommandParameter="https://learn.microsoft.com/xamarin/xamarin-forms/app-fundamentals/shell"
-        Text="Logout">
+    <MenuItem Clicked="MenuItem_OnClicked" Text="Logout">
         <MenuItem.IconImageSource>
             <FontImageSource
                 FontFamily="MaterialSharp"

@@ -51,8 +51,7 @@ namespace MAUIRecipeApp.ViewModel.UserView
         [RelayCommand]
         public async void Logout()
         {
-            UserService.Instance.ClearCurrentUser();
-            await Shell.Current.GoToAsync("//login");
+           await AuthService.Instance.LogOut();
         }
 
         [RelayCommand]

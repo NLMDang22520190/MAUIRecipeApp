@@ -43,24 +43,60 @@
                 </Border.StrokeShape>
                 <VerticalStackLayout Spacing="4">
                     <Label
-                        FontSize="18"
+                        FontSize="{OnPlatform Android=15,
+                                              WinUI=18}"
                         Text="Have a new Recipe you want to share ?"
                         TextColor="{StaticResource PrimaryDarkText}" />
                     <HorizontalStackLayout Spacing="4">
                         <Label
-                            FontSize="18"
-                            Text="Click here to add your Recipe now!"
+                            FontSize="{OnPlatform Android=15,
+                                                  WinUI=18}"
+                            Text="Click "
                             TextColor="{StaticResource PrimaryDarkText}"
                             VerticalTextAlignment="Center" />
+                        <Label
+                            FontAttributes="Bold"
+                            FontSize="{OnPlatform Android=15,
+                                                  WinUI=18}"
+                            Text="here "
+                            TextColor="{StaticResource Primary}"
+                            VerticalTextAlignment="Center">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding SubmitNewRecipeCommand}" />
+                            </Label.GestureRecognizers>
+                        </Label>
+                        <Label
+                            FontSize="{OnPlatform Android=15,
+                                                  WinUI=18}"
+                            Text="to add your Recipe now!"
+                            TextColor="{StaticResource PrimaryDarkText}"
+                            VerticalTextAlignment="Center" />
+                    </HorizontalStackLayout>
 
-                        <Button Background="{StaticResource Primary}" Command="{Binding SubmitNewRecipeCommand}">
-                            <Button.ImageSource>
-                                <FontImageSource
-                                    FontFamily="MaterialSharp"
-                                    Glyph="{x:Static m:MaterialSharp.Add}"
-                                    Color="{StaticResource WhiteText}" />
-                            </Button.ImageSource>
-                        </Button>
+                    <HorizontalStackLayout Spacing="4">
+                        <Label
+                            FontSize="{OnPlatform Android=15,
+                                                  WinUI=18}"
+                            Text="Or click "
+                            TextColor="{StaticResource PrimaryDarkText}"
+                            VerticalTextAlignment="Center" />
+                        <Label
+                            FontAttributes="Bold"
+                            FontSize="{OnPlatform Android=15,
+                                                  WinUI=18}"
+                            Text="here "
+                            TextColor="{StaticResource Primary}"
+                            VerticalTextAlignment="Center">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding SubmitNewRecipeCommand}" />
+                            </Label.GestureRecognizers>
+                        </Label>
+                        <Label
+                            FontSize="{OnPlatform Android=15,
+                                                  WinUI=18}"
+                            Text="to add your own Collection!"
+                            TextColor="{StaticResource PrimaryDarkText}"
+                            VerticalTextAlignment="Center" />
                     </HorizontalStackLayout>
 
                 </VerticalStackLayout>
@@ -82,25 +118,36 @@
                         </CollectionView.ItemsLayout>
                         <CollectionView.ItemTemplate>
                             <DataTemplate x:DataType="models:FoodRecipe">
-                                <Grid Padding="8">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="125" />
-                                    </Grid.RowDefinitions>
-                                    <ImageButton
-                                        Grid.Row="0"
-                                        Aspect="Fill"
-                                        Command="{Binding Path=FoodDetailCommand, Source={RelativeSource AncestorType={x:Type viewmodel:HomePageViewModel}}}"
-                                        CommandParameter="{Binding Frid}"
-                                        CornerRadius="20"
-                                        Source="{Binding ImgUrl}"
-                                        WidthRequest="150" />
-                                    <Label
-                                        FontSize="18"
-                                        Text="{Binding RecipeName}"
-                                        TextColor="{StaticResource WhiteText}"
-                                        VerticalTextAlignment="End" />
+                                <Border
+                                    Margin="{OnPlatform Android=4,
+                                                        WinUI=0}"
+                                    Padding="{OnPlatform Android=0,
+                                                         WinUI=4}"
+                                    StrokeShape="RoundRectangle 20"
+                                    StrokeThickness="{OnPlatform WinUI=0,
+                                                                 Android=1}">
+                                    <Grid Background="transparent">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*" />
+                                        </Grid.RowDefinitions>
 
-                                </Grid>
+                                        <ImageButton
+                                            Grid.Row="0"
+                                            Aspect="Fill"
+                                            Command="{Binding Path=FoodDetailCommand, Source={RelativeSource AncestorType={x:Type viewmodel:HomePageViewModel}}}"
+                                            CommandParameter="{Binding Frid}"
+                                            CornerRadius="20"
+                                            Source="{Binding ImgUrl}"
+                                            WidthRequest="150" />
+                                        <Label
+                                            FontSize="18"
+                                            Text="{Binding RecipeName}"
+                                            TextColor="{StaticResource WhiteText}"
+                                            VerticalTextAlignment="End" />
+
+                                    </Grid>
+                                </Border>
+
 
                             </DataTemplate>
                         </CollectionView.ItemTemplate>
@@ -126,16 +173,6 @@
                         Text="Category"
                         TextColor="{StaticResource PrimaryDarkText}"
                         VerticalTextAlignment="Center" />
-                    <!--<Button
-                        Grid.Column="1"
-                        BackgroundColor="Transparent"
-                        CornerRadius="0"
-                        FontAttributes="Bold"
-                        FontSize="{OnPlatform Android=18,
-                                              WinUI=14}"
-                        HorizontalOptions="End"
-                        Text="See All"
-                        TextColor="{StaticResource Primary}" />-->
                 </Grid>
 
                 <ScrollView Orientation="Horizontal">
@@ -188,16 +225,22 @@
                         TextColor="{StaticResource Primary}" />
                 </Grid>
 
-                <RefreshView Command="{Binding RefreshFoodRecipeCommand}">
-                    <CollectionView ItemsLayout="VerticalGrid,2 " ItemsSource="{Binding PaginatedFoodRecipes}">
-                        <CollectionView.ItemTemplate>
-                            <DataTemplate x:DataType="models:FoodRecipe">
-                                <Grid Padding="8">
+                <CollectionView ItemsLayout="VerticalGrid,2 " ItemsSource="{Binding PaginatedFoodRecipes}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="models:FoodRecipe">
+                            <Border
+                                Margin="{OnPlatform Android=4,
+                                                    WinUI=0}"
+                                Padding="{OnPlatform WinUI=8,
+                                                     Android=0}"
+                                StrokeShape="RoundRectangle 10"
+                                StrokeThickness="{OnPlatform Android=1,
+                                                             WinUI=0}">
+                                <Grid>
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="100" />
                                         <RowDefinition Height="75" />
                                     </Grid.RowDefinitions>
-
 
                                     <ImageButton
                                         Grid.Row="0"
@@ -206,11 +249,9 @@
                                         CommandParameter="{Binding Frid}"
                                         CornerRadius="20"
                                         Source="{Binding ImgUrl}" />
-
-
                                     <VerticalStackLayout
                                         Grid.Row="1"
-                                        Margin="8,8,0,0"
+                                        Margin="8,8,0,8"
                                         Spacing="8">
                                         <Label
                                             FontSize="18"
@@ -231,19 +272,17 @@
                                         </HorizontalStackLayout>
                                     </VerticalStackLayout>
                                 </Grid>
+                            </Border>
 
-                            </DataTemplate>
-                        </CollectionView.ItemTemplate>
-                    </CollectionView>
-                </RefreshView>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
 
                 <material:Paginator
                     ChangePageCommand="{Binding SetPageCommand}"
                     CurrentPage="{Binding CurrentPage, Mode=TwoWay}"
                     HorizontalOptions="Center"
                     TotalPageCount="{Binding TotalPages}" />
-
-
 
 
                 <VerticalStackLayout />
@@ -254,15 +293,4 @@
         </VerticalStackLayout>
 
     </ScrollView>
-    <!--<Button
-            AbsoluteLayout.LayoutBounds="1,1,AutoSize,AutoSize"
-            AbsoluteLayout.LayoutFlags="PositionProportional"
-            BackgroundColor="{StaticResource Primary}"
-            Clicked="OnSubmitNewRecipeClicked"
-            CornerRadius="30"
-            FontAttributes="Bold"
-            HeightRequest="60"
-            Text="+"
-            TextColor="White"
-            WidthRequest="60" />-->
 </ContentPage>

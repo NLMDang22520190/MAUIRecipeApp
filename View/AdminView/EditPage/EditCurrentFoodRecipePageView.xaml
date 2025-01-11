@@ -18,11 +18,12 @@
         <BackButtonBehavior IsEnabled="False" IsVisible="False" />
     </Shell.BackButtonBehavior>
     <ScrollView>
-        <VerticalStackLayout Margin="16,16,16,16" Spacing="16">
+        <VerticalStackLayout Margin="8">
             <Button
+                Margin="8,8,0,0"
                 Background="{StaticResource WhiteText}"
                 BorderColor="{StaticResource PrimaryDarkText}"
-                BorderWidth="0.1"
+                BorderWidth="1"
                 Command="{Binding BackCommand}"
                 HorizontalOptions="Start">
 
@@ -34,127 +35,137 @@
                 </Button.ImageSource>
             </Button>
             <Label
-                FontSize="30"
-                HorizontalOptions="Center"
-                Text="Food Recipe Info"
-                TextColor="{StaticResource Primary}" />
-            <Label
                 FontSize="18"
                 HorizontalOptions="Center"
                 Text="{Binding UpdateMsg}"
                 TextColor="{StaticResource PrimaryDarkText}" />
-            <Image
-                Aspect="Fill"
-                HeightRequest="200"
-                Source="{Binding ImgUrl}"
-                WidthRequest="200" />
-            <material:TextField
-                Title="Img Url"
-                AllowClear="True"
-                BorderColor="{StaticResource PrimaryDarkText}"
-                CornerRadius="16"
-                FontSize="16"
-                Text="{Binding ImgUrl}"
-                TextColor="{StaticResource PrimaryDarkText}">
-                <material:TextField.Icon>
-                    <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Image}" />
-                </material:TextField.Icon>
-            </material:TextField>
-            <material:TextField
-                Title="Recipe Name"
-                AllowClear="True"
-                BorderColor="{StaticResource PrimaryDarkText}"
-                CornerRadius="16"
-                FontSize="16"
-                Text="{Binding RecipeName}"
-                TextColor="{StaticResource PrimaryDarkText}">
-                <material:TextField.Icon>
-                    <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Menu_book}" />
-                </material:TextField.Icon>
-            </material:TextField>
-            <material:TextField
-                Title="Img Url"
-                AllowClear="True"
-                BorderColor="{StaticResource PrimaryDarkText}"
-                CornerRadius="16"
-                FontSize="16"
-                Text="{Binding ImgUrl}"
-                TextColor="{StaticResource PrimaryDarkText}">
-                <material:TextField.Icon>
-                    <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Image}" />
-                </material:TextField.Icon>
-            </material:TextField>
-            <material:TextField
-                Title="Cooking Time"
-                AllowClear="True"
-                BorderColor="{StaticResource PrimaryDarkText}"
-                CornerRadius="16"
-                FontSize="16"
-                Text="{Binding CookingTime}"
-                TextColor="{StaticResource PrimaryDarkText}">
-                <material:TextField.Icon>
-                    <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Schedule}" />
-                </material:TextField.Icon>
-            </material:TextField>
-            <material:TextField
-                Title="Calories"
-                AllowClear="True"
-                BorderColor="{StaticResource PrimaryDarkText}"
-                CornerRadius="16"
-                FontSize="16"
-                Text="{Binding Calories}"
-                TextColor="{StaticResource PrimaryDarkText}">
-                <material:TextField.Icon>
-                    <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Local_fire_department}" />
-                </material:TextField.Icon>
-            </material:TextField>
-            <material:TextField
-                Title="Portion"
-                AllowClear="True"
-                BorderColor="{StaticResource PrimaryDarkText}"
-                CornerRadius="16"
-                FontSize="16"
-                Text="{Binding Portion}"
-                TextColor="{StaticResource PrimaryDarkText}">
-                <material:TextField.Icon>
-                    <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Group}" />
-                </material:TextField.Icon>
-            </material:TextField>
-            <material:TextField
-                Title="Difficulty Level"
-                AllowClear="True"
-                BorderColor="{StaticResource PrimaryDarkText}"
-                CornerRadius="16"
-                FontSize="16"
-                Text="{Binding DifficultyLevel}"
-                TextColor="{StaticResource PrimaryDarkText}">
-                <material:TextField.Icon>
-                    <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Layers}" />
-                </material:TextField.Icon>
-            </material:TextField>
-            <material:TextField
-                Title="Video Url"
-                AllowClear="True"
-                BorderColor="{StaticResource PrimaryDarkText}"
-                CornerRadius="16"
-                FontSize="16"
-                Text="{Binding VideoUrl}"
-                TextColor="{StaticResource PrimaryDarkText}">
-                <material:TextField.Icon>
-                    <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Videocam}" />
-                </material:TextField.Icon>
-            </material:TextField>
-            <HorizontalStackLayout>
-                <material:CheckBox IsChecked="{Binding IsApproved}" Text="Is Approved?" />
-                <material:CheckBox IsChecked="{Binding IsHidden}" Text="Is Hidden?" />
-            </HorizontalStackLayout>
-            <Button
-                BackgroundColor="{StaticResource Primary}"
-                Command="{Binding UpdateCommand}"
-                FontSize="20"
-                IsEnabled="{Binding CanUpdate}"
-                Text="Update" />
+            <Border
+                Margin="8"
+                Padding="16"
+                StrokeShape="RoundRectangle 20">
+                <VerticalStackLayout Spacing="16">
+
+                    <Label
+                        FontSize="30"
+                        HorizontalOptions="Center"
+                        Text="Food Recipe Info"
+                        TextColor="{StaticResource Primary}" />
+
+                    <Image
+                        Aspect="Fill"
+                        HeightRequest="200"
+                        Source="{Binding ImgUrl}"
+                        WidthRequest="200" />
+                    <material:TextField
+                        Title="Img Url"
+                        AllowClear="True"
+                        BorderColor="{StaticResource PrimaryDarkText}"
+                        CornerRadius="16"
+                        FontSize="16"
+                        Text="{Binding ImgUrl}"
+                        TextColor="{StaticResource PrimaryDarkText}">
+                        <material:TextField.Icon>
+                            <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Image}" />
+                        </material:TextField.Icon>
+                    </material:TextField>
+                    <material:TextField
+                        Title="Recipe Name"
+                        AllowClear="True"
+                        BorderColor="{StaticResource PrimaryDarkText}"
+                        CornerRadius="16"
+                        FontSize="16"
+                        Text="{Binding RecipeName}"
+                        TextColor="{StaticResource PrimaryDarkText}">
+                        <material:TextField.Icon>
+                            <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Menu_book}" />
+                        </material:TextField.Icon>
+                    </material:TextField>
+                    <material:TextField
+                        Title="Img Url"
+                        AllowClear="True"
+                        BorderColor="{StaticResource PrimaryDarkText}"
+                        CornerRadius="16"
+                        FontSize="16"
+                        Text="{Binding ImgUrl}"
+                        TextColor="{StaticResource PrimaryDarkText}">
+                        <material:TextField.Icon>
+                            <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Image}" />
+                        </material:TextField.Icon>
+                    </material:TextField>
+                    <material:TextField
+                        Title="Cooking Time"
+                        AllowClear="True"
+                        BorderColor="{StaticResource PrimaryDarkText}"
+                        CornerRadius="16"
+                        FontSize="16"
+                        Text="{Binding CookingTime}"
+                        TextColor="{StaticResource PrimaryDarkText}">
+                        <material:TextField.Icon>
+                            <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Schedule}" />
+                        </material:TextField.Icon>
+                    </material:TextField>
+                    <material:TextField
+                        Title="Calories"
+                        AllowClear="True"
+                        BorderColor="{StaticResource PrimaryDarkText}"
+                        CornerRadius="16"
+                        FontSize="16"
+                        Text="{Binding Calories}"
+                        TextColor="{StaticResource PrimaryDarkText}">
+                        <material:TextField.Icon>
+                            <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Local_fire_department}" />
+                        </material:TextField.Icon>
+                    </material:TextField>
+                    <material:TextField
+                        Title="Portion"
+                        AllowClear="True"
+                        BorderColor="{StaticResource PrimaryDarkText}"
+                        CornerRadius="16"
+                        FontSize="16"
+                        Text="{Binding Portion}"
+                        TextColor="{StaticResource PrimaryDarkText}">
+                        <material:TextField.Icon>
+                            <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Group}" />
+                        </material:TextField.Icon>
+                    </material:TextField>
+                    <material:TextField
+                        Title="Difficulty Level"
+                        AllowClear="True"
+                        BorderColor="{StaticResource PrimaryDarkText}"
+                        CornerRadius="16"
+                        FontSize="16"
+                        Text="{Binding DifficultyLevel}"
+                        TextColor="{StaticResource PrimaryDarkText}">
+                        <material:TextField.Icon>
+                            <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Layers}" />
+                        </material:TextField.Icon>
+                    </material:TextField>
+                    <material:TextField
+                        Title="Video Url"
+                        AllowClear="True"
+                        BorderColor="{StaticResource PrimaryDarkText}"
+                        CornerRadius="16"
+                        FontSize="16"
+                        Text="{Binding VideoUrl}"
+                        TextColor="{StaticResource PrimaryDarkText}">
+                        <material:TextField.Icon>
+                            <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Videocam}" />
+                        </material:TextField.Icon>
+                    </material:TextField>
+                    <HorizontalStackLayout>
+                        <material:CheckBox IsChecked="{Binding IsApproved}" Text="Is Approved?" />
+                        <material:CheckBox IsChecked="{Binding IsHidden}" Text="Is Hidden?" />
+                    </HorizontalStackLayout>
+                    <Button
+                        BackgroundColor="{StaticResource Primary}"
+                        Command="{Binding UpdateCommand}"
+                        FontSize="20"
+                        IsEnabled="{Binding CanUpdate}"
+                        Text="Update" />
+                </VerticalStackLayout>
+            </Border>
         </VerticalStackLayout>
+
     </ScrollView>
 
 </ContentPage>

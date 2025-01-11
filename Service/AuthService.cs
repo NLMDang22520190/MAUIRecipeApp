@@ -96,6 +96,13 @@ namespace MAUIRecipeApp.Service
             return newUser;
         }
 
+        public async Task LogOut()
+        {
+            UserService.Instance.ClearCurrentUser();
+            FeatureFoodService.Instance.ClearSuggestedFood();
+            await Shell.Current.GoToAsync("//login");
+        }
+
         public async Task<bool> AddNewUser(User user, bool isAdmin)
         {
             try

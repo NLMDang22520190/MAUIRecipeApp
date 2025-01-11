@@ -36,7 +36,6 @@ namespace MAUIRecipeApp.ViewModel.UserView
         public ChatPageViewModel(GeminiService gemini)
         {
            this._geminiService = gemini;
-           LoadData();
         }
 
         
@@ -52,10 +51,12 @@ namespace MAUIRecipeApp.ViewModel.UserView
                 }
                 CanSendMsg = false;
                 AddToChatHistory(message, true);
+                var prompt = message;
                 Message = string.Empty;
                 Answer = "Waiting...";
                 AddToChatHistory(answer, false);
-                var result = await _geminiService.SendMessage(message);
+                var result = await _geminiService.SendGeneralMessage(prompt);
+
                 Answer = "Chat response: ";
                 Answer += result.ToString();
                 ChangeChatHistory(result);
@@ -101,8 +102,14 @@ namespace MAUIRecipeApp.ViewModel.UserView
            AddToChatHistory(msg, false);
         }
 
+        public void OnAppearing()
+        {
+            LoadData();
+        }
+
         private async void LoadData()
         {
+            ChatHistory.Clear();
             await _geminiService.LoadDataToChat();
         }
     }
