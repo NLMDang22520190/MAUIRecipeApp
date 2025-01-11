@@ -91,7 +91,7 @@ namespace MAUIRecipeApp.ViewModel.UserView
 					},
 					Portion = Portion,
 					ImgUrl = ImageUrl,
-					UploaderUid = UserService.Instance.CurrentUser.Uid,
+					UploaderUid = null,
 					VideoUrl = VideoUrl,
 					IsDeleted = false
 				};
