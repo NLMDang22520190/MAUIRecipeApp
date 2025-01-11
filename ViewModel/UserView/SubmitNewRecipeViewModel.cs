@@ -24,6 +24,7 @@ namespace MAUIRecipeApp.ViewModel.UserView
 		[ObservableProperty] private string recipeName;
 		[ObservableProperty] private string calories;
 		[ObservableProperty] private string cookingTime;
+		[ObservableProperty] private string healthBenefit;
 		[ObservableProperty] private int difficulty;
 		[ObservableProperty] private int portion;
 		[ObservableProperty] private string imageUrl;
@@ -123,7 +124,7 @@ namespace MAUIRecipeApp.ViewModel.UserView
 		}
 
 		[RelayCommand]
-		private void AddIngredientToSelectedList()
+		private void AddIngredient()
 		{
 			if (SelectedIngredient == null || string.IsNullOrWhiteSpace(SelectedIngredient.IngredientName))
 			{

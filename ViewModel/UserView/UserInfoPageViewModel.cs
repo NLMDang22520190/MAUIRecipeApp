@@ -131,7 +131,5 @@ namespace MAUIRecipeApp.ViewModel.UserView
             Height = currentUser.Height != null? (float)currentUser.Height : 0;
             Weight = currentUser.Weight != null ? (float)currentUser.Weight : 0;
         }
-
-
     }
 }
