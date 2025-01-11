@@ -510,74 +510,87 @@
                                                HorizontalOptions="Center" />
 
                                         <!-- Rating Stars -->
-                                        <HorizontalStackLayout Spacing="8">
+                                        <HorizontalStackLayout Spacing="0">
                                             <Button HorizontalOptions="Center"
-                                                    BackgroundColor="Transparent"
-                                                    Command="{Binding RateCommand}"
-                                                    CommandParameter="1">
-                                                <Button.ImageSource>
-                                                    <FontImageSource
-                                                        FontFamily="MaterialSharp"
-                                                        Glyph="{x:Static m:MaterialSharp.Star_rate}"
-                                                        Size="25"
-                                                        Color="{StaticResource Primary}" />
-                                                </Button.ImageSource>
-                                            </Button>
-                                            <Button HorizontalOptions="Center"
-                                                    BackgroundColor="Transparent"
-                                                    Command="{Binding RateCommand}"
-                                                    CommandParameter="2">
+                                                BackgroundColor="Transparent"
+                                                Command="{Binding RateCommand}"
+                                                CommandParameter="1">
                                                 <Button.ImageSource>
                                                     <FontImageSource
                                                         FontFamily="MaterialSharp"
                                                         Glyph="{x:Static m:MaterialSharp.Star}"
                                                         Size="25"
-                                                        Color="{StaticResource Primary}" />
+                                                        Color="{Binding Stars[0].Color}" />
                                                 </Button.ImageSource>
                                             </Button>
-                                            <Button HorizontalOptions="Center"
-                                                    BackgroundColor="Transparent"
-                                                    Command="{Binding RateCommand}"
-                                                    CommandParameter="3">
+                                            <Button 
+                                                HorizontalOptions="Center"
+                                                BackgroundColor="Transparent"
+                                                Command="{Binding RateCommand}"
+                                                CommandParameter="2">
                                                 <Button.ImageSource>
                                                     <FontImageSource
                                                         FontFamily="MaterialSharp"
                                                         Glyph="{x:Static m:MaterialSharp.Star}"
                                                         Size="25"
-                                                        Color="{StaticResource Primary}" />
+                                                        Color="{Binding Stars[1].Color}" />
                                                 </Button.ImageSource>
                                             </Button>
-                                            <Button HorizontalOptions="Center"
-                                                    BackgroundColor="Transparent"
-                                                    Command="{Binding RateCommand}"
-                                                    CommandParameter="4">
+                                            <Button 
+                                                HorizontalOptions="Center"
+                                                BackgroundColor="Transparent"
+                                                Command="{Binding RateCommand}"
+                                                CommandParameter="3">
                                                 <Button.ImageSource>
                                                     <FontImageSource
                                                         FontFamily="MaterialSharp"
                                                         Glyph="{x:Static m:MaterialSharp.Star}"
                                                         Size="25"
-                                                        Color="{StaticResource Primary}" />
+                                                        Color="{Binding Stars[2].Color}" />
                                                 </Button.ImageSource>
                                             </Button>
-                                            <Button HorizontalOptions="Center"
-                                                    BackgroundColor="Transparent"
-                                                    Command="{Binding RateCommand}"
-                                                    CommandParameter="5">
+                                            <Button 
+                                                HorizontalOptions="Center"
+                                                BackgroundColor="Transparent"
+                                                Command="{Binding RateCommand}"
+                                                CommandParameter="4">
                                                 <Button.ImageSource>
                                                     <FontImageSource
                                                         FontFamily="MaterialSharp"
                                                         Glyph="{x:Static m:MaterialSharp.Star}"
                                                         Size="25"
-                                                        Color="{StaticResource Primary}" />
+                                                        Color="{Binding Stars[3].Color}" />
                                                 </Button.ImageSource>
                                             </Button>
+                                            <Button 
+                                                HorizontalOptions="Center"
+                                                BackgroundColor="Transparent"
+                                                Command="{Binding RateCommand}"
+                                                CommandParameter="5">
+                                                <Button.ImageSource>
+                                                    <FontImageSource
+                                                        FontFamily="MaterialSharp"
+                                                        Glyph="{x:Static m:MaterialSharp.Star}"
+                                                        Size="25"
+                                                        Color="{Binding Stars[4].Color}" />
+                                                </Button.ImageSource>
+                                            </Button>
+                                            
                                         </HorizontalStackLayout>
 
-                                        <Editor Placeholder="Leave a comment"
+                                        <Frame CornerRadius="5"
+                                               BorderColor="{StaticResource PrimaryDarkText}"
+                                               BackgroundColor="{StaticResource White}"
+                                               Padding="1"
+                                               HasShadow="False">
+                                            <Editor Placeholder="Leave a comment"
                                                 HeightRequest="50"
                                                 Text="{Binding Comment}"
                                                 TextColor="{StaticResource PrimaryDarkText}"
+                                                BackgroundColor="Transparent"
                                                 VerticalOptions="FillAndExpand" />
+                                        </Frame>
+
 
                                         <Button Text="Submit Rating"
                                                 Command="{Binding SubmitRatingCommand}"
