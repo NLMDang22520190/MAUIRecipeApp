@@ -7,6 +7,7 @@ using MAUIRecipeApp.Service;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Threading.Tasks;
 
@@ -33,10 +34,31 @@ namespace MAUIRecipeApp.ViewModel.UserView
 		[ObservableProperty]
 		private ObservableCollection<IngredientDetailDto> ingredientDetails;
 
+		private ObservableCollection<Star> _stars;
+		public ObservableCollection<Star> Stars
+		{
+			get => _stars;
+			set
+			{
+				if (_stars != value)
+				{
+					_stars = value;
+					OnPropertyChanged(nameof(Stars));
+				}
+			}
+		}
+
 		private FirestoreDb _db;
 		public FoodRecipePageViewModel()
 		{
-
+			Stars = new ObservableCollection<Star>
+			{
+				new Star { Glyph = "\uF005", Color = Colors.Gray }, // Default unselected star
+				new Star { Glyph = "\uF005", Color = Colors.Gray },
+				new Star { Glyph = "\uF005", Color = Colors.Gray },
+				new Star { Glyph = "\uF005", Color = Colors.Gray },
+				new Star { Glyph = "\uF005", Color = Colors.Gray },
+			};
 		}
 
 		public void OnAppearing()
@@ -147,10 +169,33 @@ namespace MAUIRecipeApp.ViewModel.UserView
 		[RelayCommand]
 		private void Rate(string rating)
 		{
-			// Convert string to int
+			Debug.WriteLine($"Rate command executed with rating: {rating}");
 			SelectedRating = int.Parse(rating);
-			Debug.WriteLine($"Selected Rating: {rating}");
+
+			if (!int.TryParse(rating, out int selectedRating))
+			{
+				Debug.WriteLine("Invalid rating value.");
+				return;
+			}
+
+			for (int i = 0; i < Stars.Count; i++)
+			{
+				if (i < selectedRating)
+				{
+					// Circle star
+
+					Stars[i].Color = Colors.Gold;
+				}
+				else
+				{
+					// Empty star
+					Stars[i].Color = Colors.Gray;
+				}
+			}
+
+			Debug.WriteLine($"Updated Stars collection with rating: {selectedRating}");
 		}
+
 
 		[RelayCommand]
 		private async Task SubmitRating()
@@ -194,5 +239,44 @@ namespace MAUIRecipeApp.ViewModel.UserView
 		{
 			await Application.Current.MainPage.DisplayAlert(title, message, "OK");
 		}
+	}
+}
+
+public class Star : INotifyPropertyChanged
+{
+	private string _glyph;
+	private Color _color;
+
+	public string Glyph
+	{
+		get => _glyph;
+		set
+		{
+			if (_glyph != value)
+			{
+				_glyph = value;
+				OnPropertyChanged(nameof(Glyph));
+			}
+		}
+	}
+
+	public Color Color
+	{
+		get => _color;
+		set
+		{
+			if (_color != value)
+			{
+				_color = value;
+				OnPropertyChanged(nameof(Color));
+			}
+		}
+	}
+
+	public event PropertyChangedEventHandler PropertyChanged;
+
+	protected void OnPropertyChanged(string propertyName)
+	{
+		PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 	}
 }
