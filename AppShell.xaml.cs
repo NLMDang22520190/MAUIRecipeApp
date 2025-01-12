@@ -20,6 +20,8 @@ namespace MAUIRecipeApp
             Routing.RegisterRoute("editingredient/editcurrentingredient", typeof(EditCurrentIngredientPageView));
             Routing.RegisterRoute("collectiondetail", typeof(CollectionDetailPageView));
             Routing.RegisterRoute("collectiondetail/fooddetail", typeof(FoodRecipePageView));
+            Routing.RegisterRoute("collectiondetailinall", typeof(CollectionDetailInAllPageView));
+            Routing.RegisterRoute("collectiondetailinall/fooddetail", typeof(FoodRecipePageView));
         }
 
         private async void MenuItem_OnClicked(object? sender, EventArgs e)

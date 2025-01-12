@@ -3,6 +3,7 @@
     x:Class="MAUIRecipeApp.View.UserView.Collection.AllCollectionPageView"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:dto="clr-namespace:MAUIRecipeApp.DTO"
     xmlns:m="clr-namespace:UraniumUI.Icons.MaterialSymbols;assembly=UraniumUI.Icons.MaterialSymbols"
     xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
     xmlns:models="clr-namespace:MAUIRecipeApp.Models"
@@ -11,7 +12,7 @@
     xmlns:viewmodel="clr-namespace:MAUIRecipeApp.ViewModel.UserView.Collection"
     x:Name="PageRef"
     Title=""
-    x:DataType="viewmodel:CollectionDetailPageViewModel"
+    x:DataType="viewmodel:AllCollectionPageViewModel"
     Background="{StaticResource WhiteText}">
     <ScrollView Orientation="Vertical">
         <VerticalStackLayout Margin="16" Spacing="8">
@@ -22,7 +23,7 @@
                 TextColor="{StaticResource Primary}"
                 VerticalOptions="Center" />
 
-            <CollectionView ItemsSource="{Binding UserSavedCollectionList}">
+            <CollectionView ItemsSource="{Binding AllCollection}">
                 <CollectionView.ItemsLayout>
                     <LinearItemsLayout Orientation="Vertical" />
                 </CollectionView.ItemsLayout>
@@ -45,24 +46,25 @@
                                     Spacing="8"
                                     VerticalOptions="End">
                                     <Label
+                                        FontAttributes="Italic"
                                         FontSize="25"
                                         Text="{Binding CollectionName}"
-                                        TextColor="{StaticResource WhiteText}" />
+                                        TextColor="{StaticResource PrimaryDarkText}" />
                                     <Label
-                                        FontAttributes="Bold"
+                                        FontAttributes="Italic"
                                         FontSize="20"
                                         HorizontalOptions="End"
                                         Text="By "
-                                        TextColor="{StaticResource WhiteText}"
+                                        TextColor="{StaticResource PrimaryDarkText}"
                                         VerticalTextAlignment="End" />
                                     <Label
-                                        FontAttributes="Bold"
+                                        FontAttributes="Italic"
                                         FontSize="20"
                                         Text="{Binding UploadName}"
-                                        TextColor="{StaticResource WhiteText}"
+                                        TextColor="{StaticResource PrimaryDarkText}"
                                         VerticalTextAlignment="End" />
                                 </HorizontalStackLayout>
-                                <Button
+                                <!--<Button
                                     Margin="4"
                                     Padding="8"
                                     BackgroundColor="LightCoral"
@@ -78,7 +80,7 @@
                                             Glyph="{x:Static m:MaterialSharp.Delete}"
                                             Color="{StaticResource WhiteText}" />
                                     </Button.ImageSource>
-                                </Button>
+                                </Button>-->
                             </Grid>
                         </Border>
                     </DataTemplate>

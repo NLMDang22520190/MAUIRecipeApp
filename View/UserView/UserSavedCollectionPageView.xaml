@@ -49,21 +49,22 @@
                                     Spacing="8"
                                     VerticalOptions="End">
                                     <Label
+                                        FontAttributes="Italic"
                                         FontSize="25"
                                         Text="{Binding CollectionName}"
-                                        TextColor="{StaticResource WhiteText}" />
+                                        TextColor="{StaticResource PrimaryDarkText}" />
                                     <Label
-                                        FontAttributes="Bold"
+                                        FontAttributes="Italic"
                                         FontSize="20"
                                         HorizontalOptions="End"
                                         Text="By "
-                                        TextColor="{StaticResource WhiteText}"
+                                        TextColor="{StaticResource PrimaryDarkText}"
                                         VerticalTextAlignment="End" />
                                     <Label
-                                        FontAttributes="Bold"
+                                        FontAttributes="Italic"
                                         FontSize="20"
                                         Text="{Binding UploadName}"
-                                        TextColor="{StaticResource WhiteText}"
+                                        TextColor="{StaticResource PrimaryDarkText}"
                                         VerticalTextAlignment="End" />
                                 </HorizontalStackLayout>
                                 <Button
