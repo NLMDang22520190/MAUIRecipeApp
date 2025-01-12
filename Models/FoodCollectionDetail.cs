@@ -10,7 +10,7 @@ namespace MAUIRecipeApp.Models
     [FirestoreData]
     public class FoodCollectionDetail
     {
-        public string FoodCollectionDetailId { get; set; }
+        public string? FoodCollectionDetailId { get; set; }
 
         [FirestoreProperty]
         public DocumentReference FCID { get; set; }

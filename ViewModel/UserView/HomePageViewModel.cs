@@ -83,6 +83,12 @@ namespace MAUIRecipeApp.ViewModel.UserView
         }
 
         [RelayCommand]
+        public async Task CreateCollection()
+		{
+			await Shell.Current.GoToAsync("///createcollection");
+		}
+
+        [RelayCommand]
 
         public async Task SetPage()
         {

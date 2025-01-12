@@ -63,6 +63,9 @@ namespace MAUIRecipeApp.ViewModel.UserView
 					return;
 				}
 
+				// Log input values
+				Debug.WriteLine($"Recipe Name: {RecipeName}, Calories: {Calories}, Cooking Time: {CookingTime}, Portion: {Portion}, Food Type: {SelectedFoodType}");
+
 				// Create new recipe
 				var recipe = new FoodRecipe
 				{
@@ -97,6 +100,7 @@ namespace MAUIRecipeApp.ViewModel.UserView
 
 				// Add recipe to firestore using firestore service and await the result
 				var recipeId = await FirestoreService.Instance.AddDocumentAsync("FoodRecipes", foodRecipeT);
+				Debug.WriteLine($"Recipe ID: {recipeId}");
 
 				if (recipeId == null)
 				{
@@ -117,6 +121,7 @@ namespace MAUIRecipeApp.ViewModel.UserView
 
 				// Add food recipe type mapping to firestore and await the result
 				var recipeTypeId = await FirestoreService.Instance.AddDocumentAsync("FoodRecipeTypeMappings", recipeTypeDict);
+				Debug.WriteLine($"Recipe Type ID: {recipeTypeId}");
 
 				if (recipeTypeId == null)
 				{
@@ -147,6 +152,7 @@ namespace MAUIRecipeApp.ViewModel.UserView
 
 					// Add recipe ingredient to firestore and await the result
 					var ingredientId = await FirestoreService.Instance.AddDocumentAsync("RecipeIngredients", ingredientDict);
+					Debug.WriteLine($"Ingredient ID: {ingredientId}");
 
 					if (ingredientId == null)
 					{
@@ -203,7 +209,6 @@ namespace MAUIRecipeApp.ViewModel.UserView
 			SelectedIngredient = null;
 		}
 
-
 		[RelayCommand]
 		private void RemoveIngredient(IngredientInfos ingredient)
 		{
@@ -212,8 +217,38 @@ namespace MAUIRecipeApp.ViewModel.UserView
 
 		private async Task LoadIngredientsAsync()
 		{
-			var ingredientList = await IngredientService.Instance.LoadAllIngredients();
-			Ingredients = new ObservableCollection<Ingredient>(ingredientList.Where(i => !(i.IsDeleted ?? false)));
+			try
+			{
+				// Get a reference to the Ingredients collection in Firestore
+				CollectionReference ingredientsRef = _db.Collection("Ingredients");
+
+				// Query the collection to get all ingredients where IsDeleted is false
+				QuerySnapshot snapshot = await ingredientsRef.WhereEqualTo("IsDeleted", false).GetSnapshotAsync();
+
+				// Clear the existing collection before adding new items
+				Ingredients.Clear();
+
+				// Iterate through the documents in the snapshot
+				foreach (DocumentSnapshot document in snapshot.Documents)
+				{
+					if (document.Exists)
+					{
+						// Convert Firestore document to Ingredient object
+						Ingredient ingredient = document.ConvertTo<Ingredient>();
+
+						// Set the Iid (Ingredient ID) to the document ID
+						ingredient.Iid = document.Id;
+
+						// Add the ingredient to the ObservableCollection
+						Ingredients.Add(ingredient);
+					}
+				}
+			}
+			catch (Exception ex)
+			{
+				// Log the error to the debug output
+				Debug.WriteLine($"Error loading ingredients: {ex.Message}");
+			}
 		}
 
 		private async Task LoadFoodRecipeTypesAsync()
@@ -224,21 +259,79 @@ namespace MAUIRecipeApp.ViewModel.UserView
 
 		private bool ValidateInputs(out string error)
 		{
-			if (string.IsNullOrWhiteSpace(RecipeName)) return SetError(out error, "Recipe name is required.");
-			if (!int.TryParse(Calories, out _)) return SetError(out error, "Calories must be a valid number.");
-			if (!int.TryParse(CookingTime, out _)) return SetError(out error, "Cooking time must be a valid number.");
-			if (string.IsNullOrWhiteSpace(HealthBenefit)) return SetError(out error, "Health benefits are required.");
-			if (Portion <= 0) return SetError(out error, "Portion must be greater than zero.");
-			if (SelectedFoodType == null) return SetError(out error, "A food type must be selected.");
-			if (string.IsNullOrWhiteSpace(ImageUrl)) return SetError(out error, "Image URL is required.");
-			if (string.IsNullOrWhiteSpace(VideoUrl)) return SetError(out error, "Video URL is required.");
+			// Validate Recipe Name
+			if (string.IsNullOrWhiteSpace(RecipeName))
+			{
+				error = "Recipe name is required.";
+				Debug.WriteLine($"Validation failed: {error}");
+				return false;
+			}
+
+			// Validate Calories
+			if (!int.TryParse(Calories, out _))
+			{
+				error = "Calories must be a valid number.";
+				Debug.WriteLine($"Validation failed: {error}");
+				return false;
+			}
+
+			// Validate Cooking Time
+			if (!int.TryParse(CookingTime, out _))
+			{
+				error = "Cooking time must be a valid number.";
+				Debug.WriteLine($"Validation failed: {error}");
+				return false;
+			}
+
+			// Validate Health Benefit
+			if (string.IsNullOrWhiteSpace(HealthBenefit))
+			{
+				error = "Health benefits are required.";
+				Debug.WriteLine($"Validation failed: {error}");
+				return false;
+			}
+
+			// Validate Portion
+			if (Portion <= 0)
+			{
+				error = "Portion must be greater than zero.";
+				Debug.WriteLine($"Validation failed: {error}");
+				return false;
+			}
+
+			// Validate Food Type
+			if (SelectedFoodType == null)
+			{
+				error = "A food type must be selected.";
+				Debug.WriteLine($"Validation failed: {error}");
+				return false;
+			}
+
+			// Validate Image URL
+			if (string.IsNullOrWhiteSpace(ImageUrl))
+			{
+				error = "Image URL is required.";
+				Debug.WriteLine($"Validation failed: {error}");
+				return false;
+			}
+
+			// Validate Video URL
+			if (string.IsNullOrWhiteSpace(VideoUrl))
+			{
+				error = "Video URL is required.";
+				Debug.WriteLine($"Validation failed: {error}");
+				return false;
+			}
+
+			// If all validations pass
 			error = null;
 			return true;
 		}
 
-		private static bool SetError(out string error, string message)
+
+		private bool SetError(out string error, string errorMessage)
 		{
-			error = message;
+			error = errorMessage;
 			return false;
 		}
 

@@ -88,7 +88,7 @@
                             TextColor="{StaticResource Primary}"
                             VerticalTextAlignment="Center">
                             <Label.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding SubmitNewRecipeCommand}" />
+                                <TapGestureRecognizer Command="{Binding CreateCollectionCommand}" />
                             </Label.GestureRecognizers>
                         </Label>
                         <Label

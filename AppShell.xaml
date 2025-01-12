@@ -62,6 +62,11 @@
         Route="submitnewrecipe"
         Shell.FlyoutBehavior="Disabled"
         Shell.FlyoutItemIsVisible="False" />
+    <ShellContent
+        ContentTemplate="{DataTemplate UserView:CreateCollectionView}"
+        Route="createcollection"
+        Shell.FlyoutBehavior="Disabled"
+        Shell.FlyoutItemIsVisible="False" />
     <!--<ShellContent
         ContentTemplate="{DataTemplate UserView:HomePageView}"
         Route="home"

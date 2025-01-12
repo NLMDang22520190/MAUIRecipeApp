@@ -184,6 +184,12 @@
 		<MauiXaml Update="View\UserView\Collection\CollectionDetailPageView.xaml">
 		  <Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
+		<MauiXaml Update="View\UserView\Collection\NewPage1.xaml">
+		  <Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="View\UserView\CreateCollectionView.xaml">
+		  <Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
 		<MauiXaml Update="View\UserView\EditFoodRecipeView.xaml">
 		  <Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
