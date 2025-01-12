@@ -175,6 +175,9 @@
 		<MauiXaml Update="View\StartUpPageView.xaml">
 			<Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
+		<MauiXaml Update="View\UserView\Collection\AllCollectionPageView.xaml">
+		  <Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
 		<MauiXaml Update="View\UserView\Collection\CollectionDetailPageView.xaml">
 		  <Generator>MSBuild:Compile</Generator>
 		</MauiXaml>

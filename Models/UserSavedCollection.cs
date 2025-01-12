@@ -10,7 +10,6 @@ namespace MAUIRecipeApp.Models
     [FirestoreData]
     public class UserSavedCollection
     {
-        [FirestoreProperty]
         public string UserSavedCollectionId { get; set; }
 
         [FirestoreProperty]

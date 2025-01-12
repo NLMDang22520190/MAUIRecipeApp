@@ -37,12 +37,13 @@ namespace MAUIRecipeApp.ViewModel.AdminViewModel
         [RelayCommand]
         public async Task<bool> AddIngredient(AddNewIngredientDTO newIngre)
         {
-            var result = await FirestoreService.Instance.AddDocumentAsync("Ingredients", new Ingredient
+            var addResult = await FirestoreService.Instance.AddDocumentAsync("Ingredients", new Ingredient
             {
                 IngredientName = newIngre.IngredientName,
                 MeasurementUnit = newIngre.Unit,
                 IsDeleted = false
             });
+            var result = !string.IsNullOrEmpty(addResult);
             if (result)
             {
                 LoadItem();

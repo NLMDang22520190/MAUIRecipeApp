@@ -140,6 +140,8 @@ namespace MAUIRecipeApp
             builder.Services.AddTransient<CollectionDetailPageView>();
             builder.Services.AddTransient<CollectionDetailPageViewModel>();
 
+            builder.Services.AddTransient<AllCollectionPageView>();
+            builder.Services.AddTransient<AllCollectionPageViewModel>();
 
             builder.Services.AddTransient<UserInfoPageViewModel>();
             builder.Services.AddTransient<UserInfoPageView>();

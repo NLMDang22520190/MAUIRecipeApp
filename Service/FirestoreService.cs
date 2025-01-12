@@ -80,28 +80,20 @@ namespace MAUIRecipeApp.Service
 
         // Phương thức để lấy instance duy nhất của FirestoreService
 
-        public async Task<bool> AddDocumentAsync<T>(string collectionName, T document)
+        public async Task<string> AddDocumentAsync<T>(string collectionName, T document)
         {
             try
             {
-                FirestoreDb db = FirestoreService.Instance.Db;
-
-                if (db == null)
-                {
-                    Debug.WriteLine("FirestoreDb instance is null.");
-                    return false;
-                }
-
-                CollectionReference collectionRef = db.Collection(collectionName);
+                CollectionReference collectionRef = _db.Collection(collectionName);
                 DocumentReference docRef = await collectionRef.AddAsync(document);
 
                 Debug.WriteLine($"Document added successfully! Document ID: {docRef.Id}");
-                return true;
+                return docRef.Id;
             }
             catch (Exception ex)
             {
                 Debug.WriteLine($"Error adding document: {ex.Message}");
-                return false;
+                return string.Empty;
             }
         }
 
