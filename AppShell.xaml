@@ -6,6 +6,7 @@
     xmlns:AdminView="clr-namespace:MAUIRecipeApp.View.AdminView"
     xmlns:Auth="clr-namespace:MAUIRecipeApp.View.Auth"
     xmlns:UserView="clr-namespace:MAUIRecipeApp.View.UserView"
+    xmlns:UserViewCollection="clr-namespace:MAUIRecipeApp.View.UserView.Collection"
     xmlns:View="clr-namespace:MAUIRecipeApp.View"
     xmlns:local="clr-namespace:MAUIRecipeApp"
     xmlns:m="clr-namespace:UraniumUI.Icons.MaterialSymbols;assembly=UraniumUI.Icons.MaterialSymbols"
@@ -82,6 +83,18 @@
             </ShellContent.Icon>
         </ShellContent>
 
+        <ShellContent
+            Title="Collection"
+            ContentTemplate="{DataTemplate UserViewCollection:AllCollectionPageView}"
+            Route="allcollection">
+            <ShellContent.Icon>
+                <FontImageSource
+                    FontFamily="MaterialSharp"
+                    Glyph="{x:Static m:MaterialSharp.Menu_book}"
+                    Color="{StaticResource WhiteText}" />
+            </ShellContent.Icon>
+        </ShellContent>
+
         <ShellContent Title="Chat" ContentTemplate="{DataTemplate UserView:ChatPageView}">
             <ShellContent.Icon>
                 <FontImageSource
@@ -111,36 +124,36 @@
                 <ShellContent.Icon>
                     <FontImageSource
                         FontFamily="MaterialSharp"
-                        Glyph="{x:Static m:MaterialSharp.Menu_book}"
+                        Glyph="{x:Static m:MaterialSharp.Collections_bookmark}"
                         Color="{StaticResource WhiteText}" />
                 </ShellContent.Icon>
             </ShellContent>
         </Tab>
-    <ShellContent
-        ContentTemplate="{DataTemplate UserView:EditIngredientsView}"
-        Route="editingredients"
-        Shell.FlyoutBehavior="Disabled"
-        Shell.FlyoutItemIsVisible="False" />
-    <ShellContent
-        ContentTemplate="{DataTemplate UserView:UserRecipesView}"
-        Route="userrecipes"
-        Shell.FlyoutBehavior="Disabled"
-        Shell.FlyoutItemIsVisible="False" />
+        <ShellContent
+            ContentTemplate="{DataTemplate UserView:EditIngredientsView}"
+            Route="editingredients"
+            Shell.FlyoutBehavior="Disabled"
+            Shell.FlyoutItemIsVisible="False" />
+        <ShellContent
+            ContentTemplate="{DataTemplate UserView:UserRecipesView}"
+            Route="userrecipes"
+            Shell.FlyoutBehavior="Disabled"
+            Shell.FlyoutItemIsVisible="False" />
 
-    <ShellContent
-        ContentTemplate="{DataTemplate UserView:TestScreensView}"
-        Route="testing"
-        Shell.FlyoutItemIsVisible="False" />
+        <ShellContent
+            ContentTemplate="{DataTemplate UserView:TestScreensView}"
+            Route="testing"
+            Shell.FlyoutItemIsVisible="False" />
 
-    <ShellContent
-        ContentTemplate="{DataTemplate UserView:UserSavedRecipesView}"
-        Route="usersavedrecipes"
-        Shell.FlyoutItemIsVisible="False" />
+        <ShellContent
+            ContentTemplate="{DataTemplate UserView:UserSavedRecipesView}"
+            Route="usersavedrecipes"
+            Shell.FlyoutItemIsVisible="False" />
 
-    <ShellContent
-        ContentTemplate="{DataTemplate UserView:EditFoodRecipeView}"
-        Route="editfoodrecipe"
-        Shell.FlyoutItemIsVisible="False" />
+        <ShellContent
+            ContentTemplate="{DataTemplate UserView:EditFoodRecipeView}"
+            Route="editfoodrecipe"
+            Shell.FlyoutItemIsVisible="False" />
 
         <ShellContent Title="User" ContentTemplate="{DataTemplate UserView:UserInfoPageView}">
             <ShellContent.Icon>

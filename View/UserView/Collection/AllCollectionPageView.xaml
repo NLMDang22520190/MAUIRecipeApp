@@ -1,30 +1,26 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage
-    x:Class="MAUIRecipeApp.View.UserView.UserSavedCollectionPageView"
+    x:Class="MAUIRecipeApp.View.UserView.Collection.AllCollectionPageView"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:dto="clr-namespace:MAUIRecipeApp.DTO"
-    xmlns:m="http://schemas.enisn-projects.io/dotnet/maui/uraniumui"
+    xmlns:m="clr-namespace:UraniumUI.Icons.MaterialSymbols;assembly=UraniumUI.Icons.MaterialSymbols"
     xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
     xmlns:models="clr-namespace:MAUIRecipeApp.Models"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-    xmlns:viewmodel="clr-namespace:MAUIRecipeApp.ViewModel.UserView"
+    xmlns:uranium="http://schemas.enisn-projects.io/dotnet/maui/uraniumui"
+    xmlns:viewmodel="clr-namespace:MAUIRecipeApp.ViewModel.UserView.Collection"
+    x:Name="PageRef"
     Title=""
-    x:DataType="viewmodel:UserSavedCollectionPageViewModel"
+    x:DataType="viewmodel:CollectionDetailPageViewModel"
     Background="{StaticResource WhiteText}">
     <ScrollView Orientation="Vertical">
         <VerticalStackLayout Margin="16" Spacing="8">
             <Label
                 FontSize="30"
                 HorizontalOptions="Center"
-                Text="Saved Collection"
+                Text="All Collection"
                 TextColor="{StaticResource Primary}"
                 VerticalOptions="Center" />
-            <Label
-                FontSize="18"
-                HorizontalTextAlignment="Center"
-                Text="Your saved collection will appear here"
-                TextColor="{StaticResource PrimaryDarkText}" />
 
             <CollectionView ItemsSource="{Binding UserSavedCollectionList}">
                 <CollectionView.ItemsLayout>
@@ -40,7 +36,7 @@
                             <Grid>
                                 <ImageButton
                                     Aspect="Fill"
-                                    Command="{Binding Path=CollecionDetailCommand, Source={RelativeSource AncestorType={x:Type viewmodel:UserSavedCollectionPageViewModel}}}"
+                                    Command="{Binding Path=CollecionDetailCommand, Source={RelativeSource AncestorType={x:Type viewmodel:AllCollectionPageViewModel}}}"
                                     CommandParameter="{Binding UserSavedCollectionId}"
                                     Opacity=".75"
                                     Source="{Binding ImgUrl}" />
@@ -92,5 +88,4 @@
 
         </VerticalStackLayout>
     </ScrollView>
-
 </ContentPage>

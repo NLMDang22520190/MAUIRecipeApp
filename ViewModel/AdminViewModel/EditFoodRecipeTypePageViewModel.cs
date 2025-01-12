@@ -39,11 +39,12 @@ namespace MAUIRecipeApp.ViewModel.AdminViewModel
             {
                 return false;
             }
-            var result = await FirestoreService.Instance.AddDocumentAsync("FoodRecipeTypes", new FoodRecipeType
+            var addResult = await FirestoreService.Instance.AddDocumentAsync("FoodRecipeTypes", new FoodRecipeType
             {
                 FoodTypeName = foodTypeName,
                 IsDeleted = false
             });
+            var result = !string.IsNullOrEmpty(addResult);
             if (result)
             {
                 LoadItem();

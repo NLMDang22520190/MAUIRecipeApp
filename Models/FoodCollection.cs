@@ -10,7 +10,6 @@ namespace MAUIRecipeApp.Models
     [FirestoreData] // Đánh dấu lớp này là dữ liệu Firestore
     public class FoodCollection
     {
-        [FirestoreProperty]
         public string FoodCollectionId { get; set; }
         [FirestoreProperty]
         public string CollectionName { get; set; }

@@ -22,11 +22,20 @@ public partial class UserSavedCollectionPageView : ContentPage
 
                 if(result)
                 {
-                    //var removeResult = vm.RemoveSavedCollection(id);
+                    await vm.DeleteCollection(id);
                 }
             }
            
 
+        }
+    }
+
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+        if (BindingContext is UserSavedCollectionPageViewModel vm)
+        {
+            vm.OnAppearing();
         }
     }
 }
