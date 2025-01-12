@@ -11,7 +11,7 @@ namespace MAUIRecipeApp.ViewModel.UserView.Collection
 {
     public partial class AllCollectionPageViewModel: ObservableObject
     {
-        []
+       
         
         private FirestoreDb db = FirestoreService.Instance.Db;
 
