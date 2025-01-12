@@ -12,6 +12,7 @@ namespace MAUIRecipeApp.Models
 		public string Iid { get; set; }
 		public string Name { get; set; }
 		public double Quantity { get; set; }
+		public string Unit { get; set; }
 		public bool IsDeleted { get; set; }
 	}
 }

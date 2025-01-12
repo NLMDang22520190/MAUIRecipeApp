@@ -6,6 +6,7 @@ using MAUIRecipeApp.Service;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace MAUIRecipeApp.ViewModel.UserView
@@ -198,6 +199,7 @@ namespace MAUIRecipeApp.ViewModel.UserView
 				Iid = SelectedIngredient.Iid,
 				Name = SelectedIngredient.IngredientName,
 				Quantity = ingredientQuantity,
+				Unit = SelectedIngredient.MeasurementUnit,
 				IsDeleted = false
 			};
 
@@ -259,67 +261,60 @@ namespace MAUIRecipeApp.ViewModel.UserView
 
 		private bool ValidateInputs(out string error)
 		{
+			StringBuilder errorMessages = new StringBuilder();
+
 			// Validate Recipe Name
 			if (string.IsNullOrWhiteSpace(RecipeName))
 			{
-				error = "Recipe name is required.";
-				Debug.WriteLine($"Validation failed: {error}");
-				return false;
+				errorMessages.AppendLine("Recipe name is required.");
 			}
 
 			// Validate Calories
 			if (!int.TryParse(Calories, out _))
 			{
-				error = "Calories must be a valid number.";
-				Debug.WriteLine($"Validation failed: {error}");
-				return false;
+				errorMessages.AppendLine("Calories must be a valid number.");
 			}
 
 			// Validate Cooking Time
 			if (!int.TryParse(CookingTime, out _))
 			{
-				error = "Cooking time must be a valid number.";
-				Debug.WriteLine($"Validation failed: {error}");
-				return false;
+				errorMessages.AppendLine("Cooking time must be a valid number.");
 			}
 
 			// Validate Health Benefit
 			if (string.IsNullOrWhiteSpace(HealthBenefit))
 			{
-				error = "Health benefits are required.";
-				Debug.WriteLine($"Validation failed: {error}");
-				return false;
+				errorMessages.AppendLine("Health benefits are required.");
 			}
 
 			// Validate Portion
 			if (Portion <= 0)
 			{
-				error = "Portion must be greater than zero.";
-				Debug.WriteLine($"Validation failed: {error}");
-				return false;
+				errorMessages.AppendLine("Portion must be greater than zero.");
 			}
 
 			// Validate Food Type
 			if (SelectedFoodType == null)
 			{
-				error = "A food type must be selected.";
-				Debug.WriteLine($"Validation failed: {error}");
-				return false;
+				errorMessages.AppendLine("Please select a food type.");
 			}
 
 			// Validate Image URL
 			if (string.IsNullOrWhiteSpace(ImageUrl))
 			{
-				error = "Image URL is required.";
-				Debug.WriteLine($"Validation failed: {error}");
-				return false;
+				errorMessages.AppendLine("Image URL is required.");
 			}
 
 			// Validate Video URL
 			if (string.IsNullOrWhiteSpace(VideoUrl))
 			{
-				error = "Video URL is required.";
-				Debug.WriteLine($"Validation failed: {error}");
+				errorMessages.AppendLine("Video URL is required.");
+			}
+
+			// If there are any validation errors, return the error messages
+			if (errorMessages.Length > 0)
+			{
+				error = errorMessages.ToString();
 				return false;
 			}
 
@@ -328,6 +323,11 @@ namespace MAUIRecipeApp.ViewModel.UserView
 			return true;
 		}
 
+		[RelayCommand]
+		private async Task Cancel()
+		{
+			await Shell.Current.GoToAsync("///home");
+		}
 
 		private bool SetError(out string error, string errorMessage)
 		{

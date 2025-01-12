@@ -4,54 +4,110 @@
              xmlns:viewModel="clr-namespace:MAUIRecipeApp.ViewModel.UserView;assembly=MAUIRecipeApp"
              xmlns:model="clr-namespace:MAUIRecipeApp.Models"
              Title="Create Collection"
-             x:DataType="viewModel:CreateCollectionViewModel">
+             x:DataType="viewModel:CreateCollectionViewModel"
+             BackgroundColor="#F4F4F4">
 
     <ContentPage.BindingContext>
         <viewModel:CreateCollectionViewModel />
     </ContentPage.BindingContext>
 
-    <ScrollView Padding="10">
-        <StackLayout>
+    <ScrollView Padding="20">
+        <StackLayout Spacing="15">
             <!-- Collection Name -->
-            <Label Text="Collection Name" />
-            <Entry Text="{Binding CollectionName}" Placeholder="Enter collection name" />
+            <Label Text="Collection Name"
+                   FontAttributes="Bold"
+                   FontSize="18"
+                   TextColor="#2F4F4F"
+                   HorizontalOptions="Start" />
+            <Entry Text="{Binding CollectionName}" 
+                   Placeholder="Enter collection name"
+                   PlaceholderColor="#888888"
+                   BackgroundColor="#FFFFFF"
+                   TextColor="#333333"/>
 
             <!-- Description -->
-            <Label Text="Description" />
-            <Editor Text="{Binding Description}" Placeholder="Enter collection description" />
+            <Label Text="Description"
+                   FontAttributes="Bold"
+                   FontSize="18"
+                   TextColor="#2F4F4F"
+                   HorizontalOptions="Start" />
+            <Editor Text="{Binding Description}" 
+                    Placeholder="Enter collection description"
+                    PlaceholderColor="#888888"
+                    BackgroundColor="#FFFFFF"
+                    TextColor="#333333"
+                    HeightRequest="120" />
 
             <!-- Submit Button -->
             <Button Text="Create Collection"
                     Command="{Binding SubmitCollectionCommand}"
-                    IsEnabled="{Binding IsSubmitEnabled}" />
+                    IsEnabled="{Binding IsSubmitEnabled}"
+                    BackgroundColor="#4CAF50"
+                    TextColor="White"
+                    Padding="10"
+                    FontSize="16" />
 
             <!-- Recipes Picker -->
-            <Label Text="Available Recipes" />
-            <Picker
-                ItemsSource="{Binding FoodRecipes}"
-                SelectedItem="{Binding SelectedRecipe}"
-                ItemDisplayBinding="{Binding RecipeName}"
-                Title="Select Recipe" />
+            <Label Text="Available Recipes"
+                   FontAttributes="Bold"
+                   FontSize="18"
+                   TextColor="#2F4F4F"
+                   HorizontalOptions="Start" />
+            <Picker ItemsSource="{Binding FoodRecipes}"
+                    SelectedItem="{Binding SelectedRecipe}"
+                    ItemDisplayBinding="{Binding RecipeName}"
+                    Title="Select Recipe"
+                    BackgroundColor="#FFFFFF"
+                    TextColor="#333333"/>
 
             <!-- Add Recipe Button -->
             <Button Text="Add Selected Recipe"
                     Command="{Binding AddRecipeCommand}"
-                    IsEnabled="{Binding IsAddRecipeButtonEnabled}" />
+                    IsEnabled="{Binding IsAddRecipeButtonEnabled}"
+                    BackgroundColor="#FFC107"
+                    TextColor="White"
+                    Padding="10"
+                    FontSize="16" />
 
             <!-- Added Recipes List -->
-            <Label Text="Recipes Added to Collection" />
-            <Label Text="{Binding RecipesWithNames.Count, StringFormat='Recipes Count: {0}'}" />
+            <Label Text="Recipes Added to Collection"
+                   FontAttributes="Bold"
+                   FontSize="18"
+                   TextColor="#2F4F4F"
+                   HorizontalOptions="Start" />
+            <Label Text="{Binding RecipesWithNames.Count, StringFormat='Recipes Count: {0}'}"
+                   TextColor="#2F4F4F"
+                   FontSize="16"
+                   HorizontalOptions="Start" />
 
-            <Label Text="Selected Recipes" FontAttributes="Bold" />
+            <Label Text="Selected Recipes" 
+                   FontAttributes="Bold"
+                   FontSize="18"
+                   TextColor="#2F4F4F"
+                   HorizontalOptions="Start" />
             <CollectionView ItemsSource="{Binding RecipesWithNames}">
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="model:FoodRecipe">
-                        <HorizontalStackLayout Spacing="10">
-                            <Label Text="{Binding RecipeName}" />
+                        <Grid Padding="10" BackgroundColor="#F9F9F9">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="40" />
+                            </Grid.ColumnDefinitions>
+                            <Label Text="{Binding RecipeName}" 
+                                   VerticalOptions="Center" 
+                                   FontSize="16"
+                                   TextColor="#333333" 
+                                   Grid.Column="0" />
                             <Button Text="Remove"
                                     Command="{Binding Source={RelativeSource AncestorType={x:Type viewModel:CreateCollectionViewModel}}, Path=RemoveRecipeCommand}"
-                                    CommandParameter="{Binding .}" />
-                        </HorizontalStackLayout>
+                                    CommandParameter="{Binding .}"
+                                    BackgroundColor="#E53935"
+                                    TextColor="White"
+                                    Padding="5"
+                                    CornerRadius="5"
+                                    Grid.Column="1"
+                                    HorizontalOptions="Center" />
+                        </Grid>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
