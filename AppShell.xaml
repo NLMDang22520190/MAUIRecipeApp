@@ -71,38 +71,57 @@
 
     <TabBar>
 
-        <ShellContent
-            Title="Home"
-            ContentTemplate="{DataTemplate UserView:HomePageView}"
-            Route="home">
-            <ShellContent.Icon>
+        <Tab Title="Home">
+            <Tab.Icon>
                 <FontImageSource
                     FontFamily="MaterialSharp"
                     Glyph="{x:Static m:MaterialSharp.Home}"
                     Color="{StaticResource WhiteText}" />
-            </ShellContent.Icon>
-        </ShellContent>
+            </Tab.Icon>
+            <ShellContent ContentTemplate="{DataTemplate UserView:HomePageView}" Route="home">
+                <!--<ShellContent.Icon>
+                    <FontImageSource
+                        FontFamily="MaterialSharp"
+                        Glyph="{x:Static m:MaterialSharp.Home}"
+                        Color="{StaticResource WhiteText}" />
+                </ShellContent.Icon>-->
+            </ShellContent>
+        </Tab>
 
-        <ShellContent
-            Title="Collection"
-            ContentTemplate="{DataTemplate UserViewCollection:AllCollectionPageView}"
-            Route="allcollection">
-            <ShellContent.Icon>
+        <Tab Title="Collection">
+            <Tab.Icon>
                 <FontImageSource
                     FontFamily="MaterialSharp"
                     Glyph="{x:Static m:MaterialSharp.Menu_book}"
                     Color="{StaticResource WhiteText}" />
-            </ShellContent.Icon>
-        </ShellContent>
+            </Tab.Icon>
 
-        <ShellContent Title="Chat" ContentTemplate="{DataTemplate UserView:ChatPageView}">
-            <ShellContent.Icon>
+            <ShellContent ContentTemplate="{DataTemplate UserViewCollection:AllCollectionPageView}" Route="allcollection">
+                <!--<ShellContent.Icon>
+                    <FontImageSource
+                        FontFamily="MaterialSharp"
+                        Glyph="{x:Static m:MaterialSharp.Menu_book}"
+                        Color="{StaticResource WhiteText}" />
+                </ShellContent.Icon>-->
+            </ShellContent>
+        </Tab>
+
+        <Tab Title="Chat">
+            <Tab.Icon>
                 <FontImageSource
                     FontFamily="MaterialSharp"
                     Glyph="{x:Static m:MaterialSharp.Chat}"
                     Color="{StaticResource WhiteText}" />
-            </ShellContent.Icon>
-        </ShellContent>
+            </Tab.Icon>
+            <ShellContent ContentTemplate="{DataTemplate UserView:ChatPageView}">
+                <!--<ShellContent.Icon>
+                    <FontImageSource
+                        FontFamily="MaterialSharp"
+                        Glyph="{x:Static m:MaterialSharp.Chat}"
+                        Color="{StaticResource WhiteText}" />
+                </ShellContent.Icon>-->
+            </ShellContent>
+        </Tab>
 
 
         <Tab Title="Saved">
@@ -129,40 +148,61 @@
                 </ShellContent.Icon>
             </ShellContent>
         </Tab>
-        <ShellContent
-            ContentTemplate="{DataTemplate UserView:EditIngredientsView}"
-            Route="editingredients"
-            Shell.FlyoutBehavior="Disabled"
-            Shell.FlyoutItemIsVisible="False" />
-        <ShellContent
-            ContentTemplate="{DataTemplate UserView:UserRecipesView}"
-            Route="userrecipes"
-            Shell.FlyoutBehavior="Disabled"
-            Shell.FlyoutItemIsVisible="False" />
+        <Tab Title="Edit Ingre">
+            <ShellContent
+                ContentTemplate="{DataTemplate UserView:EditIngredientsView}"
+                Route="editingredients"
+                Shell.FlyoutBehavior="Disabled"
+                Shell.FlyoutItemIsVisible="False" />
+        </Tab>
+        <Tab Title="Recipe">
+            <ShellContent
+                ContentTemplate="{DataTemplate UserView:UserRecipesView}"
+                Route="userrecipes"
+                Shell.FlyoutBehavior="Disabled"
+                Shell.FlyoutItemIsVisible="False" />
+        </Tab>
 
-        <ShellContent
-            ContentTemplate="{DataTemplate UserView:TestScreensView}"
-            Route="testing"
-            Shell.FlyoutItemIsVisible="False" />
 
-        <ShellContent
-            ContentTemplate="{DataTemplate UserView:UserSavedRecipesView}"
-            Route="usersavedrecipes"
-            Shell.FlyoutItemIsVisible="False" />
+        <Tab Title="Test screen">
+            <ShellContent
+                ContentTemplate="{DataTemplate UserView:TestScreensView}"
+                Route="testing"
+                Shell.FlyoutItemIsVisible="False" />
+        </Tab>
 
-        <ShellContent
-            ContentTemplate="{DataTemplate UserView:EditFoodRecipeView}"
-            Route="editfoodrecipe"
-            Shell.FlyoutItemIsVisible="False" />
+        <Tab Title="Saverecipe">
+            <ShellContent
+                ContentTemplate="{DataTemplate UserView:UserSavedRecipesView}"
+                Route="usersavedrecipes"
+                Shell.FlyoutItemIsVisible="False" />
+        </Tab>
 
-        <ShellContent Title="User" ContentTemplate="{DataTemplate UserView:UserInfoPageView}">
-            <ShellContent.Icon>
+        <Tab Title="editfood">
+            <ShellContent
+                ContentTemplate="{DataTemplate UserView:EditFoodRecipeView}"
+                Route="editfoodrecipe"
+                Shell.FlyoutItemIsVisible="False" />
+        </Tab>
+
+
+        <Tab Title="User">
+            <Tab.Icon>
                 <FontImageSource
                     FontFamily="MaterialSharp"
                     Glyph="{x:Static m:MaterialSharp.Person}"
                     Color="{StaticResource WhiteText}" />
-            </ShellContent.Icon>
-        </ShellContent>
+            </Tab.Icon>
+            <ShellContent ContentTemplate="{DataTemplate UserView:UserInfoPageView}">
+                <ShellContent.Icon>
+                    <FontImageSource
+                        FontFamily="MaterialSharp"
+                        Glyph="{x:Static m:MaterialSharp.Person}"
+                        Color="{StaticResource WhiteText}" />
+                </ShellContent.Icon>
+            </ShellContent>
+        </Tab>
+
 
 
 
