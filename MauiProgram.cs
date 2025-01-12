@@ -143,6 +143,9 @@ namespace MAUIRecipeApp
             builder.Services.AddTransient<AllCollectionPageView>();
             builder.Services.AddTransient<AllCollectionPageViewModel>();
 
+            builder.Services.AddTransient<CollectionDetailInAllPageView>();
+            builder.Services.AddTransient<CollectionDetailInAllPageViewModel>();
+
             builder.Services.AddTransient<UserInfoPageViewModel>();
             builder.Services.AddTransient<UserInfoPageView>();
             #endregion

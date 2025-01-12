@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="MAUIRecipeApp.View.UserView.Collection.CollectionDetailInAllPageView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:m="clr-namespace:UraniumUI.Icons.MaterialSymbols;assembly=UraniumUI.Icons.MaterialSymbols"
+    xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
+    xmlns:models="clr-namespace:MAUIRecipeApp.Models"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:uranium="http://schemas.enisn-projects.io/dotnet/maui/uraniumui"
+    xmlns:viewmodel="clr-namespace:MAUIRecipeApp.ViewModel.UserView.Collection"
+    x:Name="PageRef"
+    Title=""
+    x:DataType="viewmodel:CollectionDetailInAllPageViewModel"
+    Background="{StaticResource WhiteText}"
+    Shell.FlyoutBehavior="Disabled">
+    <Shell.BackButtonBehavior>
+        <BackButtonBehavior IsEnabled="False" IsVisible="False" />
+    </Shell.BackButtonBehavior>
+    <ScrollView>
+        <VerticalStackLayout Margin="8" Spacing="16">
+            <Grid Margin="8">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+
+                <Button
+                    Grid.Column="0"
+                    Background="{StaticResource WhiteText}"
+                    BorderColor="{StaticResource PrimaryDarkText}"
+                    BorderWidth="1"
+                    Command="{Binding BackCommand}"
+                    HorizontalOptions="Start">
+                    <Button.ImageSource>
+                        <FontImageSource
+                            FontFamily="MaterialSharp"
+                            Glyph="{x:Static m:MaterialSharp.Arrow_back}"
+                            Color="{StaticResource PrimaryDarkText}" />
+                    </Button.ImageSource>
+                </Button>
+
+                <Button
+                    Grid.Column="1"
+                    Background="{StaticResource WhiteText}"
+                    Command="{Binding SaveCollectionCommand}"
+                    HorizontalOptions="End">
+                    <Button.ImageSource>
+                        <FontImageSource
+                            FontFamily="MaterialSharp"
+                            Glyph="{x:Static m:MaterialSharp.Favorite}"
+                            Color="{Binding IsSaved, Converter={StaticResource BoolToColorConverter}}" />
+                    </Button.ImageSource>
+                </Button>
+            </Grid>
+
+            <Label
+                FontSize="30"
+                HorizontalOptions="Center"
+                Text="{Binding CollectionName}"
+                TextColor="{StaticResource Primary}"
+                VerticalOptions="Center" />
+
+            <CollectionView ItemsLayout="VerticalGrid,2 " ItemsSource="{Binding FoodRecipes}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:FoodRecipe">
+                        <Border
+                            Margin="{OnPlatform Android=4,
+                                                WinUI=0}"
+                            Padding="{OnPlatform WinUI=8,
+                                                 Android=0}"
+                            StrokeShape="RoundRectangle 10"
+                            StrokeThickness="{OnPlatform Android=1,
+                                                         WinUI=0}">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="100" />
+                                    <RowDefinition Height="75" />
+                                </Grid.RowDefinitions>
+
+                                <ImageButton
+                                    Grid.Row="0"
+                                    Aspect="Fill"
+                                    Command="{Binding Path=FoodDetailCommand, Source={RelativeSource AncestorType={x:Type viewmodel:CollectionDetailInAllPageViewModel}}}"
+                                    CommandParameter="{Binding Frid}"
+                                    CornerRadius="20"
+                                    Source="{Binding ImgUrl}" />
+                                <VerticalStackLayout
+                                    Grid.Row="1"
+                                    Margin="8,8,0,8"
+                                    Spacing="8">
+                                    <Label
+                                        FontSize="18"
+                                        Text="{Binding RecipeName}"
+                                        TextColor="{StaticResource PrimaryDarkText}" />
+                                    <HorizontalStackLayout Spacing="8">
+                                        <Label Text="{Binding Calories, StringFormat='{0} cals'}" TextColor="{StaticResource Gray300}" />
+                                        <Image>
+                                            <Image.Source>
+                                                <FontImageSource
+                                                    FontFamily="MaterialSharp"
+                                                    Glyph="{x:Static m:MaterialSharp.Circle}"
+                                                    Size="15"
+                                                    Color="{StaticResource Gray300}" />
+                                            </Image.Source>
+                                        </Image>
+                                        <Label Text="{Binding CookingTime, StringFormat='{0} mins'}" TextColor="{StaticResource Gray300}" />
+                                    </HorizontalStackLayout>
+                                </VerticalStackLayout>
+                            </Grid>
+                        </Border>
+
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
