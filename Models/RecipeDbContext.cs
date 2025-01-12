@@ -62,9 +62,9 @@ public partial class RecipeDbContext : DbContext
             //    .HasForeignKey(d => d.Frid)
             //    .HasConstraintName("FK__FoodRating__FRID__7C4F7684");
 
-            entity.HasOne(d => d.UidNavigation).WithMany(p => p.FoodRatings)
-                .HasForeignKey(d => d.Uid)
-                .HasConstraintName("FK__FoodRatings__UID__7B5B524B");
+            //entity.HasOne(d => d.UidNavigation).WithMany(p => p.FoodRatings)
+            //    .HasForeignKey(d => d.Uid)
+            //    .HasConstraintName("FK__FoodRatings__UID__7B5B524B");
         });
 
         modelBuilder.Entity<FoodRecipe>(entity =>

@@ -55,10 +55,6 @@ namespace MAUIRecipeApp.ViewModel.UserView
                         userSavedCollection.UserSavedCollectionId = document.Id;
                         UserSavedCollectionDTO userSavedCollectionDTO = new UserSavedCollectionDTO
                         {
-                            UserSavedCollectionId = userSavedCollection.UserSavedCollectionId,
-                            collectionName = userSavedCollection.,
-                            uploadName = userSavedCollection.uploadName,
-                            imgUrl = userSavedCollection.imgUrl
                         };
                         UserSavedCollectionList.Add(userSavedCollectionDTO);
                     }
@@ -83,5 +79,4 @@ namespace MAUIRecipeApp.ViewModel.UserView
         }
     }
 
-    }
 }

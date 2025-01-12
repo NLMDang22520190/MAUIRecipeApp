@@ -61,7 +61,7 @@ namespace MAUIRecipeApp.Service
 					if (document.Exists)
 					{
 						var rating = document.ConvertTo<FoodRating>();
-						rating.Rid = int.Parse(document.Id); // Assign RID from document ID
+						rating.Rid =document.Id; // Assign RID from document ID
 						ratings.Add(rating);
 					}
 				}
@@ -85,7 +85,7 @@ namespace MAUIRecipeApp.Service
 				// Generate a custom ID if needed
 				string ratingId = DateTime.UtcNow.Ticks.ToString();
 
-				rating.Rid = int.Parse(ratingId); // Assign ID to the rating
+				rating.Rid = ratingId; // Assign ID to the rating
 				await ratingsCollection.Document(ratingId).SetAsync(rating);
 
 				Debug.WriteLine("Rating added successfully");
@@ -154,7 +154,7 @@ namespace MAUIRecipeApp.Service
 					if (document.Exists)
 					{
 						var rating = document.ConvertTo<FoodRating>();
-						rating.Rid = int.Parse(document.Id); // Assign RID from document ID
+						rating.Rid = document.Id; // Assign RID from document ID
 						ratings.Add(rating);
 					}
 				}

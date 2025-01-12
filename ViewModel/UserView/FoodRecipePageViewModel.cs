@@ -48,9 +48,25 @@ namespace MAUIRecipeApp.ViewModel.UserView
 			}
 		}
 
+		private ObservableCollection<UserRating> _userRatings;
+		public ObservableCollection<UserRating> UserRatings
+		{
+			get => _userRatings;
+			set
+			{
+				if (_userRatings != value)
+				{
+					_userRatings = value;
+					OnPropertyChanged(nameof(UserRatings));
+				}
+			}
+		}
+
 		private FirestoreDb _db;
 		public FoodRecipePageViewModel()
 		{
+			_db = FirestoreService.Instance.Db;
+
 			Stars = new ObservableCollection<Star>
 			{
 				new Star { Glyph = "\uF005", Color = Colors.Gray }, // Default unselected star
@@ -59,12 +75,16 @@ namespace MAUIRecipeApp.ViewModel.UserView
 				new Star { Glyph = "\uF005", Color = Colors.Gray },
 				new Star { Glyph = "\uF005", Color = Colors.Gray },
 			};
+
+			UserRatings = new ObservableCollection<UserRating>();
+
 		}
 
 		public void OnAppearing()
 		{
 			_db = FirestoreService.Instance.Db;
 			LoadFoodRecipe();
+			LoadAllRatings();
 		}
 
 		[RelayCommand]
@@ -203,27 +223,57 @@ namespace MAUIRecipeApp.ViewModel.UserView
 			{
 				if (SelectedFoodRecipe != null && UserService.Instance.CurrentUser != null)
 				{
-					// Create a FoodRating object
+					// Check if user has already rated this recipe
+					var existingRating = await CheckUserRating();
+
+					if (existingRating != null)
+					{
+						// Inform the user they have already rated the recipe
+						await DisplayAlert("Info", "You have already rated this recipe.");
+						return;
+					}
+
+					// Ensure the comment isn't empty (if required)
+					if (string.IsNullOrEmpty(Comment))
+					{
+						await DisplayAlert("Error", "Please provide a comment.");
+						return;
+					}
+
+					// Create a FoodRating object to store the rating and comment
 					var foodRating = new FoodRating
 					{
-						Frid = SelectedFoodRecipeID,
-						IsDeleted = false,
+						// Explicitly create DocumentReference for Frid and Uid
+						Frid = _db.Collection("FoodRecipes").Document(SelectedFoodRecipeID), // Reference to FoodRecipe
+						Uid = _db.Collection("User").Document(UserService.Instance.CurrentUser.Uid.ToString()), // Reference to User
 						Rating = SelectedRating,
 						Review = Comment,
-						Uid = UserService.Instance.CurrentUser.Uid.ToString(),
-						DateRated = DateTime.UtcNow
+						DateRated = DateTime.UtcNow,
+						IsDeleted = false,
 					};
 
-					// Call the service to add the rating
-					bool isRated = await FoodRatingService.Instance.AddRating(foodRating);
+					// Convert the FoodRating object to a Firestore document
+					Dictionary<string, object> ratingData = new Dictionary<string, object>
+			{
+				{ "Frid", foodRating.Frid },
+				{ "Uid", foodRating.Uid },
+				{ "Rating", foodRating.Rating },
+				{ "Review", foodRating.Review },
+				{ "DateRated", foodRating.DateRated },
+				{ "IsDeleted", foodRating.IsDeleted }
+			};
 
-					if (isRated)
+					// Add the rating to the "FoodRatings" collection
+					var addedDocRef = await _db.Collection("FoodRatings").AddAsync(ratingData);
+
+					if (addedDocRef != null)
 					{
 						await DisplayAlert("Success", "Recipe rated successfully.");
+						LoadAllRatings(); // Reload ratings after submission
 					}
 					else
 					{
-						await DisplayAlert("Error", "Failed to rate the recipe.");
+						await DisplayAlert("Error", "Failed to submit the rating.");
 					}
 				}
 			}
@@ -234,48 +284,136 @@ namespace MAUIRecipeApp.ViewModel.UserView
 			}
 		}
 
+		private async Task<FoodRating> CheckUserRating()
+		{
+			FirestoreDb db = FirestoreService.Instance.Db;
+
+			var ratingQuery = db.Collection("FoodRatings")
+								.WhereEqualTo("Frid", SelectedFoodRecipeID)
+								.WhereEqualTo("Uid", UserService.Instance.CurrentUser.Uid.ToString());
+
+			var ratingSnapshot = await ratingQuery.GetSnapshotAsync();
+
+			if (ratingSnapshot.Count > 0)
+			{
+				// Return the existing rating
+				return ratingSnapshot.Documents[0].ConvertTo<FoodRating>();
+			}
+
+			return null; // No existing rating found
+		}
+
+		private async void LoadAllRatings()
+		{
+			try
+			{
+				// Collection "FoodRatings"
+				CollectionReference foodRatingsCollection = _db.Collection("FoodRatings");
+
+				// Get all ratings for the selected recipe
+				Query foodRatingsQuery = foodRatingsCollection.WhereEqualTo("Frid", _db.Collection("FoodRecipes").Document(SelectedFoodRecipeID));
+				QuerySnapshot foodRatingsSnapshot = await foodRatingsQuery.GetSnapshotAsync();
+
+				List<UserRating> userRatingsList = new List<UserRating>();
+
+				foreach (DocumentSnapshot ratingDoc in foodRatingsSnapshot.Documents)
+				{
+					// Convert the Firestore document to FoodRating object
+					var foodRating = ratingDoc.ConvertTo<FoodRating>();
+
+					if (foodRating == null)
+					{
+						Debug.WriteLine("Error converting FoodRating object.");
+						continue;
+					}
+
+					// Retrieve the user's name using the Uid
+					string userName = await GetUserName(foodRating.Uid.Id);
+
+					// Create the UserRating DTO
+					UserRating userRating = new UserRating
+					{
+						UserName = userName,
+						Rating = foodRating.Rating,
+						Comment = foodRating.Review,
+						DateRated = foodRating.DateRated
+					};
+
+					userRatingsList.Add(userRating);
+				}
+
+				// Update the ObservableCollection
+				UserRatings = new ObservableCollection<UserRating>(userRatingsList);
+			}
+			catch (Exception ex)
+			{
+				Debug.WriteLine($"Error loading ratings: {ex.Message}");
+			}
+		}
+
+		private async Task<string> GetUserName(string userId)
+		{
+			try
+			{
+				DocumentReference userRef = _db.Collection("User").Document(userId);
+				DocumentSnapshot userSnapshot = await userRef.GetSnapshotAsync();
+
+				if (userSnapshot.Exists)
+				{
+					var user = userSnapshot.ConvertTo<User>();
+					return user.Username ?? "Unknown";
+				}
+				return "Unknown";
+			}
+			catch (Exception ex)
+			{
+				Debug.WriteLine($"Error loading user name: {ex.Message}");
+				return "Unknown";
+			}
+		}
+
 		private async Task DisplayAlert(string title, string message)
 		{
 			await Application.Current.MainPage.DisplayAlert(title, message, "OK");
 		}
-	}
-}
 
-public class Star : INotifyPropertyChanged
-{
-	private string _glyph;
-	private Color _color;
-
-	public string Glyph
-	{
-		get => _glyph;
-		set
+		public class Star : INotifyPropertyChanged
 		{
-			if (_glyph != value)
+			private string _glyph;
+			private Color _color;
+
+			public string Glyph
 			{
-				_glyph = value;
-				OnPropertyChanged(nameof(Glyph));
+				get => _glyph;
+				set
+				{
+					if (_glyph != value)
+					{
+						_glyph = value;
+						OnPropertyChanged(nameof(Glyph));
+					}
+				}
+			}
+
+			public Color Color
+			{
+				get => _color;
+				set
+				{
+					if (_color != value)
+					{
+						_color = value;
+						OnPropertyChanged(nameof(Color));
+					}
+				}
+			}
+
+			public event PropertyChangedEventHandler PropertyChanged;
+
+			protected void OnPropertyChanged(string propertyName)
+			{
+				PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 			}
 		}
-	}
-
-	public Color Color
-	{
-		get => _color;
-		set
-		{
-			if (_color != value)
-			{
-				_color = value;
-				OnPropertyChanged(nameof(Color));
-			}
-		}
-	}
-
-	public event PropertyChangedEventHandler PropertyChanged;
-
-	protected void OnPropertyChanged(string propertyName)
-	{
-		PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 	}
 }

@@ -440,74 +440,25 @@
                                 </Grid>
 
                                 <VerticalStackLayout Margin="8,0,0,0" Spacing="8">
-                                    <VerticalStackLayout Spacing="8">
+                                    <StackLayout Spacing="2">
+                                        <ListView ItemsSource="{Binding UserRatings}">
+                                            <ListView.ItemTemplate>
+                                                <DataTemplate x:DataType="dto:UserRating">
+                                                    <ViewCell>
+                                                        <StackLayout Padding="10">
+                                                            <Label Text="{Binding UserName}" FontSize="Medium" FontAttributes="Bold" TextColor="{StaticResource PrimaryDarkText}"/>
+                                                            <Label Text="{Binding Rating}" FontSize="Small" TextColor="Goldenrod"/>
+                                                            <Label Text="{Binding Comment}" FontSize="Small" TextColor="Gray"/>
+                                                            <Label Text="{Binding DateRated, StringFormat='{0:MM/dd/yyyy}'}" FontSize="Small" TextColor="{StaticResource PrimaryDarkText}"/>
+                                                        </StackLayout>
+                                                    </ViewCell>
+                                                </DataTemplate>
+                                            </ListView.ItemTemplate>
+                                        </ListView>
 
 
-                                        <HorizontalStackLayout
-                                            Grid.Row="1"
-                                            Grid.Column="0"
-                                            HorizontalOptions="Start"
-                                            VerticalOptions="Center">
-                                            <Label
-                                                Margin="0,0,8,0"
-                                                FontSize="{OnPlatform Android=22,
-                                                                      WinUI=14}"
-                                                Text="User1"
-                                                TextColor="{StaticResource PrimaryDarkText}" />
-                                            <Image HorizontalOptions="Center">
-                                                <Image.Source>
-                                                    <FontImageSource
-                                                        FontFamily="MaterialSharp"
-                                                        Glyph="{x:Static m:MaterialSharp.Star}"
-                                                        Size="20"
-                                                        Color="{StaticResource Primary}" />
-                                                </Image.Source>
-                                            </Image>
-                                            <Image HorizontalOptions="Center">
-                                                <Image.Source>
-                                                    <FontImageSource
-                                                        FontFamily="MaterialSharp"
-                                                        Glyph="{x:Static m:MaterialSharp.Star}"
-                                                        Size="20"
-                                                        Color="{StaticResource Primary}" />
-                                                </Image.Source>
-                                            </Image>
-                                            <Image HorizontalOptions="Center">
-                                                <Image.Source>
-                                                    <FontImageSource
-                                                        FontFamily="MaterialSharp"
-                                                        Glyph="{x:Static m:MaterialSharp.Star}"
-                                                        Size="20"
-                                                        Color="{StaticResource Primary}" />
-                                                </Image.Source>
-                                            </Image>
-                                            <Image HorizontalOptions="Center">
-                                                <Image.Source>
-                                                    <FontImageSource
-                                                        FontFamily="MaterialSharp"
-                                                        Glyph="{x:Static m:MaterialSharp.Star}"
-                                                        Size="20"
-                                                        Color="{StaticResource Primary}" />
-                                                </Image.Source>
-                                            </Image>
-                                            <Image HorizontalOptions="Center">
-                                                <Image.Source>
-                                                    <FontImageSource
-                                                        FontFamily="MaterialSharp"
-                                                        Glyph="{x:Static m:MaterialSharp.Star}"
-                                                        Size="20"
-                                                        Color="{StaticResource Primary}" />
-                                                </Image.Source>
-                                            </Image>
 
-                                        </HorizontalStackLayout>
-                                        <Label Text="What is Lorem Ipsum?  Lorem Ipsum is simply dummy text of the printing and  typesetting industry. Lorem Ipsum has been the industry's  standard dummy text ever since the 1500s, when an unknown  printer took a galley of type and scrambled it to make a  type specimen book. It has survived not only five centuries,  but also the leap into electronic typesetting,  remaining essentially unchanged.   It was popularised in the 1960s with the release of Letraset  sheets containing Lorem Ipsum passages, and more recently  with desktop publishing software like Aldus PageMaker  including versions of Lorem Ipsum." TextColor="{StaticResource Gray400}" />
-                                    </VerticalStackLayout>
-
-                                    <StackLayout Spacing="15">
-                                        <Label Text="Rate This Recipe"
-                                               FontSize="Large"
-                                               HorizontalOptions="Center" />
+                                        <Label Text="Rate This Recipe" FontSize="Large" HorizontalOptions="Center" />
 
                                         <!-- Rating Stars -->
                                         <HorizontalStackLayout Spacing="0">
