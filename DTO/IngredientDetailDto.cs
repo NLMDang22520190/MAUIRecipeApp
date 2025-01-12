@@ -10,6 +10,7 @@ namespace MAUIRecipeApp.DTO
     {
         public string IngredientName { get; set; }
         public double Quantity { get; set; }
+        public string Iid { get; set; }
         public string MeasurementUnit { get; set; }
     }
 }

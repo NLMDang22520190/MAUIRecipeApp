@@ -51,7 +51,8 @@
             <Slider x:Name="DifficultySlider"
                     Minimum="0" 
                     Maximum="2" 
-                    Value="{Binding Difficulty, Mode=TwoWay}" />
+                    Value="{Binding Difficulty, Mode=TwoWay}" 
+                    ValueChanged="DifficultySlider_ValueChanged"/>
             <Grid ColumnSpacing="0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
@@ -122,12 +123,6 @@
                     TextColor="White" 
                     Command="{Binding SubmitRecipeCommand}" 
                     IsEnabled="{Binding IsSubmitEnabled}" />
-
-            <!-- Back to Edit Ingredients Screen -->
-            <Button Text="Back to Ingredients" 
-                    BackgroundColor="Gray" 
-                    TextColor="White" 
-                    Command="{Binding MoveToEditIngredientCommand}" />
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>
