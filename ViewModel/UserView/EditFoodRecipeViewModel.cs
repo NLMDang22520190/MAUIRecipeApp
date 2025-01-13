@@ -1,119 +1,352 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
+using Google.Cloud.Firestore;
 using MAUIRecipeApp.Models;
 using MAUIRecipeApp.Service;
+using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using CommunityToolkit.Mvvm.Input;
 
 namespace MAUIRecipeApp.ViewModel.UserView
 {
 	public partial class EditFoodRecipeViewModel : ObservableObject
 	{
-		#region Properties
+		[ObservableProperty]
+		private ObservableCollection<FoodRecipe> foodRecipes = new();
 
-		[ObservableProperty] private string recipeId;
+		[ObservableProperty] private ObservableCollection<FoodRecipe> allFoodRecipes = new();
+		[ObservableProperty] private FoodRecipe selectedFoodRecipe;
 
 		[ObservableProperty] private ObservableCollection<FoodRecipeType> foodRecipeTypes = new();
 		[ObservableProperty] private FoodRecipeType selectedFoodType;
 
 		[ObservableProperty] private ObservableCollection<Ingredient> ingredients = new();
-		[ObservableProperty] private ObservableCollection<IngredientInfos> ingredientsWithNames = new();
+		[ObservableProperty] private ObservableCollection<IngredientInfos> ingredientInfosList = new();
 		[ObservableProperty] private Ingredient selectedIngredient;
-		[ObservableProperty] private double ingredientQuantity;
+		[ObservableProperty] private double quantity;
+		[ObservableProperty] private ObservableCollection<RecipeIngredient> recipeIngredients = new();
 
 		[ObservableProperty] private string recipeName;
 		[ObservableProperty] private string calories;
 		[ObservableProperty] private string cookingTime;
+		[ObservableProperty] private string healthBenefit;
 		[ObservableProperty] private int difficulty;
 		[ObservableProperty] private int portion;
 		[ObservableProperty] private string imageUrl;
 		[ObservableProperty] private string videoUrl;
 
-		[ObservableProperty] private bool isSubmitEnabled;
+		private FirestoreDb _db = FirestoreService.Instance.Db;
 
-		#endregion
-
-		public EditFoodRecipeViewModel(string recipeId = null)
+		public EditFoodRecipeViewModel()
 		{
-			RecipeId = "FR20250108091553";
+			LoadItem();
+		}
 
-			LoadIngredientsAsync();
-			LoadFoodRecipeTypesAsync();
-
-			if (!string.IsNullOrWhiteSpace(recipeId))
+		public void OnAppearing()
+		{
+			_db = FirestoreService.Instance.Db;
+			if (_db == null)
 			{
-				LoadRecipeDataAsync("FR20250108091553");
+				Debug.WriteLine("Firestore DB is null");
+				return;
+			}
+			LoadItem();
+		}
+
+		[RelayCommand]
+		private async void Test()
+		{
+			IngredientInfosList.Clear();
+			SelectedFoodType = null;
+
+			// Check if the recipe is found
+			if (SelectedFoodRecipe == null)
+			{
+				Debug.WriteLine("Selected food recipe is null");
+				await Application.Current.MainPage.DisplayAlert("Error", "Recipe not found.", "OK");
+				return;
+			}
+
+			// Map Firestore values to the UI properties
+			Difficulty = SelectedFoodRecipe.DifficultyLevel switch
+			{
+				"Easy" => 1,
+				"Medium" => 2,
+				"Hard" => 3,
+				_ => 0
+			};
+
+			RecipeName = SelectedFoodRecipe.RecipeName;
+			Calories = SelectedFoodRecipe.Calories.ToString();
+			CookingTime = SelectedFoodRecipe.CookingTime.ToString();
+			HealthBenefit = SelectedFoodRecipe.HealthBenefits;
+			Portion = SelectedFoodRecipe.Portion ?? 0;
+			ImageUrl = SelectedFoodRecipe.ImgUrl;
+			VideoUrl = SelectedFoodRecipe.VideoUrl;
+
+			// After setting basic properties, load the related data
+			LoadCurrentRecipeType();
+			LoadRecipeIngredients();
+		}
+
+
+		private void LoadItem()
+		{
+			LoadFoodRecipesByUserID();
+			//LoadAllRecipes();
+			LoadFoodRecipeTypes();
+			LoadIngredients();
+		}
+
+		private async void LoadAllRecipes()
+		{
+			// Clear the existing recipes to prevent duplicates or old data
+			Debug.WriteLine("Start Loading...");
+			AllFoodRecipes.Clear();
+
+			try
+			{
+				// Reference the "FoodRecipes" collection
+				CollectionReference recipesRef = _db.Collection("FoodRecipes");
+
+				// Query to get all non-deleted recipes
+				Query query = recipesRef.WhereEqualTo("IsDeleted", false);
+
+				// Fetch the snapshot asynchronously
+				QuerySnapshot snapshot = await query.GetSnapshotAsync();
+
+				// Loop through the documents returned by the query
+				foreach (DocumentSnapshot document in snapshot.Documents)
+				{
+					if (document.Exists)
+					{
+						// Convert the document to a FoodRecipe object
+						FoodRecipe recipe = document.ConvertTo<FoodRecipe>();
+						recipe.Frid = document.Id; // Store the document ID in the FoodRecipe
+
+						// Log the Recipe ID for debugging purposes
+						Debug.WriteLine($"Recipe ID: {recipe.Frid}");
+
+						// Add the recipe to the ObservableCollection to update the UI
+						AllFoodRecipes.Add(recipe);
+					}
+				}
+
+				// You can display a success message or update the UI after the data is loaded
+				await Application.Current.MainPage.DisplayAlert("Success", $"Recipes loaded successfully. Count: {AllFoodRecipes.Count}", "OK");
+			}
+			catch (Exception ex)
+			{
+				// Handle any errors that may occur during the fetch process
+				Debug.WriteLine($"Error loading all recipes: {ex.Message}");
+				await Application.Current.MainPage.DisplayAlert("Error", "Failed to load recipes.", "OK");
 			}
 		}
 
-		#region Property Change Handlers
-
-		partial void OnRecipeNameChanged(string value) => UpdateSubmitButtonState();
-		partial void OnCaloriesChanged(string value) => UpdateSubmitButtonState();
-		partial void OnCookingTimeChanged(string value) => UpdateSubmitButtonState();
-		partial void OnPortionChanged(int value) => UpdateSubmitButtonState();
-		partial void OnSelectedFoodTypeChanged(FoodRecipeType value) => UpdateSubmitButtonState();
-		partial void OnImageUrlChanged(string value) => UpdateSubmitButtonState();
-		partial void OnVideoUrlChanged(string value) => UpdateSubmitButtonState();
-
-		private void UpdateSubmitButtonState()
+		private async void LoadFoodRecipesByUserID()
 		{
-			IsSubmitEnabled = ValidateInputs(out _);
-		}
-
-		#endregion
-
-		#region Commands
-
-		[RelayCommand]
-		private async Task SubmitRecipeAsync()
-		{
-			if (!ValidateInputs(out string validationError))
+			if (_db == null)
 			{
-				await DisplayWarning("Validation Error", validationError);
+				Debug.WriteLine("Firestore DB is not initialized.");
 				return;
 			}
 
 			try
 			{
-				var updatedRecipe = new FoodRecipe
-				{
-					Frid = RecipeId,
-					RecipeName = RecipeName,
-					Calories = int.TryParse(Calories, out var caloriesValue) ? caloriesValue : (int?)null,
-					CookingTime = int.TryParse(CookingTime, out var cookingTimeValue) ? cookingTimeValue : (int?)null,
-					DifficultyLevel = Difficulty switch
-					{
-						0 => "Easy",
-						1 => "Medium",
-						2 => "Hard",
-						_ => "Unknown"
-					},
-					Portion = Portion,
-					ImgUrl = ImageUrl,
-					VideoUrl = VideoUrl,
-					IsDeleted = false
-				};
+				// Reference the "FoodRecipes" collection
+				var recipesRef = _db.Collection("FoodRecipes");
 
-				bool isSuccess = await FoodRecipeService.Instance.UpdateFoodRecipe(RecipeId, updatedRecipe);
-				if (!isSuccess)
+				// Query to filter recipes by UploaderUid and IsDeleted
+				var query = recipesRef
+					.WhereEqualTo("UploaderUid", _db.Collection("User").Document(UserService.Instance.CurrentUser.Uid))
+					.WhereEqualTo("IsDeleted", false);
+
+				// Fetch the snapshot asynchronously
+				var snapshot = await query.GetSnapshotAsync();
+
+				// Clear the current recipe collection to avoid duplicates
+				AllFoodRecipes.Clear();
+
+				// Process the documents in the snapshot
+				foreach (var document in snapshot.Documents)
 				{
-					await DisplayWarning("Update Error", "Failed to update the recipe.");
-					return;
+					if (document.Exists)
+					{
+						// Convert Firestore document to FoodRecipe model
+						var recipe = document.ConvertTo<FoodRecipe>();
+						recipe.Frid = document.Id; // Assign the document ID to the recipe object
+						AllFoodRecipes.Add(recipe);
+					}
 				}
 
-				await DisplayWarning("Success", "Recipe updated successfully.");
+				// Update the observable collection
+				FoodRecipes = new ObservableCollection<FoodRecipe>(AllFoodRecipes);
+
+				await Application.Current.MainPage.DisplayAlert("Success", $"Recipes loaded successfully.\n Count: {AllFoodRecipes.Count}", "OK");
 			}
 			catch (Exception ex)
 			{
-				await DisplayWarning("Error", $"An error occurred: {ex.Message}");
+				Debug.WriteLine($"Exception: Error loading recipes - {ex.Message}");
+			}
+		}
+
+		private async void LoadFoodRecipeTypes()
+		{
+			try
+			{
+				var recipeTypesRef = _db.Collection("FoodRecipeTypes");
+				var snapshot = await recipeTypesRef.WhereEqualTo("IsDeleted", false).GetSnapshotAsync();
+
+				foreach (var document in snapshot.Documents)
+				{
+					if (document.Exists)
+					{
+						var recipeType = document.ConvertTo<FoodRecipeType>();
+						recipeType.Tofid = document.Id;
+						FoodRecipeTypes.Add(recipeType);
+					}
+				}
+			}
+			catch (Exception ex)
+			{
+				Debug.WriteLine($"Error loading recipe types: {ex.Message}");
+			}
+		}
+
+		private async void LoadIngredients()
+		{
+			try
+			{
+				var ingredientsRef = _db.Collection("Ingredients");
+				var snapshot = await ingredientsRef.WhereEqualTo("IsDeleted", false).GetSnapshotAsync();
+
+				foreach (var document in snapshot.Documents)
+				{
+					if (document.Exists)
+					{
+						var ingredient = document.ConvertTo<Ingredient>();
+						ingredient.Iid = document.Id;
+						Ingredients.Add(ingredient);
+					}
+				}
+			}
+			catch (Exception ex)
+			{
+				Debug.WriteLine($"Error loading ingredients: {ex.Message}");
+			}
+		}
+
+		private async void LoadCurrentRecipeType()
+		{
+			try
+			{
+				// Ensure SelectedFoodRecipe is not null
+				if (SelectedFoodRecipe == null)
+				{
+					return;
+				}
+
+				await Application.Current.MainPage.DisplayAlert("Selected Recipe", $"Selected Recipe: {SelectedFoodRecipe.RecipeName}", "OK");
+
+				// Create a dictionary for fast lookup of FoodRecipeTypes
+				var foodRecipeTypesDictionary = FoodRecipeTypes.ToDictionary(rt => rt.Tofid);
+
+				var recipeTypeMappingRef = _db.Collection("FoodRecipeTypeMappings");
+				var snapshot = await recipeTypeMappingRef
+					.WhereEqualTo("Frid", SelectedFoodRecipe.Frid)
+					.WhereEqualTo("IsDeleted", false)
+					.GetSnapshotAsync();
+
+				foreach (var document in snapshot.Documents)
+				{
+					if (document.Exists)
+					{
+						// Convert the document to a FoodRecipeTypeMapping object
+						var recipeTypeMapping = document.ConvertTo<FoodRecipeTypeMapping>();
+
+						// Look up the corresponding FoodRecipeType
+						if (recipeTypeMapping.Tofid != null &&
+							foodRecipeTypesDictionary.TryGetValue(recipeTypeMapping.Tofid, out var recipeType))
+						{
+							SelectedFoodType = recipeType; // Set the selected type
+							await Application.Current.MainPage.DisplayAlert("Selected Type", $"Selected Type: {recipeType.FoodTypeName}", "OK");
+							return; // Exit after finding the match
+						}
+					}
+				}
+
+				// If no type is found, clear the selection and log a message
+				SelectedFoodType = null;
+				Debug.WriteLine("No matching recipe type found.");
+			}
+			catch (Exception ex)
+			{
+				Debug.WriteLine($"Error loading recipe type: {ex.Message}");
+			}
+		}
+
+		private async void LoadRecipeIngredients()
+		{
+			try
+			{
+				// Ensure SelectedFoodRecipe is not null before proceeding
+				if (SelectedFoodRecipe == null)
+				{
+					Debug.WriteLine("SelectedFoodRecipe is null");
+					return;
+				}
+
+				// Load ingredients into a dictionary for faster lookup
+				var ingredientsDictionary = Ingredients.ToDictionary(i => i.Iid);
+
+				var recipeIngredientsRef = _db.Collection("RecipeIngredients");
+				var snapshot = await recipeIngredientsRef
+					.WhereEqualTo("Frid", SelectedFoodRecipe?.Frid)
+					.WhereEqualTo("IsDeleted", false)
+					.GetSnapshotAsync();
+
+				foreach (var document in snapshot.Documents)
+				{
+					if (document.Exists)
+					{
+						var recipeIngredient = document.ConvertTo<RecipeIngredient>();
+						recipeIngredient.Frid = document.Id;
+
+						// Retrieve the matching ingredient using the dictionary
+						var ingredient = ingredientsDictionary.GetValueOrDefault(recipeIngredient.Iid);
+
+						if (ingredient != null)
+						{
+							// Create IngredientInfos based on the recipeIngredient and the ingredient data
+							IngredientInfos ingredientInfo = new()
+							{
+								Iid = recipeIngredient.Iid,
+								Name = ingredient.IngredientName,
+								Quantity = recipeIngredient.Quantity ?? 0,
+								Unit = ingredient.MeasurementUnit,
+								IsDeleted = false
+							};
+
+							IngredientInfosList.Add(ingredientInfo);
+						}
+						else
+						{
+							Debug.WriteLine($"Ingredient with ID {recipeIngredient.Iid} not found.");
+						}
+					}
+				}
+			}
+			catch (Exception ex)
+			{
+				Debug.WriteLine($"Error loading recipe ingredients: {ex.Message}");
 			}
 		}
 
 		[RelayCommand]
-		private void AddIngredientToSelectedList()
+		private void AddIngredient()
 		{
 			if (SelectedIngredient == null || string.IsNullOrWhiteSpace(SelectedIngredient.IngredientName))
 			{
@@ -121,140 +354,37 @@ namespace MAUIRecipeApp.ViewModel.UserView
 				return;
 			}
 
-			if (ingredientQuantity <= 0)
+			if (Quantity <= 0)
 			{
 				Application.Current.MainPage.DisplayAlert("Invalid Quantity", "Please enter a valid quantity.", "OK");
 				return;
 			}
 
-			var recipeIngredient = new IngredientInfos
+			if (string.IsNullOrEmpty(SelectedIngredient.Iid))
 			{
-				Frid = RecipeId,
+				Application.Current.MainPage.DisplayAlert("Invalid Ingredient", "The selected ingredient does not have a valid ID.", "OK");
+				return;
+			}
+
+			var ingredientInfo = new IngredientInfos
+			{
 				Iid = SelectedIngredient.Iid,
 				Name = SelectedIngredient.IngredientName,
-				Quantity = ingredientQuantity,
+				Quantity = Quantity,
+				Unit = SelectedIngredient.MeasurementUnit,
 				IsDeleted = false
 			};
 
-			IngredientsWithNames.Add(recipeIngredient);
+			IngredientInfosList.Add(ingredientInfo);
 
-			ingredientQuantity = 0;
+			Quantity = 0;
 			SelectedIngredient = null;
 		}
 
 		[RelayCommand]
-		private void RemoveIngredient(IngredientInfos recipeIngredient)
+		private void RemoveIngredient(IngredientInfos ingredient)
 		{
-			if (recipeIngredient == null)
-			{
-				Application.Current.MainPage.DisplayAlert("Invalid Ingredient", "Please select a valid ingredient.", "OK");
-				return;
-			}
-
-			IngredientsWithNames.Remove(recipeIngredient);
+			IngredientInfosList.Remove(ingredient);
 		}
-
-		#endregion
-
-		#region Data Loading
-
-		private async Task LoadRecipeDataAsync(string recipeId)
-		{
-			try
-			{
-				var recipe = await FoodRecipeService.Instance.GetFoodRecipeById(recipeId);
-				if (recipe == null)
-				{
-					await DisplayWarning("Error", "Recipe not found.");
-					return;
-				}
-
-				RecipeName = recipe.RecipeName;
-				Calories = recipe.Calories.ToString();
-				CookingTime = recipe.CookingTime.ToString();
-				Difficulty = recipe.DifficultyLevel switch
-				{
-					"Easy" => 0,
-					"Medium" => 1,
-					"Hard" => 2,
-					_ => 0
-				};
-				Portion = (int)recipe.Portion;
-				ImageUrl = recipe.ImgUrl;
-				VideoUrl = recipe.VideoUrl;
-
-				var ingredientInfos = await FoodRecipeService.Instance.GetIngredientsWithNameByRecipeId(recipeId);
-				IngredientsWithNames = new ObservableCollection<IngredientInfos>(ingredientInfos);
-			}
-			catch (Exception ex)
-			{
-				await DisplayWarning("Error", $"Failed to load recipe data: {ex.Message}");
-			}
-		}
-
-		private async Task LoadIngredientsAsync()
-		{
-			try
-			{
-				var ingredientList = await IngredientService.Instance.LoadAllIngredients();
-				Ingredients = new ObservableCollection<Ingredient>(ingredientList.Where(i => i.IsDeleted != true));
-			}
-			catch (Exception ex)
-			{
-				await DisplayWarning("Error", $"Failed to load ingredients: {ex.Message}");
-			}
-		}
-
-		private async Task LoadFoodRecipeTypesAsync()
-		{
-			try
-			{
-				var foodRecipeTypesList = await FoodRecipeTypeService.Instance.GetAllFoodRecipeTypesAsync();
-				FoodRecipeTypes = new ObservableCollection<FoodRecipeType>(foodRecipeTypesList.Where(frt => frt.IsDeleted != true));
-			}
-			catch (Exception ex)
-			{
-				await DisplayWarning("Error", $"An error occurred: {ex.Message}");
-			}
-		}
-
-		#endregion
-
-		#region Validation
-
-		private bool ValidateInputs(out string validationError)
-		{
-			validationError = string.Empty;
-
-			if (string.IsNullOrWhiteSpace(RecipeName)) return SetError(out validationError, "Recipe Name is required.");
-			if (!int.TryParse(Calories, out _)) return SetError(out validationError, "Valid Calories value is required.");
-			if (!int.TryParse(CookingTime, out _)) return SetError(out validationError, "Valid Cooking Time is required.");
-			if (Difficulty < 0 || Difficulty > 2) return SetError(out validationError, "Invalid difficulty level.");
-			if (Portion <= 0) return SetError(out validationError, "Portion must be greater than zero.");
-			if (string.IsNullOrWhiteSpace(ImageUrl)) return SetError(out validationError, "Image URL is required.");
-			if (string.IsNullOrWhiteSpace(VideoUrl)) return SetError(out validationError, "Video URL is required.");
-			if (SelectedFoodType == null) return SetError(out validationError, "Food Type must be selected.");
-
-			return true;
-		}
-
-		private static bool SetError(out string validationError, string message)
-		{
-			validationError = message;
-			return false;
-		}
-
-		private async Task DisplayWarning(string title, string message)
-		{
-			await Application.Current.MainPage.DisplayAlert(title, message, "OK");
-		}
-
-		[RelayCommand]
-		private async Task LoadRecipeInfosAsync(string recipeId)
-		{
-			LoadRecipeDataAsync(recipeId);
-		}
-
-		#endregion
 	}
 }

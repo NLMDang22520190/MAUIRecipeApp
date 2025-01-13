@@ -64,6 +64,14 @@ namespace MAUIRecipeApp.ViewModel.UserView
 					return;
 				}
 
+				string difficultyLevel = Difficulty switch
+				{
+					1 => "Easy",
+					2 => "Medium",
+					3 => "Hard",
+					_ => "Unknown"
+				};
+
 				// Log input values
 				Debug.WriteLine($"Recipe Name: {RecipeName}, Calories: {Calories}, Cooking Time: {CookingTime}, Portion: {Portion}, Food Type: {SelectedFoodType}");
 
@@ -74,7 +82,7 @@ namespace MAUIRecipeApp.ViewModel.UserView
 					Calories = int.Parse(Calories),
 					CookingTime = int.Parse(CookingTime),
 					HealthBenefits = HealthBenefit,
-					DifficultyLevel = "Easy",
+					DifficultyLevel = difficultyLevel,
 					Portion = Portion,
 					ImgUrl = ImageUrl,
 					VideoUrl = VideoUrl,
@@ -255,8 +263,42 @@ namespace MAUIRecipeApp.ViewModel.UserView
 
 		private async Task LoadFoodRecipeTypesAsync()
 		{
-			var recipeTypes = await FoodRecipeTypeService.Instance.GetAllFoodRecipeTypesAsync();
-			FoodRecipeTypes = new ObservableCollection<FoodRecipeType>(recipeTypes.Where(rt => rt.IsDeleted == false));
+			//var recipeTypes = await FoodRecipeTypeService.Instance.GetAllFoodRecipeTypesAsync();
+			//FoodRecipeTypes = new ObservableCollection<FoodRecipeType>(recipeTypes.Where(rt => rt.IsDeleted == false));
+
+			// Load food recipe types from Firestore
+			try
+			{
+				// Get a reference to the FoodRecipeTypes collection in Firestore
+				CollectionReference recipeTypesRef = _db.Collection("FoodRecipeTypes");
+
+				// Query the collection to get all food recipe types where IsDeleted is false
+				QuerySnapshot snapshot = await recipeTypesRef.WhereEqualTo("IsDeleted", false).GetSnapshotAsync();
+
+				// Clear the existing collection before adding new items
+				FoodRecipeTypes.Clear();
+
+				// Iterate through the documents in the snapshot
+				foreach (DocumentSnapshot document in snapshot.Documents)
+				{
+					if (document.Exists)
+					{
+						// Convert Firestore document to FoodRecipeType object
+						FoodRecipeType recipeType = document.ConvertTo<FoodRecipeType>();
+
+						// Set the Tofid (Type of Food ID) to the document ID
+						recipeType.Tofid = document.Id;
+
+						// Add the food recipe type to the ObservableCollection
+						FoodRecipeTypes.Add(recipeType);
+					}
+				}
+			}
+			catch (Exception ex)
+			{
+				// Log the error to the debug output
+				Debug.WriteLine($"Error loading food recipe types: {ex.Message}");
+			}
 		}
 
 		private bool ValidateInputs(out string error)

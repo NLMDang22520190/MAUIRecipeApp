@@ -34,25 +34,25 @@
             <!-- Recipe Name -->
             <Label Text="Name" FontAttributes="Bold" TextColor="{StaticResource PrimaryDarkText}"/>
             <Frame Padding="1" CornerRadius="5" BackgroundColor="White" BorderColor="Black" >
-                <Entry Text="{Binding RecipeName}" Placeholder="Enter the name of the dish" />
+                <Entry Text="{Binding RecipeName}" Placeholder="Enter the name of the dish" TextColor="{StaticResource PrimaryDarkText}"/>
             </Frame>
 
             <!-- Calories -->
             <Label Text="Calories" FontAttributes="Bold" TextColor="{StaticResource PrimaryDarkText}"/>
             <Frame Padding="1" CornerRadius="5" BackgroundColor="White" BorderColor="Black" >
-                <Entry Text="{Binding Calories}" Placeholder="Enter calorie count" Keyboard="Numeric" />
+                <Entry Text="{Binding Calories}" Placeholder="Enter calorie count" Keyboard="Numeric" TextColor="{StaticResource PrimaryDarkText}"/>
             </Frame>
 
             <!-- Health Benefit-->
             <Label Text="Health Benefit" FontAttributes="Bold" TextColor="{StaticResource PrimaryDarkText}"/>
             <Frame Padding="1" CornerRadius="5" BackgroundColor="White" BorderColor="Black" >
-                <Entry Text="{Binding HealthBenefit}" Placeholder="Enter health benefit" />
+                <Entry Text="{Binding HealthBenefit}" Placeholder="Enter health benefit" TextColor="{StaticResource PrimaryDarkText}"/>
             </Frame>
 
             <!-- Cooking Time -->
             <Label Text="Cooking Time (minutes)" FontAttributes="Bold" TextColor="{StaticResource PrimaryDarkText}"/>
             <Frame Padding="1" CornerRadius="5" BackgroundColor="White" BorderColor="Black" >
-                <Entry Text="{Binding CookingTime}" Placeholder="Enter cooking time" Keyboard="Numeric" />
+                <Entry Text="{Binding CookingTime}" Placeholder="Enter cooking time" Keyboard="Numeric" TextColor="{StaticResource PrimaryDarkText}"/>
             </Frame>
 
             <!-- Difficulty Slider -->
@@ -154,13 +154,13 @@
             <!-- Image URL -->
             <Label Text="Image URL" FontAttributes="Bold" TextColor="{StaticResource PrimaryDarkText}"/>
             <Frame Padding="1" CornerRadius="5" BackgroundColor="White" BorderColor="Black" >
-                <Entry Text="{Binding ImageUrl}" Placeholder="Enter the URL of the image" />
+                <Entry Text="{Binding ImageUrl}" Placeholder="Enter the URL of the image" TextColor="{StaticResource PrimaryDarkText}"/>
             </Frame>
 
             <!-- Video URL -->
             <Label Text="Video URL" FontAttributes="Bold" TextColor="{StaticResource PrimaryDarkText}"/>
             <Frame Padding="1" CornerRadius="5" BackgroundColor="White" BorderColor="Black" >
-                <Entry Text="{Binding VideoUrl}" Placeholder="Enter the URL of the video" />
+                <Entry Text="{Binding VideoUrl}" Placeholder="Enter the URL of the video" TextColor="{StaticResource PrimaryDarkText}"/>
             </Frame>
 
             <!-- Submit Button -->

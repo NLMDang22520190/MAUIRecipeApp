@@ -1,19 +1,27 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="MAUIRecipeApp.View.UserView.EditFoodRecipeView"
-                xmlns:models="clr-namespace:MAUIRecipeApp.Models"
-                xmlns:vm="clr-namespace:MAUIRecipeApp.ViewModel.UserView"
-             Title="EditFoodRecipeView">
+<ContentPage 
+        x:Class="MAUIRecipeApp.View.UserView.EditFoodRecipeView"
+        xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+        xmlns:fa="clr-namespace:UraniumUI.Icons.FontAwesome;assembly=UraniumUI.Icons.FontAwesome"
+        xmlns:m="clr-namespace:UraniumUI.Icons.MaterialSymbols;assembly=UraniumUI.Icons.MaterialSymbols"
+        xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
+        xmlns:models="clr-namespace:MAUIRecipeApp.Models"
+        xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+        xmlns:viewmodel="clr-namespace:MAUIRecipeApp.ViewModel.UserView"
+        Title="EditFoodRecipeView">
+
     <ScrollView>
         <VerticalStackLayout Padding="20" Spacing="15">
             
             <!-- Recipe ID-->
             <Label Text="Recipe ID" />
-            <Entry Text="{Binding RecipeId}" />
+            <Picker ItemsSource="{Binding AllFoodRecipes}"
+                    SelectedItem="{Binding SelectedFoodRecipe}"
+                    ItemDisplayBinding="{Binding RecipeName}" />
             <Button Text="Edit Recipe"
-                    Command="{Binding LoadRecipeInfosAsync}"
-                    CommandParameter="{Binding RecipeId}"/>
+                    Command="{Binding TestCommand}" />
+
 
             <!-- Recipe Name -->
             <Label Text="Recipe Name" />
@@ -57,31 +65,50 @@
             <Label Text="Video URL" />
             <Entry Text="{Binding VideoUrl}" Placeholder="Enter video URL" />
 
-            <!-- Ingredients -->
+            <!-- Ingredients --> 
             <Label Text="Ingredients" />
+            <!-- Add Ingredient -->
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="3*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Picker Grid.Column="0"
+                        ItemsSource="{Binding Ingredients}"
+                        SelectedItem="{Binding SelectedIngredient}"
+                        ItemDisplayBinding="{Binding IngredientName}" />
+                <Entry Grid.Column="1"
+                       Placeholder="Quantity"
+                       Text="{Binding Quantity}" 
+                       Keyboard="Numeric" />
+            </Grid>
+            <Button Text="Add" Command="{Binding AddIngredientCommand}" />
+            
             <CollectionView ItemsSource="{Binding IngredientInfosList}">
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="models:IngredientInfos">
-                        <HorizontalStackLayout Spacing="10">
-                            <Label Text="{Binding Name}" />
-                            <Label Text="{Binding Quantity}" />
-                            <Button Text="Remove"
-                                        Command="{Binding Source={RelativeSource AncestorType={x:Type vm:EditFoodRecipeViewModel}}, Path=RemoveIngredientCommand}"
-                                        CommandParameter="{Binding .}" />
-                        </HorizontalStackLayout>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="3*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <HorizontalStackLayout Spacing="10">
+                                <Label Text="{Binding Name}" />
+                                <Label Text="{Binding Quantity}" />
+                                <Label Text="{Binding Unit}" />
+                            </HorizontalStackLayout>
+                            <Button Grid.Column="1"
+                                Text="Remove"
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:EditFoodRecipeViewModel}}, Path=RemoveIngredientCommand}"
+                                    CommandParameter="{Binding .}" />
+                        </Grid>
+
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
 
-            <!-- Add Ingredient -->
-            <HorizontalStackLayout Spacing="10">
-                <Picker 
-                        ItemsSource="{Binding Ingredients}"
-                        SelectedItem="{Binding SelectedIngredient}"
-                        ItemDisplayBinding="{Binding IngredientName}" />
-                <Entry Placeholder="Quantity" Text="{Binding NewIngredientQuantity}" Keyboard="Numeric" />
-            </HorizontalStackLayout>
-            <Button Text="Add" Command="{Binding AddIngredientCommand}" />
+
 
             <!-- Submit Button -->
             <Button Text="Save Changes"
