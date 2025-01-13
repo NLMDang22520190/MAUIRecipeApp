@@ -105,7 +105,7 @@ namespace MAUIRecipeApp.Service
 						// Convert string document ID to an integer
 						if (int.TryParse(document.Id, out int frid))
 						{
-							savedRecipe.Frid = frid;
+							//savedRecipe.Frid = frid;
 						}
 						else
 						{
@@ -140,7 +140,7 @@ namespace MAUIRecipeApp.Service
 					// Convert string document ID to an integer
 					if (int.TryParse(snapshot.Id, out int frid))
 					{
-						savedRecipe.Frid = frid;
+						//savedRecipe.Frid = frid;
 					}
 					else
 					{

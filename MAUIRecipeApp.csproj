@@ -73,6 +73,7 @@
 	  <None Remove="Resources\Images\admin_home_image.png" />
 	  <None Remove="Resources\Images\cartoon_food4.png" />
 	  <None Remove="Resources\Images\food_background_img.png" />
+	  <None Remove="Resources\Images\google_logo.png" />
 	  <None Remove="Resources\Images\logo.png" />
 	</ItemGroup>
 
@@ -152,6 +153,9 @@
 		  <Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
 		<MauiXaml Update="View\AdminView\EditUserPageView.xaml">
+		  <Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="View\Auth\GoogleSignIn\GoogleSignUpPageView.xaml">
 		  <Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
 		<MauiXaml Update="View\Auth\LoginPageView.xaml">

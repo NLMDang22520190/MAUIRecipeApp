@@ -31,6 +31,8 @@ namespace MAUIRecipeApp.ViewModel.UserView
 		[ObservableProperty]
 		private int selectedRating;
 
+        [ObservableProperty] private bool isSaved = false;
+
 		[ObservableProperty]
 		private ObservableCollection<IngredientDetailDto> ingredientDetails;
 
@@ -98,6 +100,7 @@ namespace MAUIRecipeApp.ViewModel.UserView
 		{
 			LoadSelectedFoodRecipe();
 			LoadIngredientDetails();
+			CheckSave();
 		}
 
 		private async void LoadSelectedFoodRecipe()
@@ -154,37 +157,16 @@ namespace MAUIRecipeApp.ViewModel.UserView
 		[RelayCommand]
 		private async Task AddToSavedRecipes()
 		{
-			try
-			{
-				if (SelectedFoodRecipe != null && UserService.Instance.CurrentUser != null)
-				{
-					// Create a UserSavedRecipe object
-					var userSavedRecipe = new UserSavedRecipe
-					{
-						FRID = _db.Collection("FoodRecipes").Document(SelectedFoodRecipeID), // Reference to FoodRecipe
-						IsDeleted = false,
-						UUID = _db.Collection("User").Document(UserService.Instance.CurrentUser.Uid.ToString()), // Reference to User
-					};
-
-					// Call the service to add the saved recipe
-					bool isSaved = await UserSavedRecipesService.Instance.AddUserSavedRecipe(userSavedRecipe);
-
-					if (isSaved)
-					{
-						await DisplayAlert("Success", "Recipe saved successfully.");
-					}
-					else
-					{
-						await DisplayAlert("Error", "Failed to save the recipe.");
-					}
-				}
-			}
-			catch (Exception ex)
-			{
-				Debug.WriteLine($"Error adding saved recipe: {ex.Message}");
-				await DisplayAlert("Error", $"An error occurred while saving the recipe:\n {UserService.Instance.CurrentUser.Uid}\n {SelectedFoodRecipe.Frid}");
-			}
-		}
+            if (IsSaved)
+            {
+                await DeleteSavedRecipe();
+            }
+            else
+            {
+                await SaveRecipe();
+            }
+            
+        }
 
 		[RelayCommand]
 		private void Rate(string rating)
@@ -378,7 +360,63 @@ namespace MAUIRecipeApp.ViewModel.UserView
 			await Application.Current.MainPage.DisplayAlert(title, message, "OK");
 		}
 
-		public class Star : INotifyPropertyChanged
+        private async Task SaveRecipe()
+        {
+            try
+            {
+                var addResult = await FirestoreService.Instance.AddDocumentAsync("UserSavedRecipes", new UserSavedRecipe
+                {
+                    UUID = _db.Document($"User/{UserService.Instance.CurrentUser.Uid}"),
+                    FRID = _db.Document($"FoodRecipes/{selectedFoodRecipeID}"),
+                });
+                var result = !string.IsNullOrEmpty(addResult);
+                if (result)
+                {
+                    IsSaved = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+        }
+
+        private async Task DeleteSavedRecipe()
+        {
+            try
+            {
+                CollectionReference userSavedRecipeRef = _db.Collection("UserSavedRecipes");
+                Query query = userSavedRecipeRef.WhereEqualTo("UUID", _db.Document($"User/{UserService.Instance.CurrentUser.Uid}")).WhereEqualTo("FRID", _db.Document($"FoodRecipes/{SelectedFoodRecipeID}"));
+                QuerySnapshot snapshot = await query.GetSnapshotAsync();
+                foreach (DocumentSnapshot document in snapshot.Documents)
+                {
+                    if (document.Exists)
+                    {
+                        await document.Reference.DeleteAsync();
+                        IsSaved = false;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+
+        }
+
+        private async void CheckSave()
+        {
+            CollectionReference userSavedRecipeRef = _db.Collection("UserSavedRecipes");
+            Query query = userSavedRecipeRef.WhereEqualTo("UUID", _db.Document($"User/{UserService.Instance.CurrentUser.Uid}")).WhereEqualTo("FRID", _db.Document($"FoodRecipes/{SelectedFoodRecipeID}"));
+            QuerySnapshot snapshot = await query.GetSnapshotAsync();
+            if (snapshot.Count > 0)
+            {
+                IsSaved = true;
+            }
+        }
+
+
+        public class Star : INotifyPropertyChanged
 		{
 			private string _glyph;
 			private Color _color;

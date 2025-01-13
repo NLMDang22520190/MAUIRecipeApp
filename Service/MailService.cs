@@ -6,6 +6,7 @@ using System.Text;
 using MailKit.Net.Smtp;
 using System.Net.Mail;
 using System.Threading.Tasks;
+using Debug = System.Diagnostics.Debug;
 
 namespace MAUIRecipeApp.Service
 {
@@ -63,7 +64,7 @@ namespace MAUIRecipeApp.Service
                 }
                 catch (Exception ex)
                 {
-                    throw new InvalidOperationException("Không thể gửi email.", ex);
+                    Debug.WriteLine("Error sending mail: " +ex.Message);
                 }
             }
 

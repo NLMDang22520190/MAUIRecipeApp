@@ -11,10 +11,67 @@
     Title=""
     x:DataType="viewmodel:UserSavedRecipePageViewModel"
     Background="{StaticResource WhiteText}">
-    <VerticalStackLayout>
-        <Label
-            HorizontalOptions="Center"
-            Text="Welcome to save recipe"
-            VerticalOptions="Center" />
-    </VerticalStackLayout>
+    <ScrollView>
+        <VerticalStackLayout Margin="16">
+            <Label
+                FontSize="30"
+                HorizontalOptions="Center"
+                Text="Saved Recipes"
+                TextColor="{StaticResource Primary}"
+                VerticalOptions="Center" />
+
+            <CollectionView ItemsLayout="VerticalGrid,2 " ItemsSource="{Binding FoodRecipes}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:FoodRecipe">
+                        <Border
+                            Margin="{OnPlatform Android=4,
+                                                WinUI=0}"
+                            Padding="{OnPlatform WinUI=8,
+                                                 Android=0}"
+                            StrokeShape="RoundRectangle 10"
+                            StrokeThickness="{OnPlatform Android=1,
+                                                         WinUI=0}">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="100" />
+                                    <RowDefinition Height="75" />
+                                </Grid.RowDefinitions>
+
+                                <ImageButton
+                                    Grid.Row="0"
+                                    Aspect="Fill"
+                                    Command="{Binding Path=FoodDetailCommand, Source={RelativeSource AncestorType={x:Type viewmodel:UserSavedRecipePageViewModel}}}"
+                                    CommandParameter="{Binding Frid}"
+                                    CornerRadius="20"
+                                    Source="{Binding ImgUrl}" />
+                                <VerticalStackLayout
+                                    Grid.Row="1"
+                                    Margin="8,8,0,8"
+                                    Spacing="8">
+                                    <Label
+                                        FontSize="18"
+                                        Text="{Binding RecipeName}"
+                                        TextColor="{StaticResource PrimaryDarkText}" />
+                                    <HorizontalStackLayout Spacing="8">
+                                        <Label Text="{Binding Calories, StringFormat='{0} cals'}" TextColor="{StaticResource Gray300}" />
+                                        <Image>
+                                            <Image.Source>
+                                                <FontImageSource
+                                                    FontFamily="MaterialSharp"
+                                                    Glyph="{x:Static m:MaterialSharp.Circle}"
+                                                    Size="15"
+                                                    Color="{StaticResource Gray300}" />
+                                            </Image.Source>
+                                        </Image>
+                                        <Label Text="{Binding CookingTime, StringFormat='{0} mins'}" TextColor="{StaticResource Gray300}" />
+                                    </HorizontalStackLayout>
+                                </VerticalStackLayout>
+                            </Grid>
+                        </Border>
+
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>

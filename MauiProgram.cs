@@ -13,9 +13,11 @@ using InputKit.Handlers;
 using MAUIRecipeApp.Service;
 using MAUIRecipeApp.View.AdminView;
 using MAUIRecipeApp.View.AdminView.EditPage;
+using MAUIRecipeApp.View.Auth.GoogleSignIn;
 using MAUIRecipeApp.View.UserView.Collection;
 using MAUIRecipeApp.ViewModel.AdminViewModel;
 using MAUIRecipeApp.ViewModel.AdminViewModel.EditPage;
+using MAUIRecipeApp.ViewModel.Auth.GoogleSignIn;
 using MAUIRecipeApp.ViewModel.UserView.Collection;
 using Microsoft.Maui.LifecycleEvents;
 using Mopups.Hosting;
@@ -89,6 +91,9 @@ namespace MAUIRecipeApp
 
             builder.Services.AddTransient<SignUpPageView>();
             builder.Services.AddTransient<SignUpPageViewModel>();
+
+            builder.Services.AddTransient<GoogleSignUpPageView>();
+            builder.Services.AddTransient<GoogleSignUpPageViewModel>();
 
             builder.Services.AddTransient<PasswordRecoveryPageView>();
             builder.Services.AddTransient<PasswordRecoveryPageViewModel>();
