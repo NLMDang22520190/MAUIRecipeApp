@@ -123,7 +123,8 @@ namespace MAUIRecipeApp.Service
                     Email = user.Email,
                     Username = user.Username,
                     Password = user.Password,
-                    isAdmin = isAdmin
+                    isAdmin = isAdmin,
+                    isDeactivated = false,
                 };
 
                 // 4. Lưu người dùng với Document ID tuỳ chỉnh

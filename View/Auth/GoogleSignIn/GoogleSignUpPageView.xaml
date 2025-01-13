@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="MAUIRecipeApp.View.Auth.GoogleSignIn.GoogleSignUpPageView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:input="clr-namespace:InputKit.Shared.Controls;assembly=InputKit.Maui"
+    xmlns:m="clr-namespace:UraniumUI.Icons.MaterialSymbols;assembly=UraniumUI.Icons.MaterialSymbols"
+    xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:validations="clr-namespace:InputKit.Shared.Validations;assembly=InputKit.Maui"
+    xmlns:viewmodel="clr-namespace:MAUIRecipeApp.ViewModel.Auth.GoogleSignIn"
+    Title=""
+    x:DataType="viewmodel:GoogleSignUpPageViewModel"
+    Background="{StaticResource WhiteText}">
+    <VerticalStackLayout
+        Margin="32,0,32,0"
+        Background="Transparent"
+        HorizontalOptions="Fill"
+        Spacing="16"
+        VerticalOptions="Center">
+        <Image
+            Aspect="Fill"
+            HeightRequest="125"
+            Source="google_logo.png" />
+        <Label
+            FontAttributes="Bold"
+            FontSize="25"
+            HorizontalOptions="Start"
+            Text="Google Sign Up"
+            TextColor="#ff5842"
+            VerticalOptions="Center" />
+        <HorizontalStackLayout Spacing="6">
+            <Label
+                FontSize="20"
+                HorizontalOptions="Start"
+                Text="Continue to "
+                TextColor="{StaticResource PrimaryDarkText}"
+                VerticalOptions="Center" />
+            <Label
+                FontAttributes="Bold"
+                FontSize="20"
+                HorizontalOptions="Start"
+                Text="Recipe App"
+                TextColor="{StaticResource Primary}"
+                VerticalOptions="Center" />
+        </HorizontalStackLayout>
+
+        <material:TextField
+            Title="Email"
+            AllowClear="True"
+            BorderColor="{StaticResource PrimaryDarkText}"
+            CornerRadius="6"
+            FontSize="16"
+            Text="{Binding Email}"
+            TextColor="{StaticResource PrimaryDarkText}">
+            <validations:RequiredValidation />
+            <validations:RegexValidation Message="Please type a valid e-mail address." Pattern="{x:Static input:AdvancedEntry.REGEX_EMAIL}" />
+            <material:TextField.Icon>
+                <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Mail}" />
+            </material:TextField.Icon>
+        </material:TextField>
+
+        <Grid Margin="0,16,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Button
+                BackgroundColor="Transparent"
+                BorderColor="{StaticResource Primary}"
+                Command="{Binding LoginCommand}"
+                FontSize="20"
+                HorizontalOptions="Start"
+                Text="Login"
+                TextColor="{StaticResource Primary}">
+                <Button.ImageSource>
+                    <FontImageSource
+                        FontFamily="MaterialSharp"
+                        Glyph="{x:Static m:MaterialSharp.Arrow_back_ios}"
+                        Color="{StaticResource Primary}" />
+                </Button.ImageSource>
+            </Button>
+            <Button
+                Grid.Column="1"
+                BackgroundColor="{StaticResource Primary}"
+                Command="{Binding SignUpCommand}"
+                FontSize="20"
+                HorizontalOptions="End"
+                Text="Sign Up"
+                TextColor="{StaticResource WhiteText}" />
+        </Grid>
+    </VerticalStackLayout>
+</ContentPage>

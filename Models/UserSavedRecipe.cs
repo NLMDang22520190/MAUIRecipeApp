@@ -8,28 +8,28 @@ namespace MAUIRecipeApp.Models;
 
 public partial class UserSavedRecipe
 {
+    //[FirestoreProperty] // Ánh xạ thuộc tính với trường 'Frid' trong Firestore
+    public string UserSavedRecipeId { get; set; } // ID của UserSavedRecipe
+    //public int Uid { get; set; }
     [FirestoreProperty] // Ánh xạ thuộc tính với trường 'Frid' trong Firestore
 
-    public int Uid { get; set; }
+    public DocumentReference FRID { get; set; }
     [FirestoreProperty] // Ánh xạ thuộc tính với trường 'Frid' trong Firestore
 
-    public DocumentReference? FRID { get; set; }
-    [FirestoreProperty] // Ánh xạ thuộc tính với trường 'Frid' trong Firestore
-
-    public DocumentReference? UUID { get; set; }
-    [FirestoreProperty] // Ánh xạ thuộc tính với trường 'Frid' trong Firestore
+    public DocumentReference UUID { get; set; }
+    //[FirestoreProperty] // Ánh xạ thuộc tính với trường 'Frid' trong Firestore
 
 
-    public int Frid { get; set; }
-    [FirestoreProperty] // Ánh xạ thuộc tính với trường 'Frid' trong Firestore
+    //public int Frid { get; set; }
+    //[FirestoreProperty] // Ánh xạ thuộc tính với trường 'Frid' trong Firestore
 
-    public bool? IsDeleted { get; set; }
-    [FirestoreProperty] // Ánh xạ thuộc tính với trường 'Frid' trong Firestore
+    //public bool? IsDeleted { get; set; }
+    //[FirestoreProperty] // Ánh xạ thuộc tính với trường 'Frid' trong Firestore
 
-    public virtual FoodRecipe Fr { get; set; } = null!;
-    [FirestoreProperty] // Ánh xạ thuộc tính với trường 'Frid' trong Firestore
+    //public virtual FoodRecipe Fr { get; set; } = null!;
+    //[FirestoreProperty] // Ánh xạ thuộc tính với trường 'Frid' trong Firestore
 
-    public virtual User UidNavigation { get; set; } = null!;
+    //public virtual User UidNavigation { get; set; } = null!;
 
     public string? UUIDString // UUID dưới dạng string để xử lý trong code
     {

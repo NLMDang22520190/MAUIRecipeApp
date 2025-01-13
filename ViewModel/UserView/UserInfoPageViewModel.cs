@@ -33,7 +33,7 @@ namespace MAUIRecipeApp.ViewModel.UserView
 
         [ObservableProperty] private string updateMsg = string.Empty;
 
-        [ObservableProperty] private string currentPassword;
+        [ObservableProperty] private string currentPassword = string.Empty;
 
         [ObservableProperty] private string newPassword;
 

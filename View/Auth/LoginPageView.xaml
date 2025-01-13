@@ -98,29 +98,21 @@
                 Or continue with
             </Label>
             <Button
-                BackgroundColor="#ff5842"
+                BackgroundColor="Transparent"
+                BorderColor="#ff5842"
+                Command="{Binding GoogleSignUpCommand}"
+                FontAttributes="Bold"
                 FontSize="18"
                 Text="Google"
-                TextColor="#FDFEFB">
+                TextColor="#ff5842">
                 <Button.ImageSource>
                     <FontImageSource
                         FontFamily="FABrand"
-                        Glyph="{x:Static fa:Regular.g}"
-                        Color="{StaticResource WhiteText}" />
+                        Glyph="{x:Static fa:Solid.g}"
+                        Color="#ff5842" />
                 </Button.ImageSource>
             </Button>
-            <Button
-                BackgroundColor="#0866ff"
-                FontSize="18"
-                Text="Facebook"
-                TextColor="#FDFEFB">
-                <Button.ImageSource>
-                    <FontImageSource
-                        FontFamily="FABrand"
-                        Glyph="{x:Static fa:Regular.f}"
-                        Color="{StaticResource WhiteText}" />
-                </Button.ImageSource>
-            </Button>
+
             <HorizontalStackLayout HorizontalOptions="Center">
                 <Label TextColor="{StaticResource PrimaryDarkText}">Don't have an account?</Label>
                 <Label

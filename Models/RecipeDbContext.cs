@@ -203,26 +203,26 @@ public partial class RecipeDbContext : DbContext
                 .HasConstraintName("FK__UserDetails__UID__68487DD7");
         });
 
-        modelBuilder.Entity<UserSavedRecipe>(entity =>
-        {
-            entity.HasKey(e => new { e.Uid, e.Frid }).HasName("PK__UserSave__2C608715414E2E08");
+        //modelBuilder.Entity<UserSavedRecipe>(entity =>
+        //{
+        //    entity.HasKey(e => new { e.Uid, e.Frid }).HasName("PK__UserSave__2C608715414E2E08");
 
-            entity.Property(e => e.Uid).HasColumnName("UID");
-            entity.Property(e => e.Frid).HasColumnName("FRID");
-            entity.Property(e => e.IsDeleted)
-                .HasDefaultValue(false)
-                .HasColumnName("isDeleted");
+        //    entity.Property(e => e.Uid).HasColumnName("UID");
+        //    entity.Property(e => e.Frid).HasColumnName("FRID");
+        //    entity.Property(e => e.IsDeleted)
+        //        .HasDefaultValue(false)
+        //        .HasColumnName("isDeleted");
 
-            //entity.HasOne(d => d.Fr).WithMany(p => p.UserSavedRecipes)
-            //    .HasForeignKey(d => d.Frid)
-            //    .OnDelete(DeleteBehavior.ClientSetNull)
-            //    .HasConstraintName("FK__UserSavedR__FRID__6477ECF3");
+        //    //entity.HasOne(d => d.Fr).WithMany(p => p.UserSavedRecipes)
+        //    //    .HasForeignKey(d => d.Frid)
+        //    //    .OnDelete(DeleteBehavior.ClientSetNull)
+        //    //    .HasConstraintName("FK__UserSavedR__FRID__6477ECF3");
 
-            entity.HasOne(d => d.UidNavigation).WithMany(p => p.UserSavedRecipes)
-                .HasForeignKey(d => d.Uid)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__UserSavedRe__UID__6383C8BA");
-        });
+        //    entity.HasOne(d => d.UidNavigation).WithMany(p => p.UserSavedRecipes)
+        //        .HasForeignKey(d => d.Uid)
+        //        .OnDelete(DeleteBehavior.ClientSetNull)
+        //        .HasConstraintName("FK__UserSavedRe__UID__6383C8BA");
+        //});
 
         OnModelCreatingPartial(modelBuilder);
     }

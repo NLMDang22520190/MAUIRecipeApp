@@ -5,6 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:AdminView="clr-namespace:MAUIRecipeApp.View.AdminView"
     xmlns:Auth="clr-namespace:MAUIRecipeApp.View.Auth"
+    xmlns:AuthGoogle="clr-namespace:MAUIRecipeApp.View.Auth.GoogleSignIn"
     xmlns:UserView="clr-namespace:MAUIRecipeApp.View.UserView"
     xmlns:UserViewCollection="clr-namespace:MAUIRecipeApp.View.UserView.Collection"
     xmlns:View="clr-namespace:MAUIRecipeApp.View"
@@ -30,6 +31,11 @@
     <ShellContent
         ContentTemplate="{DataTemplate Auth:SignUpPageView}"
         Route="signup"
+        Shell.FlyoutBehavior="Disabled"
+        Shell.FlyoutItemIsVisible="False" />
+    <ShellContent
+        ContentTemplate="{DataTemplate AuthGoogle:GoogleSignUpPageView}"
+        Route="googlesignup"
         Shell.FlyoutBehavior="Disabled"
         Shell.FlyoutItemIsVisible="False" />
     <ShellContent
@@ -136,14 +142,6 @@
                     Glyph="{x:Static m:MaterialSharp.Bookmark}"
                     Color="{StaticResource WhiteText}" />
             </Tab.Icon>
-            <ShellContent Title="Saved Recipe" ContentTemplate="{DataTemplate UserView:UserSavedRecipePageView}">
-                <ShellContent.Icon>
-                    <FontImageSource
-                        FontFamily="MaterialSharp"
-                        Glyph="{x:Static m:MaterialSharp.Lunch_dining}"
-                        Color="{StaticResource WhiteText}" />
-                </ShellContent.Icon>
-            </ShellContent>
             <ShellContent Title="Saved Collection" ContentTemplate="{DataTemplate UserView:UserSavedCollectionPageView}">
                 <ShellContent.Icon>
                     <FontImageSource
@@ -152,6 +150,18 @@
                         Color="{StaticResource WhiteText}" />
                 </ShellContent.Icon>
             </ShellContent>
+            <ShellContent
+                Title="Saved Recipe"
+                ContentTemplate="{DataTemplate UserView:UserSavedRecipePageView}"
+                Route="savedrecipe">
+                <ShellContent.Icon>
+                    <FontImageSource
+                        FontFamily="MaterialSharp"
+                        Glyph="{x:Static m:MaterialSharp.Lunch_dining}"
+                        Color="{StaticResource WhiteText}" />
+                </ShellContent.Icon>
+            </ShellContent>
+
         </Tab>
         <Tab Title="Edit Ingre">
             <ShellContent
@@ -176,12 +186,6 @@
                 Shell.FlyoutItemIsVisible="False" />
         </Tab>
 
-        <Tab Title="Saverecipe">
-            <ShellContent
-                ContentTemplate="{DataTemplate UserView:UserSavedRecipesView}"
-                Route="usersavedrecipes"
-                Shell.FlyoutItemIsVisible="False" />
-        </Tab>
 
         <Tab Title="editfood">
             <ShellContent

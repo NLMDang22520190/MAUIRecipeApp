@@ -9,4 +9,10 @@ public partial class UserSavedRecipePageView : ContentPage
 		InitializeComponent();
 		BindingContext = vm;
     }
+
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+        (BindingContext as UserSavedRecipePageViewModel)?.OnAppearing();
+    }
 }

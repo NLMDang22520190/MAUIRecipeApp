@@ -41,6 +41,12 @@ namespace MAUIRecipeApp.ViewModel.Auth
         }
 
         [RelayCommand]
+        private async Task GoogleSignUp()
+        {
+            await Shell.Current.GoToAsync("//googlesignup");
+        }
+
+        [RelayCommand]
         private async Task ForgotPassword()
         {
             await Shell.Current.GoToAsync("//forgotpass");
@@ -80,12 +86,5 @@ namespace MAUIRecipeApp.ViewModel.Auth
         }
 
 
-
-
-        #region GoogleSignIn
-
-
-     
-        #endregion
     }
 }
