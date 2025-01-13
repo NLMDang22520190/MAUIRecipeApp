@@ -1,105 +1,84 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Google.Cloud.Firestore;
 using MAUIRecipeApp.Models;
 using MAUIRecipeApp.Service;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Threading.Tasks;
-using System.Windows.Input;
 
 namespace MAUIRecipeApp.ViewModel.UserView
 {
-    public partial class UserRecipesViewModel : ObservableObject
-    {
-        [ObservableProperty]
-        private ObservableCollection<FoodRecipe> foodRecipes = new ObservableCollection<FoodRecipe>();
+	public partial class UserRecipesViewModel : ObservableObject
+	{
+		private readonly FirestoreDb _db = FirestoreService.Instance.Db;
 
-        [ObservableProperty]
-        private bool showAllRecipes = true;
+		[ObservableProperty] private ObservableCollection<FoodRecipe> foodRecipes = new();
 
-        // Add this property to control the button text
-        public string ShowAllRecipesButtonText => ShowAllRecipes ? "Show User Recipes" : "Show All Recipes";
-
-        public ICommand NavigateToTesting { get; }
-
-        public IAsyncRelayCommand ToggleRecipesView { get; }
-
-        public UserRecipesViewModel()
-        {
-            // Initialize commands
-            ToggleRecipesView = new AsyncRelayCommand(ToggleRecipeSource);
-
-            NavigateToTesting = new Command(async () => await MoveToTesting());
-
-            // Load initial data
-            _ = LoadAllRecipesAsync();
-        }
-
-        // Load all recipes
-        private async Task LoadAllRecipesAsync()
-        {
-            try
-            {
-                var allRecipes = await FoodRecipeService.Instance.GetAllFoodRecipes();
-
-                FoodRecipes.Clear();
-                foreach (var recipe in allRecipes)
-                {
-                    FoodRecipes.Add(recipe);
-                }
-            }
-            catch (Exception ex)
-            {
-                await Application.Current.MainPage.DisplayAlert("Error", "Error loading recipes", "OK");
-            }
-        }
-
-        // Load recipes for the current user
-        private async Task LoadUserRecipesAsync()
-        {
-            try
-            {
-                var currentUser = UserService.Instance.CurrentUser;
-                if (currentUser == null)
-                {
-                    await Application.Current.MainPage.DisplayAlert("Error", "User not found", "OK");
-                    return;
-                }
-
-                var userRecipes = await FoodRecipeService.Instance.GetFoodRecipesByUserId(0);
-
-                FoodRecipes.Clear();
-                foreach (var recipe in userRecipes)
-                {
-                    FoodRecipes.Add(recipe);
-                }
-            }
-            catch (Exception ex)
-            {
-                await Application.Current.MainPage.DisplayAlert("Error", "Error loading user recipes", "OK");
-            }
-        }
-
-        // Toggle between all recipes and user-specific recipes
-        private async Task ToggleRecipeSource()
-        {
-            ShowAllRecipes = !ShowAllRecipes; // Toggle the boolean value
-
-            if (ShowAllRecipes)
-            {
-                await LoadAllRecipesAsync();
-            }
-            else
-            {
-                await LoadUserRecipesAsync();
-            }
-
-            // Notify that the button text has changed (because ShowAllRecipes value changed)
-            OnPropertyChanged(nameof(ShowAllRecipesButtonText));
-        }
-
-        private async Task MoveToTesting()
+		public UserRecipesViewModel()
 		{
-			await Shell.Current.GoToAsync("///testing");
+			LoadFoodRecipesByUserID();
 		}
-    }
+
+		// Load recipes created by the current user
+		private async void LoadFoodRecipesByUserID()
+		{
+			if (_db == null)
+			{
+				Debug.WriteLine("Firestore DB is not initialized.");
+				return;
+			}
+
+			try
+			{
+				// Reference the "FoodRecipes" collection
+				var recipesRef = _db.Collection("FoodRecipes");
+
+				// Query to filter recipes by UploaderUid and IsDeleted
+				var query = recipesRef
+					.WhereEqualTo("UploaderUid", _db.Collection("User").Document(UserService.Instance.CurrentUser.Uid))
+					.WhereEqualTo("IsDeleted", false);
+
+				// Fetch the snapshot asynchronously
+				var snapshot = await query.GetSnapshotAsync();
+
+				// Clear the current recipe collection to avoid duplicates
+				FoodRecipes.Clear();
+
+				// Process the documents in the snapshot
+				foreach (var document in snapshot.Documents)
+				{
+					if (document.Exists)
+					{
+						// Convert Firestore document to FoodRecipe model
+						var recipe = document.ConvertTo<FoodRecipe>();
+						recipe.Frid = document.Id; // Assign the document ID to the recipe object
+						FoodRecipes.Add(recipe);
+					}
+				}
+
+				// Update the observable collection
+				FoodRecipes = new ObservableCollection<FoodRecipe>(FoodRecipes);
+			}
+			catch (Exception ex)
+			{
+				Debug.WriteLine($"Exception: Error loading recipes - {ex.Message}");
+			}
+		}
+
+		// Command to handle the navigation to recipe details page
+		[RelayCommand]
+		public async Task FoodDetail(string Frid)
+		{
+			await Shell.Current.GoToAsync("///home");
+			await Shell.Current.GoToAsync($"fooddetail?FRID={Frid}");
+		}
+
+		// Cancel the action and navigate back
+		[RelayCommand]
+		public async Task Cancel()
+		{
+			await Shell.Current.GoToAsync("///home");
+		}
+	}
 }

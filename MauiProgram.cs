@@ -159,6 +159,9 @@ namespace MAUIRecipeApp
 
             builder.Services.AddTransient<EditCollectionView>();
             builder.Services.AddTransient<EditCollectionViewModel>();
+
+            builder.Services.AddTransient<UserCollectionsView>();
+            builder.Services.AddTransient<UserCollectionsViewModel>();
             #endregion
 
             #region AdminView

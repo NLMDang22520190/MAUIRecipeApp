@@ -221,6 +221,9 @@
 		<MauiXaml Update="View\UserView\TestScreensView.xaml">
 		  <Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
+		<MauiXaml Update="View\UserView\UserCollectionsView.xaml">
+		  <Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
 		<MauiXaml Update="View\UserView\UserRecipesView.xaml">
 		  <Generator>MSBuild:Compile</Generator>
 		</MauiXaml>

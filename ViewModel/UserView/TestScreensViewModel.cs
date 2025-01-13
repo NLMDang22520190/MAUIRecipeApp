@@ -21,8 +21,8 @@ namespace MAUIRecipeApp.ViewModel.UserView
 		public ICommand NavigateToEditIngredients { get; }
 		public ICommand NavigateToUserRecipes { get; }
 		public ICommand NavigateToUserSavedRecipes { get; }
-
 		public ICommand NavigateToEditCollection { get; }
+		public ICommand NavigateToUserCollections { get; }
 
 		public TestScreensViewModel()
 		{
@@ -31,6 +31,7 @@ namespace MAUIRecipeApp.ViewModel.UserView
 			NavigateToUserRecipes = new Command(async () => await MoveToUserRecipes());
 			NavigateToUserSavedRecipes = new Command(async () => await MoveToUserSavedRecipe());
 			NavigateToEditCollection = new Command(async () => await MoveToEditCollection());
+			NavigateToUserCollections = new Command(async () => await MoveToUserCollections());
 		}
 
 		private async Task MoveToSubmitNewRecipe()
@@ -56,6 +57,11 @@ namespace MAUIRecipeApp.ViewModel.UserView
 		private async Task MoveToEditCollection()
 		{
 			await Shell.Current.GoToAsync("///editcollection");
+		}
+
+		private async Task MoveToUserCollections()
+		{
+			await Shell.Current.GoToAsync("///usercollections");
 		}
 	}
 }

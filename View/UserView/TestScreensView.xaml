@@ -38,5 +38,9 @@
             Text="To Edit Collection"
             Command="{Binding NavigateToEditCollection}" />
 
+        <Button 
+            Text="To User Collections" 
+            Command="{Binding NavigateToUserCollections}" />
+
     </VerticalStackLayout>
 </ContentPage>

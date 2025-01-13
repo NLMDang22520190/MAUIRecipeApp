@@ -1,48 +1,76 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MAUIRecipeApp.View.UserView.UserRecipesView"
+             xmlns:models="clr-namespace:MAUIRecipeApp.Models"
+             xmlns:viewmodel="clr-namespace:MAUIRecipeApp.ViewModel.UserView"
              Title="User Recipes"
-             xmlns:local="clr-namespace:MAUIRecipeApp.ViewModel.UserView">
+             BackgroundColor="{StaticResource WhiteBackground}">
 
     <ContentPage.BindingContext>
-        <local:UserRecipesViewModel />
+        <viewmodel:UserRecipesViewModel />
     </ContentPage.BindingContext>
 
     <ScrollView>
-        <VerticalStackLayout Padding="20">
+        <VerticalStackLayout Padding="20" Spacing="20">
             <!-- Header -->
-            <Label Text="User Recipes" FontSize="24" FontAttributes="Bold" HorizontalOptions="Center" />
-
-            <!-- Toggle Button to Show All or User Recipes -->
-            <Button Text="{Binding ShowAllRecipesButtonText}" 
-                    Command="{Binding ToggleRecipesView}" 
-                    BackgroundColor="Orange" TextColor="White" />
-
-            <!-- Empty State Message -->
-            <Label Text="No recipes available."
-                   IsVisible="{Binding FoodRecipes.Count, ConverterParameter=0}"
-                   FontSize="18" TextColor="Gray" 
-                   HorizontalOptions="Center" 
-                   VerticalOptions="CenterAndExpand" /> 
+            <Label Text="Your Recipes"
+                   FontSize="26"
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center"
+                   TextColor="{StaticResource PrimaryTextColor}" />
 
             <!-- Recipe List -->
-            <CollectionView ItemsSource="{Binding FoodRecipes}">
+            <CollectionView ItemsSource="{Binding FoodRecipes}" Margin="0,10">
+                <CollectionView.ItemsLayout>
+                    <GridItemsLayout Span="2" Orientation="Vertical" />
+                </CollectionView.ItemsLayout>
                 <CollectionView.ItemTemplate>
-                    <DataTemplate>
-                        <StackLayout Padding="10">
-                            <Label Text="{Binding RecipeName}" FontSize="18" FontAttributes="Bold" />
-                            <Button Text="Edit Recipe" 
-                                    Command="{Binding Source={RelativeSource AncestorType={x:Type local:UserRecipesViewModel}}, Path=FoodDetail}" 
-                                    CommandParameter="{Binding Frid}" />
-                        </StackLayout>
+                    <DataTemplate x:DataType="models:FoodRecipe">
+                        <Border StrokeShape="RoundRectangle 10" 
+                                StrokeThickness="1" 
+                                Padding="10" 
+                                Margin="5" >
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="100" />
+                                    <RowDefinition Height="75" />
+                                </Grid.RowDefinitions>
+
+                                <!-- Recipe Image as ImageButton -->
+                                <ImageButton Command="{Binding Path=FoodDetailCommand, Source={RelativeSource AncestorType={x:Type viewmodel:UserRecipesViewModel}}}"
+                                             CommandParameter="{Binding Frid}"
+                                             Grid.Row="0"
+                                             Aspect="Fill"
+                                             Source="{Binding ImgUrl}"
+                                             CornerRadius="10" />
+
+                                <!-- Recipe Info -->
+                                <VerticalStackLayout Grid.Row="1" Spacing="5" Padding="8">
+                                    <Label Text="{Binding RecipeName}"
+                                           FontSize="18"
+                                           TextColor="{StaticResource PrimaryTextColor}"
+                                           FontAttributes="Bold" />
+                                    <HorizontalStackLayout Spacing="8">
+                                        <Label Text="{Binding Calories, StringFormat='{0} cals'}"
+                                               TextColor="{StaticResource Gray300}" />
+                                        <Label Text="{Binding CookingTime, StringFormat='{0} mins'}"
+                                               TextColor="{StaticResource Gray300}" />
+                                    </HorizontalStackLayout>
+                                </VerticalStackLayout>
+                            </Grid>
+                        </Border>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
 
-            <!-- Back to Test Screen -->
-            <Button Text="Back to Testing"
-                    Command="{Binding NavigateToTesting}" 
-                    BackgroundColor="Gray" TextColor="White" />
+            <!-- Back to Home Button -->
+            <Button Text="Back to Home"
+                    Command="{Binding CancelCommand}"
+                    BackgroundColor="{StaticResource ButtonBackgroundColor}"
+                    TextColor="White"
+                    Padding="15"
+                    CornerRadius="10"
+                    HorizontalOptions="Center" />
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

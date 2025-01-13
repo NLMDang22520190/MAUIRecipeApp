@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MAUIRecipeApp.View.UserView.UserCollectionsView"
+             xmlns:models="clr-namespace:MAUIRecipeApp.Models"
+             xmlns:viewmodel="clr-namespace:MAUIRecipeApp.ViewModel.UserView"
+             Title="User Collections"
+             Background="{StaticResource WhiteText}">
+
+    <ContentPage.BindingContext>
+        <viewmodel:UserCollectionsViewModel />
+    </ContentPage.BindingContext>
+
+    <ScrollView>
+        <VerticalStackLayout Margin="16,16,16,0" Spacing="16">
+
+            <!-- Header Section -->
+            <VerticalStackLayout HorizontalOptions="Start" Spacing="4">
+                <Label FontSize="18"
+                       Text="Your Collections"
+                       FontAttributes="Bold"
+                       TextColor="{StaticResource PrimaryDarkText}" />
+            </VerticalStackLayout>
+
+            <!-- Collection List -->
+            <CollectionView ItemsSource="{Binding AllCollections}" Margin="0,10">
+                <CollectionView.ItemsLayout>
+                    <GridItemsLayout Span="2" Orientation="Vertical" />
+                </CollectionView.ItemsLayout>
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:FoodCollection">
+                        <Border StrokeShape="RoundRectangle 10"
+                                StrokeThickness="1"
+                                Padding="10"
+                                Margin="5">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="25" />
+                                    <RowDefinition Height="75" />
+                                </Grid.RowDefinitions>
+
+                                <!-- Collection Info -->
+                                <VerticalStackLayout Grid.Row="1" Spacing="5" Padding="8">
+                                    <!-- Button to navigate to the collection details -->
+                                    <Button Command="{Binding Path=CollectionDetailCommand, Source={RelativeSource AncestorType={x:Type viewmodel:UserCollectionsViewModel}}}"
+                                            CommandParameter="{Binding FoodCollectionId}"
+                                            Text="{Binding CollectionName}"
+                                            FontSize="18"
+                                            TextColor="{StaticResource PrimaryDarkText}"
+                                            FontAttributes="Bold" />
+
+                                        <!-- Collection Description -->
+                                        <Label Text="{Binding Description}"
+                                           FontSize="14"
+                                           TextColor="{StaticResource Gray300}" />
+                                </VerticalStackLayout>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <!-- Back to Home Button -->
+            <Button Text="Back to Home"
+                    Command="{Binding CancelCommand}"
+                    BackgroundColor="{StaticResource Gray200}"
+                    TextColor="{StaticResource PrimaryDarkText}"
+                    CornerRadius="10"
+                    HorizontalOptions="Center" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
