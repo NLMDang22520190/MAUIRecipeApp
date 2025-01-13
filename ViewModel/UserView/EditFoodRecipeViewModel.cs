@@ -9,6 +9,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.Input;
+using Google.Protobuf.WellKnownTypes;
 
 namespace MAUIRecipeApp.ViewModel.UserView
 {
@@ -32,7 +33,7 @@ namespace MAUIRecipeApp.ViewModel.UserView
 		[ObservableProperty] private string recipeName;
 		[ObservableProperty] private string calories;
 		[ObservableProperty] private string cookingTime;
-		[ObservableProperty] private string healthBenefit;
+		[ObservableProperty] private string healthBenefits;
 		[ObservableProperty] private int difficulty;
 		[ObservableProperty] private int portion;
 		[ObservableProperty] private string imageUrl;
@@ -82,7 +83,7 @@ namespace MAUIRecipeApp.ViewModel.UserView
 			RecipeName = SelectedFoodRecipe.RecipeName;
 			Calories = SelectedFoodRecipe.Calories.ToString();
 			CookingTime = SelectedFoodRecipe.CookingTime.ToString();
-			HealthBenefit = SelectedFoodRecipe.HealthBenefits;
+			HealthBenefits = SelectedFoodRecipe.HealthBenefits;
 			Portion = SelectedFoodRecipe.Portion ?? 0;
 			ImageUrl = SelectedFoodRecipe.ImgUrl;
 			VideoUrl = SelectedFoodRecipe.VideoUrl;
@@ -92,7 +93,7 @@ namespace MAUIRecipeApp.ViewModel.UserView
 			LoadRecipeIngredients();
 		}
 
-
+		#region Base Loading
 		private void LoadItem()
 		{
 			LoadFoodRecipesByUserID();
@@ -184,8 +185,6 @@ namespace MAUIRecipeApp.ViewModel.UserView
 
 				// Update the observable collection
 				FoodRecipes = new ObservableCollection<FoodRecipe>(AllFoodRecipes);
-
-				await Application.Current.MainPage.DisplayAlert("Success", $"Recipes loaded successfully.\n Count: {AllFoodRecipes.Count}", "OK");
 			}
 			catch (Exception ex)
 			{
@@ -239,6 +238,9 @@ namespace MAUIRecipeApp.ViewModel.UserView
 			}
 		}
 
+		#endregion
+
+		#region Recipe Info Loading
 		private async void LoadCurrentRecipeType()
 		{
 			try
@@ -248,8 +250,6 @@ namespace MAUIRecipeApp.ViewModel.UserView
 				{
 					return;
 				}
-
-				await Application.Current.MainPage.DisplayAlert("Selected Recipe", $"Selected Recipe: {SelectedFoodRecipe.RecipeName}", "OK");
 
 				// Create a dictionary for fast lookup of FoodRecipeTypes
 				var foodRecipeTypesDictionary = FoodRecipeTypes.ToDictionary(rt => rt.Tofid);
@@ -272,7 +272,6 @@ namespace MAUIRecipeApp.ViewModel.UserView
 							foodRecipeTypesDictionary.TryGetValue(recipeTypeMapping.Tofid, out var recipeType))
 						{
 							SelectedFoodType = recipeType; // Set the selected type
-							await Application.Current.MainPage.DisplayAlert("Selected Type", $"Selected Type: {recipeType.FoodTypeName}", "OK");
 							return; // Exit after finding the match
 						}
 					}
@@ -386,5 +385,230 @@ namespace MAUIRecipeApp.ViewModel.UserView
 		{
 			IngredientInfosList.Remove(ingredient);
 		}
+		#endregion
+
+		#region Recipe Editing
+
+		[RelayCommand]
+		private void UpdateRecipe()
+		{
+			UpdateRecipeInfo();
+			UpdateRecipeType();
+			UpdateRecipeIngredients();
+		}
+
+		private async void UpdateRecipeInfo()
+		{
+			if (!ValidateRecipeDetails())
+			{
+				// Show error if validation fails
+				return;
+			}
+
+			try
+			{
+				// Create a dictionary to store the updated recipe data
+				var updatedData = new Dictionary<string, object>
+				{
+
+					{ "RecipeName", RecipeName },
+					{ "Calories", double.Parse(Calories) },
+					{ "CookingTime", int.Parse(CookingTime) },
+					{ "HealthBenefits", HealthBenefits },
+					{ "DifficultyLevel", GetDifficultyLevel() },
+					{ "Portion", Portion },
+					{ "ImgUrl", ImageUrl },
+					{ "VideoUrl", VideoUrl }
+				};
+
+				// Get document id of the selected recipe
+				var recipeId = SelectedFoodRecipe.Frid;
+
+				// Update the recipe document with the new data
+				await FirestoreService.Instance.UpdateDocumentAsync("FoodRecipes", recipeId, updatedData);
+
+				await Application.Current.MainPage.DisplayAlert("Success", "Recipe information updated.", "OK");
+			}
+			catch (Exception ex)
+			{
+				Debug.WriteLine($"Error updating recipe info: {ex.Message}");
+				await Application.Current.MainPage.DisplayAlert("Error", "Failed to update recipe info.", "OK");
+			}
+		}
+
+		private string GetDifficultyLevel()
+		{
+			return Difficulty switch
+			{
+				0 => "Easy",
+				1 => "Medium",
+				2 => "Hard",
+				_ => "Unknown"
+			};
+		}
+
+		private async void UpdateRecipeType()
+		{
+			if (SelectedFoodType == null)
+			{
+				await Application.Current.MainPage.DisplayAlert("Invalid Type", "Please select a valid food recipe type.", "OK");
+				return;
+			}
+
+			try
+			{
+				var recipeTypeMappingRef = _db.Collection("FoodRecipeTypeMappings")
+					.WhereEqualTo("Frid", SelectedFoodRecipe.Frid);
+
+				var snapshot = await recipeTypeMappingRef.GetSnapshotAsync();
+
+				if (snapshot.Documents.Count > 0)
+				{
+					// Assuming the first match is the correct one to update
+					var recipeTypeMappingDoc = snapshot.Documents.First();
+					var recipeTypeMapping = recipeTypeMappingDoc.ConvertTo<FoodRecipeTypeMapping>();
+
+					// Update the FoodRecipeType
+					await recipeTypeMappingDoc.Reference.UpdateAsync(new Dictionary<string, object>
+			{
+				{ "Tofid", SelectedFoodType.Tofid }
+			});
+
+					await Application.Current.MainPage.DisplayAlert("Success", "Recipe type updated.", "OK");
+				}
+				else
+				{
+					await Application.Current.MainPage.DisplayAlert("Error", "Recipe type mapping not found.", "OK");
+				}
+			}
+			catch (Exception ex)
+			{
+				Debug.WriteLine($"Error updating recipe type: {ex.Message}");
+				await Application.Current.MainPage.DisplayAlert("Error", "Failed to update recipe type.", "OK");
+			}
+		}
+
+		private async void UpdateRecipeIngredients()
+		{
+			try
+			{
+				// Remove old ingredients
+				var recipeIngredientsRef = _db.Collection("RecipeIngredients")
+					.WhereEqualTo("Frid", SelectedFoodRecipe.Frid);
+
+				var snapshot = await recipeIngredientsRef.GetSnapshotAsync();
+				foreach (var document in snapshot.Documents)
+				{
+					await document.Reference.DeleteAsync();
+				}
+
+				// Add new ingredients
+				foreach (var ingredientInfo in IngredientInfosList)
+				{
+					await _db.Collection("RecipeIngredients").AddAsync(new Dictionary<string, object>
+			{
+				{ "Frid", SelectedFoodRecipe.Frid },
+				{ "Iid", ingredientInfo.Iid },
+				{ "Quantity", ingredientInfo.Quantity },
+				{ "IsDeleted", ingredientInfo.IsDeleted }
+			});
+				}
+
+				await Application.Current.MainPage.DisplayAlert("Success", "Recipe ingredients updated.", "OK");
+			}
+			catch (Exception ex)
+			{
+				Debug.WriteLine($"Error updating recipe ingredients: {ex.Message}");
+				await Application.Current.MainPage.DisplayAlert("Error", "Failed to update recipe ingredients.", "OK");
+			}
+		}
+		#endregion
+
+		#region Validation
+		private bool ValidateRecipeDetails()
+		{
+			// Validate Base Info
+			if (string.IsNullOrWhiteSpace(RecipeName))
+			{
+				Application.Current.MainPage.DisplayAlert("Validation Error", "Recipe Name is required.", "OK");
+				return false;
+			}
+
+			if (string.IsNullOrWhiteSpace(Calories) || !double.TryParse(Calories, out _))
+			{
+				Application.Current.MainPage.DisplayAlert("Validation Error", "Valid Calories value is required.", "OK");
+				return false;
+			}
+
+			if (string.IsNullOrWhiteSpace(CookingTime) || !int.TryParse(CookingTime, out _))
+			{
+				Application.Current.MainPage.DisplayAlert("Validation Error", "Valid Cooking Time is required.", "OK");
+				return false;
+			}
+
+			if (string.IsNullOrWhiteSpace(HealthBenefits))
+			{
+				Application.Current.MainPage.DisplayAlert("Validation Error", "Health Benefit is required.", "OK");
+				return false;
+			}
+
+			if (Difficulty < 0 || Difficulty > 3)
+			{
+				Application.Current.MainPage.DisplayAlert("Validation Error", "Please select a valid difficulty level (1-3).", "OK");
+				return false;
+			}
+
+			if (Portion <= 0)
+			{
+				Application.Current.MainPage.DisplayAlert("Validation Error", "Portion size must be greater than 0.", "OK");
+				return false;
+			}
+
+			if (string.IsNullOrWhiteSpace(ImageUrl))
+			{
+				Application.Current.MainPage.DisplayAlert("Validation Error", "Image URL is required.", "OK");
+				return false;
+			}
+
+			if (string.IsNullOrWhiteSpace(VideoUrl))
+			{
+				Application.Current.MainPage.DisplayAlert("Validation Error", "Video URL is required.", "OK");
+				return false;
+			}
+
+			// Validate Food Type
+			if (SelectedFoodType == null)
+			{
+				Application.Current.MainPage.DisplayAlert("Validation Error", "Please select a valid food type.", "OK");
+				return false;
+			}
+
+			// Validate Ingredients
+			if (IngredientInfosList == null || IngredientInfosList.Count == 0)
+			{
+				Application.Current.MainPage.DisplayAlert("Validation Error", "At least one ingredient is required.", "OK");
+				return false;
+			}
+
+			foreach (var ingredientInfo in IngredientInfosList)
+			{
+				if (ingredientInfo.Quantity <= 0)
+				{
+					Application.Current.MainPage.DisplayAlert("Validation Error", $"Invalid quantity for ingredient {ingredientInfo.Name}.", "OK");
+					return false;
+				}
+			}
+
+			// If all validations pass
+			return true;
+		}
+		#endregion
+
+		[RelayCommand]
+		public void Cancel()
+		{
+			Shell.Current.GoToAsync("///home");
+		}
 	}
 }
+

@@ -73,6 +73,11 @@
         Route="createcollection"
         Shell.FlyoutBehavior="Disabled"
         Shell.FlyoutItemIsVisible="False" />
+    <ShellContent
+        ContentTemplate="{DataTemplate UserView:EditCollectionView}"
+        Route="editcollection"
+        Shell.FlyoutBehavior="Disabled"
+        Shell.FlyoutItemIsVisible="False" />
     <!--<ShellContent
         ContentTemplate="{DataTemplate UserView:HomePageView}"
         Route="home"

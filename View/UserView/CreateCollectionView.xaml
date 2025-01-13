@@ -38,14 +38,7 @@
                     TextColor="#333333"
                     HeightRequest="120" />
 
-            <!-- Submit Button -->
-            <Button Text="Create Collection"
-                    Command="{Binding SubmitCollectionCommand}"
-                    IsEnabled="{Binding IsSubmitEnabled}"
-                    BackgroundColor="#4CAF50"
-                    TextColor="White"
-                    Padding="10"
-                    FontSize="16" />
+
 
             <!-- Recipes Picker -->
             <Label Text="Available Recipes"
@@ -98,12 +91,13 @@
                                    FontSize="16"
                                    TextColor="#333333" 
                                    Grid.Column="0" />
-                            <Button Text="Remove"
+                            <Button Text="X"
                                     Command="{Binding Source={RelativeSource AncestorType={x:Type viewModel:CreateCollectionViewModel}}, Path=RemoveRecipeCommand}"
                                     CommandParameter="{Binding .}"
                                     BackgroundColor="#E53935"
                                     TextColor="White"
                                     Padding="5"
+                                    WidthRequest="50"
                                     CornerRadius="5"
                                     Grid.Column="1"
                                     HorizontalOptions="Center" />
@@ -111,6 +105,23 @@
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
+            
+            <!-- Submit Button -->
+            <Button Text="Create Collection"
+                    Command="{Binding SubmitCollectionCommand}"
+                    IsEnabled="{Binding IsSubmitEnabled}"
+                    BackgroundColor="{StaticResource Primary}"
+                    TextColor="White"
+                    Padding="10"
+                    FontSize="16" />
+            
+            <!-- Cancel Button -->
+            <Button Text="Cancel"
+                    Command="{Binding CancelCommand}"
+                    BackgroundColor="Goldenrod"
+                    TextColor="White"
+                    Padding="10"
+                    FontSize="16" />
         </StackLayout>
     </ScrollView>
 </ContentPage>

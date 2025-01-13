@@ -10,4 +10,12 @@ public partial class EditFoodRecipeView : ContentPage
 		InitializeComponent();
 		BindingContext = vm;
 	}
+
+	private void DifficultySlider_ValueChanged(object sender, ValueChangedEventArgs e)
+	{
+		if (sender is Slider slider)
+		{
+			slider.Value = Math.Round(e.NewValue);
+		}
+	}
 }

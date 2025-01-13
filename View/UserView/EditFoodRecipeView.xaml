@@ -9,111 +9,186 @@
         xmlns:models="clr-namespace:MAUIRecipeApp.Models"
         xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
         xmlns:viewmodel="clr-namespace:MAUIRecipeApp.ViewModel.UserView"
-        Title="EditFoodRecipeView">
+        Title="Edit Food Recipe"
+        x:DataType="viewmodel:EditFoodRecipeViewModel"
+        BackgroundColor="#f6f6f6">
+
+    <!-- ViewModel Binding -->
+    <ContentPage.BindingContext>
+        <viewmodel:EditFoodRecipeViewModel />
+    </ContentPage.BindingContext>
 
     <ScrollView>
         <VerticalStackLayout Padding="20" Spacing="15">
-            
-            <!-- Recipe ID-->
-            <Label Text="Recipe ID" />
-            <Picker ItemsSource="{Binding AllFoodRecipes}"
-                    SelectedItem="{Binding SelectedFoodRecipe}"
-                    ItemDisplayBinding="{Binding RecipeName}" />
+
+            <!-- Header -->
+            <Label Text="Edit Food Recipe"
+                   FontSize="24"
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center" 
+                   TextColor="{StaticResource PrimaryDarkText}"/>
+            <Label Text="Update the recipe details"
+                   FontSize="14"
+                   TextColor="Gray"
+                   HorizontalOptions="Center" />
+
+            <!-- Recipe ID Picker -->
+            <Label Text="Recipe ID" FontAttributes="Bold" TextColor="{StaticResource PrimaryDarkText}"/>
+            <Frame Padding="1" CornerRadius="5" BackgroundColor="White" BorderColor="Black">
+                <Picker ItemsSource="{Binding AllFoodRecipes}"
+                        SelectedItem="{Binding SelectedFoodRecipe}"
+                        ItemDisplayBinding="{Binding RecipeName}" 
+                        TextColor="{StaticResource PrimaryDarkText}"/>
+            </Frame>
+
             <Button Text="Edit Recipe"
+                    BackgroundColor="{StaticResource Primary}" 
+                    TextColor="White"
                     Command="{Binding TestCommand}" />
 
-
             <!-- Recipe Name -->
-            <Label Text="Recipe Name" />
-            <Entry Text="{Binding RecipeName}" Placeholder="Enter recipe name" />
+            <Label Text="Recipe Name" FontAttributes="Bold" TextColor="{StaticResource PrimaryDarkText}"/>
+            <Frame Padding="1" CornerRadius="5" BackgroundColor="White" BorderColor="Black">
+                <Entry Text="{Binding RecipeName}" Placeholder="Enter recipe name" TextColor="{StaticResource PrimaryDarkText}"/>
+            </Frame>
 
             <!-- Calories -->
-            <Label Text="Calories" />
-            <Entry Text="{Binding Calories}" Placeholder="Enter calories" Keyboard="Numeric" />
+            <Label Text="Calories" FontAttributes="Bold" TextColor="{StaticResource PrimaryDarkText}"/>
+            <Frame Padding="1" CornerRadius="5" BackgroundColor="White" BorderColor="Black">
+                <Entry Text="{Binding Calories}" Placeholder="Enter calories" Keyboard="Numeric" TextColor="{StaticResource PrimaryDarkText}"/>
+            </Frame>
+
+            <!-- Health Benefits -->
+            <Label Text="Health Benefits" FontAttributes="Bold" TextColor="{StaticResource PrimaryDarkText}"/>
+            <Frame Padding="1" CornerRadius="5" BackgroundColor="White" BorderColor="Black">
+                <Entry Text="{Binding HealthBenefits}" Placeholder="Enter health benefits" TextColor="{StaticResource PrimaryDarkText}"/>
+            </Frame>
 
             <!-- Cooking Time -->
-            <Label Text="Cooking Time (minutes)" />
-            <Entry Text="{Binding CookingTime}" Placeholder="Enter cooking time" Keyboard="Numeric" />
+            <Label Text="Cooking Time (minutes)" FontAttributes="Bold" TextColor="{StaticResource PrimaryDarkText}"/>
+            <Frame Padding="1" CornerRadius="5" BackgroundColor="White" BorderColor="Black">
+                <Entry Text="{Binding CookingTime}" Placeholder="Enter cooking time" Keyboard="Numeric" TextColor="{StaticResource PrimaryDarkText}"/>
+            </Frame>
 
-            <!-- Difficulty Level -->
-            <Label Text="Difficulty" />
-            <Picker SelectedIndex="{Binding Difficulty}">
-                <Picker.ItemsSource>
-                    <x:Array Type="{x:Type x:String}">
-                        <x:String>Easy</x:String>
-                        <x:String>Medium</x:String>
-                        <x:String>Hard</x:String>
-                    </x:Array>
-                </Picker.ItemsSource>
-            </Picker>
-
-            <!-- Portion -->
-            <Label Text="Portion" />
-            <Entry Text="{Binding Portion}" Placeholder="Enter portion size" Keyboard="Numeric" />
-
-            <!-- Food Type -->
-            <Label Text="Food Type" />
-            <Picker ItemsSource="{Binding FoodRecipeTypes}" 
-                        SelectedItem="{Binding SelectedFoodType}"
-                        ItemDisplayBinding="{Binding FoodTypeName}" />
-
-            <!-- Image URL -->
-            <Label Text="Image URL" />
-            <Entry Text="{Binding ImageUrl}" Placeholder="Enter image URL" />
-
-            <!-- Video URL -->
-            <Label Text="Video URL" />
-            <Entry Text="{Binding VideoUrl}" Placeholder="Enter video URL" />
-
-            <!-- Ingredients --> 
-            <Label Text="Ingredients" />
-            <!-- Add Ingredient -->
-            <Grid>
+            <!-- Difficulty Slider -->
+            <Label Text="Difficulty" FontAttributes="Bold" TextColor="{StaticResource PrimaryDarkText}"/>
+            <Slider x:Name="DifficultySlider"
+                    Minimum="0" 
+                    Maximum="2" 
+                    Value="{Binding Difficulty, Mode=TwoWay}" 
+                    ValueChanged="DifficultySlider_ValueChanged"/>
+            <Grid ColumnSpacing="0">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="3*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-
-                <Picker Grid.Column="0"
-                        ItemsSource="{Binding Ingredients}"
-                        SelectedItem="{Binding SelectedIngredient}"
-                        ItemDisplayBinding="{Binding IngredientName}" />
-                <Entry Grid.Column="1"
-                       Placeholder="Quantity"
-                       Text="{Binding Quantity}" 
-                       Keyboard="Numeric" />
+                <Label Text="Easy" FontAttributes="Italic" TextColor="{StaticResource PrimaryDarkText}" Grid.Column="0" HorizontalOptions="Start" />
+                <Label Text="Medium" FontAttributes="Italic" TextColor="{StaticResource PrimaryDarkText}" Grid.Column="1" HorizontalOptions="Center" />
+                <Label Text="Hard" FontAttributes="Italic" TextColor="{StaticResource PrimaryDarkText}" Grid.Column="2" HorizontalOptions="End" />
             </Grid>
-            <Button Text="Add" Command="{Binding AddIngredientCommand}" />
-            
+
+            <!-- Portion -->
+            <Label Text="Portion" FontAttributes="Bold" TextColor="{StaticResource PrimaryDarkText}"/>
+            <Frame Padding="1" CornerRadius="5" BackgroundColor="White" BorderColor="Black">
+                <Entry Text="{Binding Portion}" Placeholder="Enter portion size" Keyboard="Numeric" TextColor="{StaticResource PrimaryDarkText}"/>
+            </Frame>
+
+            <!-- Food Type -->
+            <Label Text="Food Type" FontAttributes="Bold" TextColor="{StaticResource PrimaryDarkText}"/>
+            <Frame Padding="1" CornerRadius="5" BackgroundColor="White" BorderColor="Black">
+                <Picker ItemsSource="{Binding FoodRecipeTypes}" 
+                        SelectedItem="{Binding SelectedFoodType}"
+                        ItemDisplayBinding="{Binding FoodTypeName}" 
+                        TextColor="{StaticResource PrimaryDarkText}"/>
+            </Frame>
+
+            <!-- Image URL -->
+            <Label Text="Image URL" FontAttributes="Bold" TextColor="{StaticResource PrimaryDarkText}"/>
+            <Frame Padding="1" CornerRadius="5" BackgroundColor="White" BorderColor="Black">
+                <Entry Text="{Binding ImageUrl}" Placeholder="Enter image URL" TextColor="{StaticResource PrimaryDarkText}"/>
+            </Frame>
+
+            <!-- Video URL -->
+            <Label Text="Video URL" FontAttributes="Bold" TextColor="{StaticResource PrimaryDarkText}"/>
+            <Frame Padding="1" CornerRadius="5" BackgroundColor="White" BorderColor="Black">
+                <Entry Text="{Binding VideoUrl}" Placeholder="Enter video URL" TextColor="{StaticResource PrimaryDarkText}"/>
+            </Frame>
+
+            <!-- Ingredients -->
+            <Label Text="Ingredients" FontAttributes="Bold" TextColor="{StaticResource PrimaryDarkText}"/>
+            <Grid ColumnSpacing="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Frame Padding="1" CornerRadius="5" BackgroundColor="White" BorderColor="Black">
+                    <Picker Grid.Column="0"
+                            ItemsSource="{Binding Ingredients}"
+                            SelectedItem="{Binding SelectedIngredient}"
+                            ItemDisplayBinding="{Binding IngredientName}"
+                            TextColor="{StaticResource PrimaryDarkText}" />
+                </Frame>
+
+                <Entry Grid.Column="1" Text="{Binding Quantity}" 
+                       Placeholder="Quantity" Keyboard="Numeric" 
+                       TextColor="{StaticResource PrimaryDarkText}" />
+            </Grid>
+            <Button Text="Add Ingredient" 
+                    BackgroundColor="{StaticResource Primary}" 
+                    TextColor="White" 
+                    Command="{Binding AddIngredientCommand}" />
+
+            <!-- Display Ingredients -->
+            <Label Text="Added Ingredients" FontAttributes="Bold" TextColor="{StaticResource PrimaryDarkText}"/>
             <CollectionView ItemsSource="{Binding IngredientInfosList}">
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="models:IngredientInfos">
-                        <Grid>
+                        <Grid Padding="10" BackgroundColor="White">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="3*" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
-                            <HorizontalStackLayout Spacing="10">
-                                <Label Text="{Binding Name}" />
-                                <Label Text="{Binding Quantity}" />
-                                <Label Text="{Binding Unit}" />
+
+                            <HorizontalStackLayout Spacing="10" Grid.Column="0">
+                                <Label Text="{Binding Name}" 
+                                       VerticalOptions="Center"
+                                       FontSize="16"
+                                       TextColor="{StaticResource Gray600}" 
+                                       Grid.Column="0" />
+                                <Label Text="{Binding Quantity}" 
+                                       VerticalOptions="Center"
+                                       FontSize="16"
+                                       TextColor="{StaticResource Gray600}" 
+                                       Grid.Column="0" />
+                                <Label Text="{Binding Unit}" 
+                                       VerticalOptions="Center"
+                                       FontSize="16"
+                                       TextColor="{StaticResource Gray600}" />
                             </HorizontalStackLayout>
-                            <Button Grid.Column="1"
-                                Text="Remove"
+
+                            <Button Text="Remove"
+                                    Grid.Column="1"
+                                    BackgroundColor="OrangeRed"
                                     Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:EditFoodRecipeViewModel}}, Path=RemoveIngredientCommand}"
                                     CommandParameter="{Binding .}" />
                         </Grid>
-
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
 
-
-
             <!-- Submit Button -->
-            <Button Text="Save Changes"
-                        Command="{Binding SubmitCommand}"
-                        IsEnabled="{Binding IsSubmitEnabled}" />
+            <Button Text="Save Changes" 
+                    BackgroundColor="{StaticResource Primary}" 
+                    TextColor="White" 
+                    Command="{Binding UpdateRecipeCommand}" 
+                    />
+
+            <!-- Cancel Button -->
+            <Button Text="Cancel" 
+                    BackgroundColor="Goldenrod" 
+                    TextColor="White" 
+                    Command="{Binding CancelCommand}" />
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

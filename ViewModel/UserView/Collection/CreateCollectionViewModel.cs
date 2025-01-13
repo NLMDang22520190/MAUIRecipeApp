@@ -189,6 +189,12 @@ namespace MAUIRecipeApp.ViewModel.UserView
 			}
 		}
 
+		[RelayCommand]
+		private void Cancel()
+		{
+			Shell.Current.GoToAsync("///home");
+		}
+
 
 		private async Task DisplayWarning(string title, string message)
 		{
