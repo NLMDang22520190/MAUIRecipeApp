@@ -66,6 +66,7 @@
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
             <Button
+                BackgroundColor="Transparent"
                 BorderColor="{StaticResource Primary}"
                 Command="{Binding LoginCommand}"
                 FontSize="20"

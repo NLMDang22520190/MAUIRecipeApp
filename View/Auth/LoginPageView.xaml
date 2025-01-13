@@ -98,6 +98,7 @@
                 Or continue with
             </Label>
             <Button
+                BackgroundColor="Transparent"
                 BorderColor="#ff5842"
                 Command="{Binding GoogleSignUpCommand}"
                 FontAttributes="Bold"

@@ -22,6 +22,9 @@ namespace MAUIRecipeApp.DTO
         [FirestoreProperty]
         public bool isAdmin { get; set; }
 
+        [FirestoreProperty]
+        public bool isDeactivated { get; set; }
+
         // Constructor mặc định
         public FirestoreUserDto() { }
     }
