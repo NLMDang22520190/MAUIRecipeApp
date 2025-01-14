@@ -20,8 +20,15 @@ namespace MAUIRecipeApp.ViewModel.UserView
 			LoadFoodRecipesByUserID();
 		}
 
-		// Load recipes created by the current user
-		private async void LoadFoodRecipesByUserID()
+
+		[RelayCommand]
+		public async Task EditRecipe()
+        {
+           await Shell.Current.GoToAsync("editfoodrecipe");
+        }
+
+        // Load recipes created by the current user
+        private async void LoadFoodRecipesByUserID()
 		{
 			if (_db == null)
 			{

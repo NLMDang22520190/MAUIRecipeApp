@@ -21,8 +21,14 @@ namespace MAUIRecipeApp.ViewModel.UserView
 			_ = LoadCollectionsAsync();
 		}
 
-		// Load collections created by the current user
-		private async Task LoadCollectionsAsync()
+        [RelayCommand]
+        public async Task EditCollection()
+        {
+            await Shell.Current.GoToAsync("editcollection");
+        }
+
+        // Load collections created by the current user
+        private async Task LoadCollectionsAsync()
 		{
 			try
 			{
@@ -54,6 +60,7 @@ namespace MAUIRecipeApp.ViewModel.UserView
 		[RelayCommand]
 		public async Task CollectionDetail(string foodCollectionId)
 		{
+
 		}
 
 		// Command to cancel and navigate back to the home page

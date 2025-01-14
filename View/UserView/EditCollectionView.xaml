@@ -11,65 +11,126 @@
     xmlns:viewmodel="clr-namespace:MAUIRecipeApp.ViewModel.UserView"
     Title="Edit Collection"
     x:DataType="viewmodel:EditCollectionViewModel"
-    BackgroundColor="#f6f6f6">
+    BackgroundColor="#f6f6f6"
+    Shell.FlyoutBehavior="Disabled">
 
-    <!-- ViewModel Binding -->
+    <!--  ViewModel Binding  -->
     <ContentPage.BindingContext>
         <viewmodel:EditCollectionViewModel />
     </ContentPage.BindingContext>
 
+    <Shell.BackButtonBehavior>
+        <BackButtonBehavior IsEnabled="False" IsVisible="False" />
+    </Shell.BackButtonBehavior>
+
     <ScrollView>
         <VerticalStackLayout Padding="20" Spacing="15">
-            <!-- Header -->
-            <Label Text="Edit Collection"
-                   FontSize="24"
-                   FontAttributes="Bold"
-                   HorizontalOptions="Center" 
-                   TextColor="{StaticResource PrimaryDarkText}"/>
-            <Label Text="Update the collection details"
-                   FontSize="14"
-                   TextColor="Gray"
-                   HorizontalOptions="Center" />
+            <!--  Header  -->
+            <Button
+                Background="{StaticResource WhiteText}"
+                BorderColor="{StaticResource PrimaryDarkText}"
+                BorderWidth="0.1"
+                Command="{Binding BackCommand}"
+                HorizontalOptions="Start">
 
-            <!-- Collection Picker -->
-            <Label Text="Select Collection" FontAttributes="Bold" TextColor="{StaticResource PrimaryDarkText}"/>
-            <Frame Padding="1" CornerRadius="5" BackgroundColor="White" BorderColor="Black">
-                <Picker ItemsSource="{Binding AllCollections}"
-                        ItemDisplayBinding="{Binding CollectionName}"
-                        SelectedItem="{Binding SelectedCollection}"
-                        TextColor="{StaticResource PrimaryDarkText}"/>
+                <Button.ImageSource>
+                    <FontImageSource
+                        FontFamily="MaterialSharp"
+                        Glyph="{x:Static m:MaterialSharp.Arrow_back}"
+                        Color="{StaticResource PrimaryDarkText}" />
+                </Button.ImageSource>
+            </Button>
+            <Label
+                FontAttributes="Bold"
+                FontSize="24"
+                HorizontalOptions="Center"
+                Text="Edit Collection"
+                TextColor="{StaticResource PrimaryDarkText}" />
+            <Label
+                FontSize="14"
+                HorizontalOptions="Center"
+                Text="Update the collection details"
+                TextColor="Gray" />
+
+            <!--  Collection Picker  -->
+            <Label
+                FontAttributes="Bold"
+                Text="Select Collection"
+                TextColor="{StaticResource PrimaryDarkText}" />
+            <Frame
+                Padding="1"
+                BackgroundColor="White"
+                BorderColor="Black"
+                CornerRadius="5">
+                <Picker
+                    ItemDisplayBinding="{Binding CollectionName}"
+                    ItemsSource="{Binding AllCollections}"
+                    SelectedItem="{Binding SelectedCollection}"
+                    TextColor="{StaticResource PrimaryDarkText}" />
             </Frame>
 
-            <!-- Collection Name -->
-            <Label Text="Collection Name" FontAttributes="Bold" TextColor="{StaticResource PrimaryDarkText}"/>
-            <Frame Padding="1" CornerRadius="5" BackgroundColor="White" BorderColor="Black">
-                <Entry Text="{Binding CollectionName}" Placeholder="Enter collection name" TextColor="{StaticResource PrimaryDarkText}"/>
+            <!--  Collection Name  -->
+            <Label
+                FontAttributes="Bold"
+                Text="Collection Name"
+                TextColor="{StaticResource PrimaryDarkText}" />
+            <Frame
+                Padding="1"
+                BackgroundColor="White"
+                BorderColor="Black"
+                CornerRadius="5">
+                <Entry
+                    Placeholder="Enter collection name"
+                    Text="{Binding CollectionName}"
+                    TextColor="{StaticResource PrimaryDarkText}" />
             </Frame>
 
-            <!-- Description -->
-            <Label Text="Description" FontAttributes="Bold" TextColor="{StaticResource PrimaryDarkText}"/>
-            <Frame Padding="1" CornerRadius="5" BackgroundColor="White" BorderColor="Black">
-                <Entry Text="{Binding Description}" Placeholder="Enter collection description" TextColor="{StaticResource PrimaryDarkText}"/>
+            <!--  Description  -->
+            <Label
+                FontAttributes="Bold"
+                Text="Description"
+                TextColor="{StaticResource PrimaryDarkText}" />
+            <Frame
+                Padding="1"
+                BackgroundColor="White"
+                BorderColor="Black"
+                CornerRadius="5">
+                <Entry
+                    Placeholder="Enter collection description"
+                    Text="{Binding Description}"
+                    TextColor="{StaticResource PrimaryDarkText}" />
             </Frame>
 
-            <!-- Available Recipes -->
-            <Label Text="Available Recipes" FontAttributes="Bold" TextColor="{StaticResource PrimaryDarkText}"/>
-            <Frame Padding="1" CornerRadius="5" BackgroundColor="White" BorderColor="Black">
-                <Picker ItemsSource="{Binding FoodRecipes}"
-                        ItemDisplayBinding="{Binding RecipeName}"
-                        SelectedItem="{Binding SelectedRecipe}"
-                        TextColor="{StaticResource PrimaryDarkText}"/>
+            <!--  Available Recipes  -->
+            <Label
+                FontAttributes="Bold"
+                Text="Available Recipes"
+                TextColor="{StaticResource PrimaryDarkText}" />
+            <Frame
+                Padding="1"
+                BackgroundColor="White"
+                BorderColor="Black"
+                CornerRadius="5">
+                <Picker
+                    ItemDisplayBinding="{Binding RecipeName}"
+                    ItemsSource="{Binding FoodRecipes}"
+                    SelectedItem="{Binding SelectedRecipe}"
+                    TextColor="{StaticResource PrimaryDarkText}" />
             </Frame>
 
-            <!-- Add Recipe Button -->
-            <Button Text="Add Recipe" 
-                    BackgroundColor="{StaticResource Primary}" 
-                    TextColor="White" 
-                    Command="{Binding AddRecipeCommand}" 
-                    IsEnabled="{Binding IsAddRecipeButtonEnabled}" />
+            <!--  Add Recipe Button  -->
+            <Button
+                BackgroundColor="{StaticResource Primary}"
+                Command="{Binding AddRecipeCommand}"
+                IsEnabled="{Binding IsAddRecipeButtonEnabled}"
+                Text="Add Recipe"
+                TextColor="White" />
 
-            <!-- Recipes in Collection -->
-            <Label Text="Recipes in Collection" FontAttributes="Bold" TextColor="{StaticResource PrimaryDarkText}"/>
+            <!--  Recipes in Collection  -->
+            <Label
+                FontAttributes="Bold"
+                Text="Recipes in Collection"
+                TextColor="{StaticResource PrimaryDarkText}" />
             <CollectionView ItemsSource="{Binding RecipesInCollection}">
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="models:FoodRecipe">
@@ -78,33 +139,38 @@
                                 <ColumnDefinition Width="3*" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
-                                <Label Text="{Binding RecipeName}" 
-                                       VerticalOptions="Center"
-                                       FontSize="16"
-                                       TextColor="{StaticResource Gray600}" 
-                                       Grid.Column="0" />
-                                <Button Text="Remove"
-                                        BackgroundColor="OrangeRed"
-                                        Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:EditCollectionViewModel}}, Path=RemoveRecipeCommand}"
-                                        CommandParameter="{Binding .}"
-                                        Grid.Column="1" />
+                            <Label
+                                Grid.Column="0"
+                                FontSize="16"
+                                Text="{Binding RecipeName}"
+                                TextColor="{StaticResource Gray600}"
+                                VerticalOptions="Center" />
+                            <Button
+                                Grid.Column="1"
+                                BackgroundColor="OrangeRed"
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:EditCollectionViewModel}}, Path=RemoveRecipeCommand}"
+                                CommandParameter="{Binding .}"
+                                Text="Remove" />
                         </Grid>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
 
-            <!-- Submit Button -->
-            <Button Text="Save Changes" 
-                    BackgroundColor="{StaticResource Primary}" 
-                    TextColor="White" 
-                    Command="{Binding SaveChangesCommand}" 
-                    IsEnabled="{Binding IsSubmitEnabled}" />
+            <!--  Submit Button  -->
+            <Button
+                BackgroundColor="{StaticResource Primary}"
+                Command="{Binding SaveChangesCommand}"
+                IsEnabled="{Binding IsSubmitEnabled}"
+                Text="Save Changes"
+                TextColor="White" />
 
-            <!-- Cancel Button -->
-            <Button Text="Cancel" 
-                    BackgroundColor="DarkGreen" 
-                    TextColor="White" 
-                    Command="{Binding CancelCommand}" />
+            <!--  Cancel Button  -->
+            <!--
+            <Button
+                BackgroundColor="DarkGreen"
+                Command="{Binding CancelCommand}"
+                Text="Cancel"
+                TextColor="White" />-->
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

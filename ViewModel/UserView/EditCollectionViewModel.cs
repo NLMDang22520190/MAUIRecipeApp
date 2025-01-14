@@ -30,7 +30,14 @@ namespace MAUIRecipeApp.ViewModel.UserView
 			_ = LoadFoodRecipesAsync(); // Load available recipes
 		}
 
-		partial void OnSelectedCollectionChanged(FoodCollection value)
+        [RelayCommand]
+        public async Task Back()
+        {
+            await Shell.Current.GoToAsync("..");
+
+        }
+
+        partial void OnSelectedCollectionChanged(FoodCollection value)
 		{
 			if (value != null)
 			{

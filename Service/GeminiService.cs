@@ -53,36 +53,56 @@ namespace MAUIRecipeApp.Service
         {
             chatHistory.Clear();
         }
-    
 
-    public async Task<string> SendGeneralMessage(string prompt)
+
+        public async Task<string> SendGeneralMessage(string prompt)
         {
-            var message = prompt.Trim();
-            var result = await _generalChatSession.SendMessageAsync(message);
-            return result;
+            try
+            {
+                var message = prompt.Trim();
+                var result = await _generalChatSession.SendMessageAsync(message);
+                return result;
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine("Error sending general message: " + e.Message);
+                return null;
+            }
+            //    var message = prompt.Trim();
+            //var result = await _generalChatSession.SendMessageAsync(message);
+            //return result;
         }
 
         public async Task<List<string>> GetRecommendedFoodForHealth(string healthInfo)
         {
-            // Tạo prompt cho phiên gợi ý món ăn
-            var prompt = $"Dưới đây là danh sách các món ăn và thông tin chi tiết về chúng. Dựa trên thông tin sức khỏe sau của tôi, hãy lấy ra các món ăn phù hợp và trả về danh sách các FoodId phù hợp dưới dạng mảng: [idfood1, idfood2, idfood3,...]\n\n";
-            prompt += $"Thông tin sức khỏe của tôi: {healthInfo}\n\n";
-
-            var id = 0;
-            foreach (var recipe in foodRecipes)
+            try
             {
-                id++;
-                prompt += $"id món: {id}  - Tên món: {recipe.RecipeName}, Lượng calo: {recipe.Calories}, Lợi ích sức khỏe: {recipe.HealthBenefits}, Khẩu phần: {recipe.Portion}\n";
+                var prompt = $"Dưới đây là danh sách các món ăn và thông tin chi tiết về chúng. Dựa trên thông tin sức khỏe sau của tôi, hãy lấy ra các món ăn phù hợp và trả về danh sách các FoodId phù hợp dưới dạng mảng: [idfood1, idfood2, idfood3,...]\n\n";
+                prompt += $"Thông tin sức khỏe của tôi: {healthInfo}\n\n";
+
+                var id = 0;
+                foreach (var recipe in foodRecipes)
+                {
+                    id++;
+                    prompt += $"id món: {id}  - Tên món: {recipe.RecipeName}, Lượng calo: {recipe.Calories}, Lợi ích sức khỏe: {recipe.HealthBenefits}, Khẩu phần: {recipe.Portion}\n";
+                }
+
+                prompt += "\nXin vui lòng chỉ trả về danh sách các FoodId dưới dạng: [idfood1, idfood2, idfood3,...]. Không thêm bất kỳ thông tin gì khác.";
+
+                Debug.WriteLine(prompt);
+                // Gửi prompt tới phiên gợi ý món ăn
+                var result = await _recommendationChatSession.SendMessageAsync(prompt);
+                Debug.WriteLine(result);
+
+                return ParseFoodIds(result);
             }
+            catch (Exception e)
+            {
+                Debug.WriteLine("Error getting recommended food for health: " + e.Message);
+                return new List<string>();
+            }
+            // Tạo prompt cho phiên gợi ý món ăn
 
-            prompt += "\nXin vui lòng chỉ trả về danh sách các FoodId dưới dạng: [idfood1, idfood2, idfood3,...]. Không thêm bất kỳ thông tin gì khác.";
-
-            Debug.WriteLine(prompt);
-            // Gửi prompt tới phiên gợi ý món ăn
-            var result = await _recommendationChatSession.SendMessageAsync(prompt);
-            Debug.WriteLine(result);
-
-            return ParseFoodIds(result);
         }
 
         private async Task LoadRecipe()
@@ -105,7 +125,7 @@ namespace MAUIRecipeApp.Service
         private async void LoadData()
         {
             await LoadRecipe();
-           // await LoadDataToChat();
+            // await LoadDataToChat();
         }
 
         public async Task LoadDataToChat()

@@ -46,7 +46,13 @@ namespace MAUIRecipeApp.ViewModel.UserView
 			LoadItem();
 		}
 
-		public void OnAppearing()
+        [RelayCommand]
+        public async Task Back()
+        {
+            await Shell.Current.GoToAsync("..");
+        }
+
+        public void OnAppearing()
 		{
 			_db = FirestoreService.Instance.Db;
 			if (_db == null)
